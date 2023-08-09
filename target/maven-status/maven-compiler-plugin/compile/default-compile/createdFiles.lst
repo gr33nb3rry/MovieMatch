@@ -1,0 +1,8 @@
+com\ruslanlapka\randllove\movie\MovieConfiguration.class
+com\ruslanlapka\randllove\movie\MovieFromDBResults.class
+com\ruslanlapka\randllove\movie\Movie.class
+com\ruslanlapka\randllove\movie\MovieService.class
+com\ruslanlapka\randllove\movie\MovieRepository.class
+com\ruslanlapka\randllove\movie\MovieController.class
+com\ruslanlapka\randllove\movie\MovieFromDB.class
+com\ruslanlapka\randllove\RAndLLoveApplication.class
