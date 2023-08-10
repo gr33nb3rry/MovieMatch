@@ -1,11 +1,12 @@
 const movies = [];
 let showMovie = "all";
+let hostName = "https://r-and-l-love.onrender.com";
 
 getMovies();
 
 function getMovies(){
 
-    const apiUrl = `http://localhost:8080/movie`;
+    const apiUrl = hostName+`/movie`;
 
     fetch(apiUrl, { mode: 'cors' })
     .then(response => response.json())
@@ -33,7 +34,7 @@ function getMovies(){
     });
 }
 function getMovie(imdbID, hisRating, herRating, watchedDate) {
-    const apiUrl = `http://localhost:8080/movie/movie?id=${encodeURIComponent(imdbID)}`;
+    const apiUrl = hostName+`/movie/movie?id=${encodeURIComponent(imdbID)}`;
     fetch(apiUrl, { mode: 'cors' })
     .then(response => response.json())
     .then(data => {
@@ -147,7 +148,7 @@ function addMovie() {
     };
     const xhr = new XMLHttpRequest();
     
-    xhr.open('POST', 'http://localhost:8080/movie');
+    xhr.open('POST', hostName+'/movie');
     xhr.setRequestHeader('Content-Type', 'application/json');
     
     xhr.onload = function() {
