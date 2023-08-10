@@ -1,5 +1,7 @@
 package com.ruslanlapka.randllove.movie;
 
+import com.ruslanlapka.randllove.movie.MovieFromDBClasses.MovieFromDB;
+import com.ruslanlapka.randllove.movie.MovieFromDBClasses.MovieFromDBSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +21,22 @@ public class MovieController {
     @GetMapping
     public List<Movie> getMovies() {return movieService.getMovies();}
 
-    @GetMapping(path = "db")
-    public MovieFromDB getMovieFromDB(@RequestParam(required = true) String id) throws IOException, InterruptedException {
-        return movieService.getMovieFromDB(id);
+    @GetMapping(path = "series")
+    public MovieFromDBSeries getMovieFromDBseries(@RequestParam(required = true) String id) throws IOException, InterruptedException {
+        return movieService.getMovieFromDBseries(id);
     }
-
+    @GetMapping(path = "movie")
+    public MovieFromDB getMovieFromDBmovie(@RequestParam(required = true) String id) throws IOException, InterruptedException {
+        return movieService.getMovieFromDBmovie(id);
+    }
 
     @PostMapping
     public void addMovie(@RequestBody Movie movie) {
         movieService.addMovie(movie);
+    }
+
+    @DeleteMapping
+    public void deleteMovie(@RequestParam(required = true) Long id) {
+        movieService.deleteMovie(id);
     }
 }

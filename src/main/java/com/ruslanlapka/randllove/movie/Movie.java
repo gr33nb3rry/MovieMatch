@@ -22,16 +22,21 @@ public class Movie {
     private LocalDate watchedDate;
     float hisRating;
     float herRating;
+    private String type;
     @Transient
     float averageRating;
 
+
     public Movie() {}
 
-    public Movie(String imdbID, LocalDate watchedDate, float hisRating, float herRating) {
+    public Movie(Long ID, String imdbID, LocalDate watchedDate, float hisRating, float herRating, float averageRating, String type) {
+        this.ID = ID;
         this.imdbID = imdbID;
         this.watchedDate = watchedDate;
         this.hisRating = hisRating;
         this.herRating = herRating;
+        this.averageRating = averageRating;
+        this.type = type;
     }
 
     public String getImdbID() {
@@ -80,5 +85,13 @@ public class Movie {
 
     public void setID(Long ID) {
         this.ID = ID;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

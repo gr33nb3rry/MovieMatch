@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.util.List;
 
-public class MovieFromDB {
+public class MovieFromDBSeries {
     @JsonProperty("id")
     private int id;
 
@@ -75,10 +75,10 @@ public class MovieFromDB {
     @JsonProperty("_links")
     private Links _links;
 
-    public MovieFromDB() {
+    public MovieFromDBSeries() {
     }
 
-    public MovieFromDB(int id, String url, String name, String type, String language, List<String> genres, String status, int runtime, int averageRuntime, String premiered, LocalDate ended, String officialSite, Schedule schedule, Rating rating, int weight, Network network, WebChannel webChannel, String dvdCountry, Externals externals, Image image, String summary, long updated, Links _links) {
+    public MovieFromDBSeries(int id, String url, String name, String type, String language, List<String> genres, String status, int runtime, int averageRuntime, String premiered, LocalDate ended, String officialSite, Schedule schedule, Rating rating, int weight, Network network, WebChannel webChannel, String dvdCountry, Externals externals, Image image, String summary, long updated, Links _links) {
         this.id = id;
         this.url = url;
         this.name = name;
