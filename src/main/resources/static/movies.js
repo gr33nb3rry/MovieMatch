@@ -59,7 +59,7 @@ function getMovie(imdbID, hisRating, herRating, watchedDate) {
     });
 }
 function getSeries(imdbID, hisRating, herRating, watchedDate) {
-    const apiUrl = `http://localhost:8080/movie/series?id=${encodeURIComponent(imdbID)}`;
+    const apiUrl = hostName+`/movie/series?id=${encodeURIComponent(imdbID)}`;
     fetch(apiUrl, { mode: 'cors' })
     .then(response => response.json())
     .then(data => {
