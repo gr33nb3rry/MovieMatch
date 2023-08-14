@@ -1,8 +1,8 @@
-package org.moviematch.movie.MovieFromDBClasses;
+package org.moviematchers.moviematch.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Self {
+public class Previousepisode {
     @JsonProperty("href")
     private String href;
 }

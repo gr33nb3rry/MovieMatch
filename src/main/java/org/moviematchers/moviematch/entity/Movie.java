@@ -1,4 +1,4 @@
-package org.moviematch.movie;
+package org.moviematchers.moviematch.entity;
 
 import jakarta.persistence.*;
 

@@ -1,4 +1,4 @@
-package org.moviematch;
+package org.moviematchers.moviematch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

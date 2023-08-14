@@ -1,7 +1,10 @@
-package org.moviematch.movie;
+package org.moviematchers.moviematch.service;
 
-import org.moviematch.movie.MovieFromDBClasses.MovieFromDB;
-import org.moviematch.movie.MovieFromDBClasses.MovieFromDBSeries;
+import org.moviematchers.moviematch.dto.MovieFromDBResults;
+import org.moviematchers.moviematch.entity.Movie;
+import org.moviematchers.moviematch.dto.MovieFromDB;
+import org.moviematchers.moviematch.dto.MovieFromDBSeries;
+import org.moviematchers.moviematch.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
