@@ -1,0 +1,11 @@
+spring:
+    datasource:
+      url: jdbc:postgresql://dpg-cjd1tb2nip6c73aaa13g-a.frankfurt-postgres.render.com/moviematch
+      username: moviematch_user
+      password: RgzcdbcH5w5ZKpiEjhWkLpCV4sak8SqL
+    jpa:
+      hibernate:
+        ddl-auto: update
+
+# Remove this debug property in production!
+debug: true
