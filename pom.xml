@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.moviematch</groupId>
+	<groupId>org.moviematch</groupId>
 	<artifactId>movie-match</artifactId>
 
 	<name>movie-match</name>

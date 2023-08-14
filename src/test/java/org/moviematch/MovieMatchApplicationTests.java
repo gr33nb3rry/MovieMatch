@@ -1,4 +1,4 @@
-package com.moviematch.moviematch;
+package org.moviematch;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

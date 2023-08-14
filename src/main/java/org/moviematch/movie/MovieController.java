@@ -1,7 +1,7 @@
-package com.moviematch.moviematch.movie;
+package org.moviematch.movie;
 
-import com.moviematch.moviematch.movie.MovieFromDBClasses.MovieFromDB;
-import com.moviematch.moviematch.movie.MovieFromDBClasses.MovieFromDBSeries;
+import org.moviematch.movie.MovieFromDBClasses.MovieFromDB;
+import org.moviematch.movie.MovieFromDBClasses.MovieFromDBSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

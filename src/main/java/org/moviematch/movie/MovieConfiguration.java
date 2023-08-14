@@ -1,4 +1,4 @@
-package com.moviematch.moviematch.movie;
+package org.moviematch.movie;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,7 +1,7 @@
-package com.moviematch.moviematch.movie;
+package org.moviematch.movie;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.moviematch.moviematch.movie.MovieFromDBClasses.MovieFromDB;
+import org.moviematch.movie.MovieFromDBClasses.MovieFromDB;
 
 import java.util.List;
 
