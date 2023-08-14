@@ -1,8 +1,8 @@
-package com.ruslanlapka.randllove.movie.MovieFromDBClasses;
+package com.moviematch.moviematch.movie.MovieFromDBClasses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Previousepisode {
+public class Self {
     @JsonProperty("href")
     private String href;
 }

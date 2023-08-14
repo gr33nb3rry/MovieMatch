@@ -1,7 +1,7 @@
-package com.ruslanlapka.randllove.movie;
+package com.moviematch.moviematch.movie;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ruslanlapka.randllove.movie.MovieFromDBClasses.MovieFromDB;
+import com.moviematch.moviematch.movie.MovieFromDBClasses.MovieFromDB;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package com.ruslanlapka.randllove;
+package com.moviematch.moviematch;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RAndLLoveApplicationTests {
+class MovieMatchApplicationTests {
 
 	@Test
 	void contextLoads() {

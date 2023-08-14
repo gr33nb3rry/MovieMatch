@@ -1,4 +1,4 @@
-package com.ruslanlapka.randllove.movie;
+package com.moviematch.moviematch.movie;
 
 import jakarta.persistence.*;
 

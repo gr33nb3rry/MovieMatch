@@ -7,12 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="r-and-l-love" />
+        <module name="MovieMatch" />
         <module name="R-and-L-s-Love" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="MovieMatch" options="-parameters" />
       <module name="R-and-L-s-Love" options="-parameters" />
       <module name="r-and-l-love" options="-parameters" />
     </option>

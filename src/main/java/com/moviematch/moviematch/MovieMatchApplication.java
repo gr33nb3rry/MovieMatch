@@ -1,13 +1,13 @@
-package com.ruslanlapka.randllove;
+package com.moviematch.moviematch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RAndLLoveApplication {
+public class MovieMatchApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RAndLLoveApplication.class, args);
+		SpringApplication.run(MovieMatchApplication.class, args);
 	}
 
 }

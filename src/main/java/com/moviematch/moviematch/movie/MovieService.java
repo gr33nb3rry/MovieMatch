@@ -1,7 +1,7 @@
-package com.ruslanlapka.randllove.movie;
+package com.moviematch.moviematch.movie;
 
-import com.ruslanlapka.randllove.movie.MovieFromDBClasses.MovieFromDB;
-import com.ruslanlapka.randllove.movie.MovieFromDBClasses.MovieFromDBSeries;
+import com.moviematch.moviematch.movie.MovieFromDBClasses.MovieFromDB;
+import com.moviematch.moviematch.movie.MovieFromDBClasses.MovieFromDBSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.ruslanlapka.randllove.movie;
+package com.moviematch.moviematch.movie;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
