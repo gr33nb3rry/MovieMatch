@@ -8,11 +8,14 @@
 		<version>3.1.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.moviematch</groupId>
 	<artifactId>movie-match</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+
 	<name>movie-match</name>
+	<version>0.0.1-SNAPSHOT</version>
 	<description>Best project</description>
+
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -46,5 +49,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

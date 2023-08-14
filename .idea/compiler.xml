@@ -6,9 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="r-and-l-love" />
-        <module name="MovieMatch" />
         <module name="R-and-L-s-Love" />
+        <module name="r-and-l-love" />
+        <module name="movie-match" />
+        <module name="MovieMatch" />
       </profile>
     </annotationProcessing>
   </component>
@@ -16,6 +17,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="MovieMatch" options="-parameters" />
       <module name="R-and-L-s-Love" options="-parameters" />
+      <module name="movie-match" options="-parameters" />
       <module name="r-and-l-love" options="-parameters" />
     </option>
   </component>
