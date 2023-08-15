@@ -27,6 +27,15 @@ public class UserService {
     public void addUser(User user) {
         userRepository.save(user);
     }
+    public boolean login(User user) {
+        User userFindByUserName = userRepository.findByUserName(user.getUserName());
+        if (userFindByUserName != null){
+            //System.out.println(userFindByUserName.getUserName());
+            return user.getUserPassword().equals(userFindByUserName.getUserPassword());
+        }
+        return false;
+    }
+
     @Transactional
     public void changeUsername(Long id, String value) {
         User user = userRepository.findById(id).
@@ -37,9 +46,7 @@ public class UserService {
             user.setUserName(value);
         }
         else {
-            throw new IllegalStateException(
-                    "Inappropriate username"
-            );
+            throw new IllegalStateException("Inappropriate username");
         }
     }
     @Transactional

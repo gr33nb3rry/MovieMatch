@@ -20,10 +20,20 @@ public class UserController {
 
     @GetMapping
     public List<User> getUsers() {return userService.getUsers();}
-    @PostMapping
+    @PostMapping("register")
     public void addUser(@RequestBody User user) {
         userService.addUser(user);
     }
+    @PostMapping("login")
+    public String login(@RequestBody User user) {
+        boolean response = userService.login(user);
+
+        if (response)
+            return "Successfully logged in";
+        else return "Username or password is incorrect";
+    }
+
+
     @PutMapping("username")
     public void changeUsername(
             @RequestParam Long id,
