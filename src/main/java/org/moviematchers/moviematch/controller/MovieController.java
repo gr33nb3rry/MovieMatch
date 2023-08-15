@@ -3,7 +3,7 @@ package org.moviematchers.moviematch.controller;
 import org.moviematchers.moviematch.entity.Movie;
 import org.moviematchers.moviematch.dto.MovieFromDB;
 import org.moviematchers.moviematch.dto.MovieFromDBSeries;
-import org.moviematchers.moviematch.service.MovieService;
+import org.moviematchers.moviematch.service.LegacyMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +13,10 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "movie")
 public class MovieController {
-    private final MovieService movieService;
+    private final LegacyMovieService movieService;
 
     @Autowired
-    public MovieController(MovieService movieService) {
+    public MovieController(LegacyMovieService movieService) {
         this.movieService = movieService;
     }
 

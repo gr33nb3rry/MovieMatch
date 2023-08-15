@@ -7,5 +7,11 @@ spring:
       hibernate:
         ddl-auto: update
 
+
 # Remove this debug property in production!
 debug: true
+
+movie-matcher:
+  provider:
+    the-movie-db:
+      api-key: 0b5c632fd58d000a27736409177ef13a
