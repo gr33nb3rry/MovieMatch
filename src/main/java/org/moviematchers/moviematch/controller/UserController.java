@@ -3,9 +3,7 @@ package org.moviematchers.moviematch.controller;
 import org.moviematchers.moviematch.entity.MovieMatchUser;
 import org.moviematchers.moviematch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,4 +20,8 @@ public class UserController {
 
     @GetMapping
     public List<MovieMatchUser> getUsers() {return userService.getUsers();}
+    @PostMapping
+    public void addUser(@RequestBody MovieMatchUser user) {
+        userService.addUser(user);
+    }
 }

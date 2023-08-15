@@ -20,4 +20,8 @@ public class UserService {
     public List<MovieMatchUser> getUsers() {
         return userRepository.findAll();
     }
+
+    public void addUser(MovieMatchUser user) {
+        userRepository.save(user);
+    }
 }
