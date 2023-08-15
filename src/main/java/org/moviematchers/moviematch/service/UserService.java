@@ -28,6 +28,21 @@ public class UserService {
         userRepository.save(user);
     }
     @Transactional
+    public void changeUsername(Long id, String value) {
+        User user = userRepository.findById(id).
+                orElseThrow(() -> new IllegalStateException(
+                        "User with ID " + id + " is not found"
+                ));
+        if (value != null && value.length() > 0 && !Objects.equals(user.getUserPassword(), value)) {
+            user.setUserName(value);
+        }
+        else {
+            throw new IllegalStateException(
+                    "Inappropriate username"
+            );
+        }
+    }
+    @Transactional
     public void changePassword(Long id, String value) {
         User user = userRepository.findById(id).
                 orElseThrow(() -> new IllegalStateException(

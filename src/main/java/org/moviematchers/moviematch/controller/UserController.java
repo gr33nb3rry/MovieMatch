@@ -24,6 +24,12 @@ public class UserController {
     public void addUser(@RequestBody User user) {
         userService.addUser(user);
     }
+    @PutMapping("username")
+    public void changeUsername(
+            @RequestParam Long id,
+            @RequestParam String value) {
+        userService.changeUsername(id, value);
+    }
     @PutMapping("password")
     public void changePassword(
             @RequestParam Long id,
