@@ -38,7 +38,6 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 	private final Logger logger = LoggerFactory.getLogger(TheMovieDBFetchStrategy.class);
 
 	public TheMovieDBFetchStrategy(TheMovieDBProviderConfiguration configuration) {
-		logger.info(configuration.getAPIKey());
 		this.configuration = configuration;
 	}
 
