@@ -1,8 +1,10 @@
 package org.moviematchers.moviematch.controller;
 
-import org.moviematchers.moviematch.entity.User;
+import org.moviematchers.moviematch.entity.MovieUser;
 import org.moviematchers.moviematch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,20 +21,26 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {return userService.getUsers();}
-    @PostMapping("register")
-    public void addUser(@RequestBody User user) {
-        userService.addUser(user);
+    public List<MovieUser> getUsers(Authentication auth) {
+        User user = (User)auth.getPrincipal();
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        return userService.getUsers();
     }
-    @PostMapping("login")
-    public String login(@RequestBody User user) {
-        boolean response = userService.login(user);
+    @PostMapping(path = "register")
+    public void addUser(@RequestBody MovieUser movieUser) {
+        userService.addUser(movieUser);
+    }
+    /*
+    @PostMapping(path = "login")
+    public String login(@RequestBody MovieUser movieUser) {
+        boolean response = userService.login(movieUser);
 
         if (response)
             return "Successfully logged in";
         else return "Username or password is incorrect";
     }
-
+*/
 
     @PutMapping("username")
     public void changeUsername(

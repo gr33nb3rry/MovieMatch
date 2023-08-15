@@ -6,10 +6,17 @@ spring:
     jpa:
       hibernate:
         ddl-auto: update
+    security:
+      user:
+        name: user
+        password: password
 
 
 # Remove this debug property in production!
 debug: true
+logging:
+  level:
+    org.springframework.security.web: DEBUG
 
 movie-matcher:
   provider:
