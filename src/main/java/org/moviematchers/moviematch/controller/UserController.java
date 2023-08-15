@@ -24,4 +24,11 @@ public class UserController {
     public void addUser(@RequestBody User user) {
         userService.addUser(user);
     }
+    @PutMapping("password")
+    public void changePassword(
+            @RequestParam Long id,
+            @RequestParam String value) {
+        userService.changePassword(id, value);
+    }
+
 }
