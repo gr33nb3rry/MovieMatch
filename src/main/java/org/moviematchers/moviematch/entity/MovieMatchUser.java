@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table
-public class User {
+public class MovieMatchUser {
     @Id
     @SequenceGenerator(
             name = "user_sequence",
@@ -19,10 +19,10 @@ public class User {
     private String userName;
     private String userPassword;
 
-    public User() {
+    public MovieMatchUser() {
     }
 
-    public User(Long userID, String userName, String userPassword) {
+    public MovieMatchUser(Long userID, String userName, String userPassword) {
         this.userID = userID;
         this.userName = userName;
         this.userPassword = userPassword;
