@@ -3,8 +3,8 @@ package org.moviematchers.moviematch.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table
-public class MovieMatchUser {
+@Table(name = "movie_match_user")
+public class User {
     @Id
     @SequenceGenerator(
             name = "user_sequence",
@@ -15,14 +15,17 @@ public class MovieMatchUser {
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
+    @Column(name = "userID")
     private Long userID;
+    @Column(name = "userName")
     private String userName;
+    @Column(name = "userPassword")
     private String userPassword;
 
-    public MovieMatchUser() {
+    public User() {
     }
 
-    public MovieMatchUser(Long userID, String userName, String userPassword) {
+    public User(Long userID, String userName, String userPassword) {
         this.userID = userID;
         this.userName = userName;
         this.userPassword = userPassword;

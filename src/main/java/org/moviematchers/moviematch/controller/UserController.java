@@ -1,6 +1,6 @@
 package org.moviematchers.moviematch.controller;
 
-import org.moviematchers.moviematch.entity.MovieMatchUser;
+import org.moviematchers.moviematch.entity.User;
 import org.moviematchers.moviematch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +19,9 @@ public class UserController {
     }
 
     @GetMapping
-    public List<MovieMatchUser> getUsers() {return userService.getUsers();}
+    public List<User> getUsers() {return userService.getUsers();}
     @PostMapping
-    public void addUser(@RequestBody MovieMatchUser user) {
+    public void addUser(@RequestBody User user) {
         userService.addUser(user);
     }
 }

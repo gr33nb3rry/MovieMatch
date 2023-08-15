@@ -1,6 +1,6 @@
 package org.moviematchers.moviematch.service;
 
-import org.moviematchers.moviematch.entity.MovieMatchUser;
+import org.moviematchers.moviematch.entity.User;
 import org.moviematchers.moviematch.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +17,11 @@ public class UserService {
 
         this.userRepository = userRepository;
     }
-    public List<MovieMatchUser> getUsers() {
+    public List<User> getUsers() {
         return userRepository.findAll();
     }
 
-    public void addUser(MovieMatchUser user) {
+    public void addUser(User user) {
         userRepository.save(user);
     }
 }
