@@ -1,4 +1,4 @@
-package org.moviematchers.moviematch.configuration;
+package org.moviematchers.moviematch.service;
 
 import org.moviematchers.moviematch.entity.MovieUser;
 import org.moviematchers.moviematch.repository.UserRepository;
