@@ -1,18 +1,17 @@
 package org.moviematchers.moviematch.service;
 import org.moviematchers.moviematch.dto.Movie;
-import org.moviematchers.moviematch.entity.MovieUser;
 import org.moviematchers.moviematch.entity.UserMovieCollection;
 import org.moviematchers.moviematch.repository.CollectionRepository;
-import org.moviematchers.moviematch.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CollectionService {
+    private final Logger logger = LoggerFactory.getLogger(RandomQuoteService.class);
     private final CollectionRepository collectionRepository;
     private final MovieService movieService;
     @Autowired
@@ -24,6 +23,8 @@ public class CollectionService {
     public void addCollection(UserMovieCollection userMovieCollection) {
         System.out.println(userMovieCollection.getUserID());
         System.out.println(userMovieCollection.getMovieTitle());
+        logger.info("Add collection movie for user_id: {}", userMovieCollection.getUserID());
+        logger.info("Add collection movie with movie_title: {}", userMovieCollection.getMovieTitle());
 
         collectionRepository.save(userMovieCollection);
     }
@@ -37,6 +38,23 @@ public class CollectionService {
     }
     public Movie getMovieFromTheMovieDBByName(String movieTitle) {
         List<Movie> movies = this.movieService.fetch(options -> {}, movieTitle);
+        logger.info("Fetched movie title: {}", movies.get(0).getTitle());
+        logger.info("Fetched movie description: {}", movies.get(0).getDescription());
+        logger.info("Fetched movie IMDB rating: {}", movies.get(0).getRating());
+        logger.info("Fetched movie release date: {}", movies.get(0).getReleaseDate());
         return movies.get(0);
+    }
+
+    public List<Movie> getAllCollectionsOfUserFromMovieDB(Long id) {
+        List<UserMovieCollection> userMovieCollections = collectionRepository.findByUserIDUserID(id);
+        List<Movie> movieCollectionsFromDB = new ArrayList<Movie>();
+
+        for (UserMovieCollection movie : userMovieCollections) {
+            List<Movie> movies = this.movieService.fetch(options -> {}, movie.getMovieTitle());
+            movieCollectionsFromDB.add(movies.get(0));
+            logger.info("Fetched movie title: {}", movies.get(0).getTitle());
+        }
+
+        return movieCollectionsFromDB;
     }
 }
