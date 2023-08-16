@@ -1,5 +1,5 @@
 package org.moviematchers.moviematch.service;
-
+import org.moviematchers.moviematch.dto.Movie;
 import org.moviematchers.moviematch.entity.MovieUser;
 import org.moviematchers.moviematch.entity.UserMovieCollection;
 import org.moviematchers.moviematch.repository.CollectionRepository;
@@ -14,9 +14,11 @@ import java.util.Optional;
 @Service
 public class CollectionService {
     private final CollectionRepository collectionRepository;
+    private final MovieService movieService;
     @Autowired
-    public CollectionService(CollectionRepository collectionRepository) {
+    public CollectionService(CollectionRepository collectionRepository, MovieService movieService) {
         this.collectionRepository = collectionRepository;
+        this.movieService = movieService;
     }
 
     public void addCollection(UserMovieCollection userMovieCollection) {
@@ -32,5 +34,9 @@ public class CollectionService {
 
     public List<UserMovieCollection> getAllCollectionsOfUser(Long id) {
         return collectionRepository.findByUserIDUserID(id);
+    }
+    public Movie getMovieFromTheMovieDBByName(String movieTitle) {
+        List<Movie> movies = this.movieService.fetch(options -> {}, movieTitle);
+        return movies.get(0);
     }
 }
