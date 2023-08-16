@@ -1,6 +1,9 @@
 package org.moviematchers.moviematch.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "movie_match_user")
@@ -21,14 +24,20 @@ public class MovieUser {
     private String userName;
     @Column(name = "user_password")
     private String userPassword;
+    //@JsonManagedReference
+    @OneToMany(mappedBy = "userID")
+    @JsonIgnore
+    private List<UserMovieCollection> collections;
 
     public MovieUser() {
     }
 
-    public MovieUser(Long userID, String userName, String userPassword) {
+
+    public MovieUser(Long userID, String userName, String userPassword, List<UserMovieCollection> collections) {
         this.userID = userID;
         this.userName = userName;
         this.userPassword = userPassword;
+        this.collections = collections;
     }
 
     public Long getUserID() {
@@ -53,5 +62,13 @@ public class MovieUser {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public List<UserMovieCollection> getCollections() {
+        return collections;
+    }
+
+    public void setCollections(List<UserMovieCollection> collections) {
+        this.collections = collections;
     }
 }
