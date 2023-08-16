@@ -15,13 +15,13 @@ public class Quote {
             strategy = GenerationType.SEQUENCE,
             generator = "quote_sequence"
     )
-    @Column(name = "quoteID")
+    @Column(name = "quote_id")
     private Long quoteID;
-    @Column(name = "quoteText")
+    @Column(name = "quote_text")
     private String quoteText;
-    @Column(name = "movieTitle")
+    @Column(name = "movie_title")
     private String movieTitle;
-    @Column(name = "movieYear")
+    @Column(name = "movie_year")
     private int movieYear;
 
     public Quote() {

@@ -15,11 +15,11 @@ public class MovieUser {
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
-    @Column(name = "userID")
+    @Column(name = "user_id")
     private Long userID;
-    @Column(name = "userName")
+    @Column(name = "user_name")
     private String userName;
-    @Column(name = "userPassword")
+    @Column(name = "user_password")
     private String userPassword;
 
     public MovieUser() {
