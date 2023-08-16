@@ -27,7 +27,6 @@ public class UserService {
     }
 
     public void addUser(MovieUser movieUser) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String password = movieUser.getUserPassword();
         String encodedPassword = bCryptPasswordEncoder.encode(password);
         movieUser.setUserPassword(encodedPassword);
@@ -74,7 +73,7 @@ public class UserService {
                         "User with ID " + id + " is not found"
                 ));
         if (value != null && value.length() > 0 && !Objects.equals(movieUser.getUserPassword(), value)) {
-            movieUser.setUserPassword(value);
+            movieUser.setUserPassword(bCryptPasswordEncoder.encode(value));
         }
         else {
             throw new IllegalStateException(
