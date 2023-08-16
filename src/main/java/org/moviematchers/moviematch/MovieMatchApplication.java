@@ -24,10 +24,10 @@ public class MovieMatchApplication {
 	public MovieMatchApplication(MovieService service) {
 		this.service = service;
 		// Just a test of fetching filtered data. Needs working on fetching multiple pages from the api.
-		List<Movie> movies = this.service.fetch(builder -> builder
-			.genres(MovieGenre.TV)
-			.adultRated(true)
-			.originCountry(CountryCode.LT)
+		List<Movie> movies = this.service.fetch(options -> options.setPage(2), filter -> filter
+			.setGenres(MovieGenre.TV)
+			.setAdultRated(true)
+			.setOriginCountry(CountryCode.LT)
 		);
 		for (Movie movie : movies) {
 			logger.info("Movie title: {}", movie.getTitle());

@@ -74,13 +74,20 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 	}
 
 	@Override
-	public List<Movie> fetch(String matcher) {
-		WebClient.ResponseSpec spec = TheMovieDBFetchStrategy.WEB_CLIENT.method(HttpMethod.GET).uri(builder -> builder
-			.path("/3/search/movie")
-			.queryParam("query", matcher)
-			.queryParam("api_key", this.configuration.getAPIKey())
-			.build()
-		).accept(MediaType.APPLICATION_JSON).retrieve();
+	public List<Movie> fetch(Consumer<MovieFetchOptions> optionsConsumer, String matcher) {
+		WebClient.ResponseSpec spec = TheMovieDBFetchStrategy.WEB_CLIENT.method(HttpMethod.GET).uri(builder -> {
+			builder
+				.path("/3/search/movie")
+				.queryParam("query", matcher)
+				.queryParam("api_key", this.configuration.getAPIKey());
+
+			MovieFetchOptions options = new MovieFetchOptionsImpl();
+			optionsConsumer.accept(options);
+			if (options.getPage() != null) {
+				builder.queryParam("page", options.getPage());
+			}
+			return builder.build();
+		}).accept(MediaType.APPLICATION_JSON).retrieve();
 		return this.deserializeResponse(spec);
 	}
 
@@ -91,22 +98,22 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 	}
 
 	@Override
-	public List<Movie> fetch(Consumer<MovieFilterBuilder> consumer) {
-		MovieFilterBuilder filterBuilder = new MovieFilterBuilderImpl();
-		consumer.accept(filterBuilder);
-		MovieFilter filter = filterBuilder.build();
-
+	public List<Movie> fetch(Consumer<MovieFetchOptions> optionsConsumer, Consumer<MovieFilter> filterConsumer) {
 		WebClient.ResponseSpec spec = TheMovieDBFetchStrategy.WEB_CLIENT.method(HttpMethod.GET)
 			.uri(builder -> {
 				builder.path("/3/discover/movie");
 
+				MovieFilter filter = new MovieFilterImpl();
+				filterConsumer.accept(filter);
 				Boolean adultRated = filter.isAdultRated();
 				if (adultRated != null) {
 					builder.queryParam("include_adult", adultRated);
 				}
-				Set<MovieGenre> genres = filter.getGenres();
-				if (genres != null && !genres.isEmpty()) {
-					builder.queryParam("with_genres", this.mapGenres(genres));
+				MovieGenre[] genres = filter.getGenres();
+				if (genres != null && genres.length != 0) {
+					// TODO: MAYBE WE DONT NEED SET IN HERE?
+					Set<MovieGenre> genresSet = Set.of(genres);
+					builder.queryParam("with_genres", this.mapGenres(genresSet));
 				}
 				CountryCode originCountry = filter.getOriginCountry();
 				if (originCountry != null) {
@@ -119,6 +126,12 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 				LocalDate releaseDateEnd = filter.getReleaseDateEnd();
 				if (releaseDateEnd != null) {
 					builder.queryParam("primary_release_date.lte", releaseDateEnd.toString());
+				}
+
+				MovieFetchOptions options = new MovieFetchOptionsImpl();
+				optionsConsumer.accept(options);
+				if (options.getPage() != null) {
+					builder.queryParam("page", options.getPage());
 				}
 				return builder.build();
 			})

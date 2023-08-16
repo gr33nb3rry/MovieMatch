@@ -5,17 +5,25 @@ import com.neovisionaries.i18n.CountryCode;
 import org.moviematchers.moviematch.type.MovieGenre;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 public interface MovieFilter {
-	Set<MovieGenre> getGenres();
+	MovieGenre[] getGenres();
 
-	Boolean isAdultRated();
+	MovieFilter setGenres(MovieGenre... genres);
 
 	LocalDate getReleaseDateStart();
 
+	MovieFilter setReleaseDateStart(LocalDate date);
+
 	LocalDate getReleaseDateEnd();
 
+	MovieFilter setReleaseDateEnd(LocalDate date);
 
 	CountryCode getOriginCountry();
+
+	MovieFilter setOriginCountry(CountryCode country);
+
+	Boolean isAdultRated();
+
+	MovieFilter setAdultRated(boolean rated);
 }
