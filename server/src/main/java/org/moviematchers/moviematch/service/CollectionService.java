@@ -7,6 +7,7 @@ import org.moviematchers.moviematch.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,5 +28,9 @@ public class CollectionService {
 
     public List<UserMovieCollection> getAllCollections() {
         return collectionRepository.findAll();
+    }
+
+    public List<UserMovieCollection> getAllCollectionsOfUser(Long id) {
+        return collectionRepository.findByUserIDUserID(id);
     }
 }

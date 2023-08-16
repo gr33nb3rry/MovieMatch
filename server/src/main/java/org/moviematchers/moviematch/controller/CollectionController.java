@@ -19,6 +19,10 @@ public class CollectionController {
     public List<UserMovieCollection> getAllCollections() {
         return collectionService.getAllCollections();
     }
+    @GetMapping("byID")
+    public List<UserMovieCollection> getAllCollectionsOfUser(@RequestParam Long id) {
+        return collectionService.getAllCollectionsOfUser(id);
+    }
     @PostMapping
     public void addCollection(@RequestBody UserMovieCollection userMovieCollection) {
         collectionService.addCollection(userMovieCollection);
