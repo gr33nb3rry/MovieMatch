@@ -1,5 +1,6 @@
 package org.moviematchers.moviematch.dto;
 
+import java.net.URL;
 import java.time.LocalDate;
 
 public interface Movie {
@@ -12,4 +13,6 @@ public interface Movie {
 	Double getRating();
 
 	Boolean isAdultRated();
+
+	URL getPosterURL();
 }

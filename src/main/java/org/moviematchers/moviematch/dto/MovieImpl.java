@@ -1,20 +1,23 @@
 package org.moviematchers.moviematch.dto;
 
+import java.net.URL;
 import java.time.LocalDate;
 
 public class MovieImpl implements Movie {
 	private final String title;
 	private final String description;
-	private final LocalDate releaseDate;
+	private final LocalDate date;
 	private final Double rating;
-	private final Boolean adultRated;
+	private final Boolean adult;
+	private final URL poster;
 
-	public MovieImpl(String title, String description, LocalDate releaseDate, Double rating, Boolean adultRated) {
+	public MovieImpl(String title, String description, LocalDate releaseDate, Double rating, Boolean adultRated, URL posterURL) {
 		this.title = title;
 		this.description = description;
-		this.releaseDate = releaseDate;
+		this.date = releaseDate;
 		this.rating = rating;
-		this.adultRated = adultRated;
+		this.adult = adultRated;
+		this.poster = posterURL;
 	}
 
 	@Override
@@ -29,7 +32,7 @@ public class MovieImpl implements Movie {
 
 	@Override
 	public LocalDate getReleaseDate() {
-		return this.releaseDate;
+		return this.date;
 	}
 
 	@Override
@@ -38,6 +41,11 @@ public class MovieImpl implements Movie {
 	}
 
 	public Boolean isAdultRated() {
-		return this.adultRated;
+		return this.adult;
+	}
+
+	@Override
+	public URL getPosterURL() {
+		return this.poster;
 	}
 }

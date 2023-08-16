@@ -17,6 +17,7 @@ import org.springframework.http.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.*;
@@ -66,12 +67,19 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 				// if it's not released yet, skip it since we don't need it.
 				if (releaseDate.isBlank()) continue;
 
+				String posterPath = matchers.get("poster_path").asText();
+				URL posterURL = null;
+				if (!posterPath.isBlank()) {
+					posterURL = new URL("https://image.tmdb.org/t/p/original" + posterPath);
+				}
+
 				Movie movie = new MovieImpl(
 					matchers.get("original_title").asText(),
 					matchers.get("overview").asText(),
 					LocalDate.parse(releaseDate),
 					matchers.get("vote_average").asDouble(),
-					matchers.get("adult").asBoolean()
+					matchers.get("adult").asBoolean(),
+					posterURL
 				);
 				movies.add(movie);
 			}
@@ -99,8 +107,6 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 			.map(genreType -> TheMovieDBFetchStrategy.MOVIE_GENRE_TOKENS[genreType.ordinal()])
 			.collect(Collectors.joining(","));
 	}
-
-
 
 	@Override
 	public List<Movie> fetch(Consumer<MovieFetchOptions> optionsConsumer, Consumer<MovieFilter> filterConsumer) {

@@ -1,10 +1,7 @@
 package org.moviematchers.moviematch;
 
-import com.neovisionaries.i18n.CountryCode;
-
 import org.moviematchers.moviematch.dto.Movie;
 import org.moviematchers.moviematch.service.MovieService;
-import org.moviematchers.moviematch.type.MovieGenre;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,15 +21,12 @@ public class MovieMatchApplication {
 	public MovieMatchApplication(MovieService service) {
 		this.service = service;
 		// Just a test of fetching filtered data.
-		List<Movie> movies = this.service.fetch(options -> options.setPage(2), filter -> filter
-			.setGenres(MovieGenre.TV)
-			.setAdultRated(true)
-			.setOriginCountry(CountryCode.LV)
-		);
+		List<Movie> movies = this.service.fetch(options -> {}, "moterys meluoja geriau");
 		for (Movie movie : movies) {
 			logger.info("Movie title: {}", movie.getTitle());
 			logger.info("Movie description: {}", movie.getDescription());
 			logger.info("Movie release date: {}", movie.getReleaseDate());
+			logger.info("Movie poster URL: {}", movie.getPosterURL());
 			logger.info("Movie rating: {}", movie.getRating());
 		}
 	}
