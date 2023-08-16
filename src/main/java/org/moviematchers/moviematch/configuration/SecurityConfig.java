@@ -31,8 +31,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 //.httpBasic(AbstractHttpConfigurer::disable);
-                .formLogin(withDefaults());
-                //.httpBasic(withDefaults());
+                //.formLogin(withDefaults());
+                .httpBasic(withDefaults());
         return http.build();
     }
 }
