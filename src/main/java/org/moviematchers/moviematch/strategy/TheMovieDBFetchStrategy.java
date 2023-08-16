@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.http.*;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -40,6 +41,15 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 	public TheMovieDBFetchStrategy(TheMovieDBProviderConfiguration configuration) {
 		this.configuration = configuration;
 	}
+
+	private void mapFetchOptions(UriBuilder builder, Consumer<MovieFetchOptions> consumer) {
+		MovieFetchOptions options = new MovieFetchOptionsImpl();
+		consumer.accept(options);
+		if (options.getPage() != null) {
+			builder.queryParam("page", options.getPage());
+		}
+	}
+
 
 	private List<Movie> deserializeResponse(WebClient.ResponseSpec spec) {
 		ResponseEntity<String> entity = spec.toEntity(String.class).block();
@@ -76,16 +86,10 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 	@Override
 	public List<Movie> fetch(Consumer<MovieFetchOptions> optionsConsumer, String matcher) {
 		WebClient.ResponseSpec spec = TheMovieDBFetchStrategy.WEB_CLIENT.method(HttpMethod.GET).uri(builder -> {
-			builder
-				.path("/3/search/movie")
+			builder.path("/3/search/movie")
 				.queryParam("query", matcher)
 				.queryParam("api_key", this.configuration.getAPIKey());
-
-			MovieFetchOptions options = new MovieFetchOptionsImpl();
-			optionsConsumer.accept(options);
-			if (options.getPage() != null) {
-				builder.queryParam("page", options.getPage());
-			}
+			this.mapFetchOptions(builder, optionsConsumer);
 			return builder.build();
 		}).accept(MediaType.APPLICATION_JSON).retrieve();
 		return this.deserializeResponse(spec);
@@ -97,12 +101,13 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 			.collect(Collectors.joining(","));
 	}
 
+
+
 	@Override
 	public List<Movie> fetch(Consumer<MovieFetchOptions> optionsConsumer, Consumer<MovieFilter> filterConsumer) {
 		WebClient.ResponseSpec spec = TheMovieDBFetchStrategy.WEB_CLIENT.method(HttpMethod.GET)
 			.uri(builder -> {
 				builder.path("/3/discover/movie");
-
 				MovieFilter filter = new MovieFilterImpl();
 				filterConsumer.accept(filter);
 				Boolean adultRated = filter.isAdultRated();
