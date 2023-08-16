@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies</title>
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <header>
+        <h1 id="logo">MovieMatch</h1>
+        <div class="header_button_container">
+            <a href="#"><div class="header_button">
+                <img th:src="@{collection.png}" class="header_button_icon" width="30px" height="30px">
+            </div></a>
+            <a href="#"><div class="header_button">
+                <img th:src="@{profile.png}" class="header_button_icon" width="40px" height="40px">
+            </div></a>
+        </div>
+    </header>
+    <div id="upper_container">
+        <div class="quote">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>Movie title (YYYY)
+        </div>
+        <div class="upper_button_container">
+            <a href="#"><img th:src="@{history.png}" class="upper_button"></a>
+            <a href="#"><img th:src="@{information.png}" class="upper_button"></a>
+        </div>
+    </div>
+    <content>
+        <div id="add_friend">
+
+        </div>
+        <div id="invite_friend_container">
+            <h2>Find movie with friend</h2>
+            <div class="friend">
+                <div class="friend_left_side">
+                    <div class="friend_picture" style="background-color: #ffa8ba;">
+                        <img th:src="@{profile.png}" width="30px" height="30px">
+                    </div>
+                    <p class="friend_name">Friend name</p>
+                </div>
+                
+                <a href="#"><div class="friend_picture" style="background-color: #faae2b;">
+                    <img th:src="@{popcorn.png}" width="30px" height="30px">
+                </div></a>
+            </div>
+        </div>
+    </content>
+    
+</body>
+</html>

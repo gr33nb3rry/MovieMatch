@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    background-color: #f2f7f5;
+    background-repeat: repeat;
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+header {
+    margin: 15px 30px 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#logo {
+    font-family: 'Borel', cursive; 
+    color: #00332c; 
+    margin: 0; 
+    padding-top:30px;
+    font-size: 2.5em;
+}
+.header_button_container {
+    display: flex;
+    gap: 15px;
+}
+.header_button {
+    background-color: #475d5b;
+    border-radius: 50%;
+    border: 4px solid #00332c;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header_button_icon {
+    filter: drop-shadow(2px 2px 0 #00332c)
+        drop-shadow(-2px 2px 0 #00332c)
+        drop-shadow(2px -2px 0 #00332c)
+        drop-shadow(-2px -2px 0 #00332c);
+}
+#upper_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 5px;
+    height: 150px;
+    margin: 0 30px 0 30px;
+}
+.upper_button {
+    width: 40px;
+    height: 40px;
+}
+.quote {
+    font-family: 'Itim', cursive;
+    color: #475d5b;
+    font-size: 1.5em;
+    max-width: 500px;
+}
+content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+content h2 {
+    font-family: 'Pacifico', cursive; 
+    color: #00332c;
+    font-size: 2.6em;
+}
+#invite_friend_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 50%;
+}
+.friend {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px;
+
+    width: 100%;
+    height: 58px;
+    background-color: #475d5b;
+    border-radius: 58px;
+    border: 4px solid #00332c;
+}
+.friend p {
+    font-family: 'Borel', cursive;
+    font-size: 1.5em;
+    color: #f2f7f5;
+}
+.friend_left_side {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 5px;
+}
+.friend_picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 4px solid #00332c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
