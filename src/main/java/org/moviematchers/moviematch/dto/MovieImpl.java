@@ -6,10 +6,10 @@ public class MovieImpl implements Movie {
 	private final String title;
 	private final String description;
 	private final LocalDate releaseDate;
-	private final double rating;
-	private final boolean adultRated;
+	private final Double rating;
+	private final Boolean adultRated;
 
-	public MovieImpl(String title, String description, LocalDate releaseDate, double rating, boolean adultRated) {
+	public MovieImpl(String title, String description, LocalDate releaseDate, Double rating, Boolean adultRated) {
 		this.title = title;
 		this.description = description;
 		this.releaseDate = releaseDate;
@@ -33,11 +33,11 @@ public class MovieImpl implements Movie {
 	}
 
 	@Override
-	public double getRating() {
+	public Double getRating() {
 		return this.rating;
 	}
 
-	public boolean isAdultRated() {
+	public Boolean isAdultRated() {
 		return this.adultRated;
 	}
 }

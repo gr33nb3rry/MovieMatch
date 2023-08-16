@@ -9,7 +9,7 @@ public interface Movie {
 
 	LocalDate getReleaseDate();
 
-	double getRating();
+	Double getRating();
 
-	boolean isAdultRated();
+	Boolean isAdultRated();
 }

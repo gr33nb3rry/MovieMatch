@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 public class TheMovieDBProviderConfiguration {
 	@NotBlank(message = "api key cannot be blank or null")
 	private final String apiKey;
+
 	@NotBlank(message = "api token cannot be blank or null")
 	private final String apiToken;
 

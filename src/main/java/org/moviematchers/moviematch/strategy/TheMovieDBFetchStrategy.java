@@ -50,7 +50,6 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 		}
 	}
 
-
 	private List<Movie> deserializeResponse(WebClient.ResponseSpec spec) {
 		ResponseEntity<String> entity = spec.toEntity(String.class).block();
 		if (entity == null || !entity.getStatusCode().is2xxSuccessful()) {
