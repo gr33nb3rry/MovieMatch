@@ -30,4 +30,9 @@ public class InvitationService {
     public List<Invitation> getAllInvitationsByID(Long id) {
         return invitationRepository.findByUserIDInvited(id);
     }
+
+    public Invitation getLastInvitationsByID(Long id) {
+        List<Invitation> invitations = invitationRepository.findByUserIDInvited(id);
+        return invitations.get(invitations.size()-1);
+    }
 }

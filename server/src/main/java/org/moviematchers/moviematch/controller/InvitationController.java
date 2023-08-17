@@ -18,9 +18,13 @@ public class InvitationController {
 
     @GetMapping("all")
     public List<Invitation> getAllInvitations() {return invitationService.getAllInvitations();}
-    @GetMapping("byID")
+    @GetMapping("allByID")
     public List<Invitation> getAllInvitationsByID(@RequestParam Long id) {
         return invitationService.getAllInvitationsByID(id);
+    }
+    @GetMapping("byID")
+    public Invitation getLastInvitationsByID(@RequestParam Long id) {
+        return invitationService.getLastInvitationsByID(id);
     }
 
     @PostMapping
