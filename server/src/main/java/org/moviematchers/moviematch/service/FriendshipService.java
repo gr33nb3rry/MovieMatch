@@ -49,8 +49,8 @@ public class FriendshipService {
 
     public void sendFriendshipRequest(MovieUser user1, MovieUser user2) {
         MovieFriendship friendshipRequest = new MovieFriendship();
-        friendshipRequest.setUser1(user1);
-        friendshipRequest.setUser2(user2);
+        friendshipRequest.setUser1ID(user1);
+        friendshipRequest.setUser2ID(user2);
         friendshipRequest.setStatus("Pending");
         friendshipRepository.save(friendshipRequest);
     }

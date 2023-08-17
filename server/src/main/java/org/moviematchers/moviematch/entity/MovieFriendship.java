@@ -15,21 +15,21 @@ public class MovieFriendship {
             strategy = GenerationType.SEQUENCE,
             generator = "friendship_sequence"
     )
-    @Column(name = "id")
+    @Column(name = "friendship_id")
     private Long id;
-    @Column(name = "status")
+    @Column(name = "friendship_status")
     private String status;
     @ManyToOne
-    @JoinColumn(name = "user1ID") //friendship initiator
-    private MovieUser user1;
+    @JoinColumn(name = "user1_id") //friendship initiator
+    private MovieUser user1ID;
     @ManyToOne
-    @JoinColumn(name = "user2ID") //the one who gets befriended
-    private MovieUser user2;
+    @JoinColumn(name = "user2_id") //the one who gets befriended
+    private MovieUser user2ID;
     public MovieFriendship() {
     }
-    public MovieFriendship(MovieUser user1, MovieUser user2, String status) {
-        this.user1 = user1;
-        this.user2 = user2;
+    public MovieFriendship(MovieUser user1ID, MovieUser user2ID, String status) {
+        this.user1ID = user1ID;
+        this.user2ID = user2ID;
         this.status = status;
     }
     public Long getId() {
@@ -45,17 +45,17 @@ public class MovieFriendship {
     public void setStatus(String status) {
         this.status = status;
     }
-    public MovieUser getUser1(){
-        return user1;
+    public MovieUser getUser1ID(){
+        return user1ID;
     }
-    public void setUser1(MovieUser user1) {
-        this.user1 = user1;
+    public void setUser1ID(MovieUser user1ID) {
+        this.user1ID = user1ID;
     }
-    public MovieUser getUser2(){
-        return user2;
+    public MovieUser getUser2ID(){
+        return user2ID;
     }
-    public void setUser2(MovieUser user2) {
-        this.user2= user2;
+    public void setUser2ID(MovieUser user2ID) {
+        this.user2ID = user2ID;
     }
 
 }
