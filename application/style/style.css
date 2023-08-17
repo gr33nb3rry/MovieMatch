@@ -13,7 +13,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffa8ba;
+    
 
 
 }
@@ -32,8 +32,8 @@ header {
     background-color: #475d5b;
     border-radius: 50%;
     border: 4px solid #00332c;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,8 +48,8 @@ header {
     margin: 0 30px 0 30px;
 }
 .upper_button {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
    
 }
 .quote {
@@ -74,6 +74,9 @@ content h2 {
     align-items: center;
     gap: 10px;
     width: 50%;
+    font-family: 'Pacifico  ', cursive;
+    
+
 }
 .friend {
     display: flex;
@@ -107,14 +110,20 @@ content h2 {
     justify-content: center;
     align-items: center;
 }
-.pinkoutlined{
+#header_up_friend {
+    font-family: 'Borel', cursive; 
+    color: #00332c; 
+    margin: 0; 
+    padding-top:30px;
+    font-size: 2.5em;
+}
+body{
 
     
-    filter: invert(69%) sepia(44%) saturate(413%) hue-rotate(302deg) brightness(102%) contrast(101%)
-    drop-shadow(2px 2px 0 #00332c)
-    drop-shadow(-2px 2px 0 #00332c)
-    drop-shadow(2px -2px 0 #00332c)
-    drop-shadow(-2px -2px 0 #00332c);;
-
-
+        background-image: 
+        url("https://i.postimg.cc/8cxLc5Qn/background.png");
+        
+        background-repeat: repeat;
+ 
 }
+
