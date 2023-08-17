@@ -13,6 +13,9 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #ffa8ba;
+
+
 }
 #logo {
     font-family: 'Borel', cursive; 
@@ -35,12 +38,7 @@ header {
     justify-content: center;
     align-items: center;
 }
-.header_button_icon {
-    filter: drop-shadow(2px 2px 0 #00332c)
-        drop-shadow(-2px 2px 0 #00332c)
-        drop-shadow(2px -2px 0 #00332c)
-        drop-shadow(-2px -2px 0 #00332c);
-}
+
 #upper_container {
     display: flex;
     justify-content: space-between;
@@ -52,6 +50,7 @@ header {
 .upper_button {
     width: 40px;
     height: 40px;
+   
 }
 .quote {
     font-family: 'Itim', cursive;
@@ -107,4 +106,15 @@ content h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.pinkoutlined{
+
+    
+    filter: invert(69%) sepia(44%) saturate(413%) hue-rotate(302deg) brightness(102%) contrast(101%)
+    drop-shadow(2px 2px 0 #00332c)
+    drop-shadow(-2px 2px 0 #00332c)
+    drop-shadow(2px -2px 0 #00332c)
+    drop-shadow(-2px -2px 0 #00332c);;
+
+
 }
