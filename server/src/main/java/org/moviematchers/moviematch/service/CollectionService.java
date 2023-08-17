@@ -11,7 +11,7 @@ import java.util.*;
 
 @Service
 public class CollectionService {
-    private final Logger logger = LoggerFactory.getLogger(RandomQuoteService.class);
+    private final Logger logger = LoggerFactory.getLogger(CollectionService.class);
     private final CollectionRepository collectionRepository;
     private final MovieService movieService;
     @Autowired

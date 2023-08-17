@@ -17,29 +17,19 @@ public class FriendshipController {
         this.friendshipService = friendshipService;
     }
 
-    @GetMapping
-    public List<MovieFriendship> getFriendships() {
-        return friendshipService.getFriendships();
+    @GetMapping("all")
+    public List<MovieFriendship> getAllFriendships() {
+        return friendshipService.getAllFriendships();
     }
-    // Endpoint to accept a friendship request
-    /*@PostMapping("/accept")
-    public ResponseEntity<String> acceptFriendship(@RequestBody FriendshipRequest friendshipRequest) {
-        MovieUser user1 = // Get user1 from UserRepository or wherever you store user data
-                MovieUser user2 = // Get user2 from UserRepository or wherever you store user data
-        friendshipService.acceptFriendship(user1, user2);
-        return ResponseEntity.ok("Friendship accepted");
+    @GetMapping("byID")
+    public List<MovieFriendship> getFriendshipsForUser(@RequestParam Long id) {
+
+        return friendshipService.getFriendshipsForUser(id);
     }
 
-    // Endpoint to decline a friendship request
-    @PostMapping("/decline")
-    public ResponseEntity<String> declineFriendship(@RequestParam Long friendshipId) {
-        friendshipService.declineFriendship(friendshipId);
-        return ResponseEntity.ok("Friendship declined");
-    }*/
+    @PostMapping("request")
+    public void addFriendship(@RequestBody MovieFriendship friendship) {
 
-    @PostMapping("/request")
-    public void sendFriendshipRequest(@RequestBody MovieFriendship friendship) {
-
-        friendshipService.sendFriendshipRequest(friendship);
+        friendshipService.addFriendship(friendship);
     }
 }
