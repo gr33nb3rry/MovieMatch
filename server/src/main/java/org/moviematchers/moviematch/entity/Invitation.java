@@ -1,6 +1,8 @@
 package org.moviematchers.moviematch.entity;
 
+import com.neovisionaries.i18n.CountryCode;
 import jakarta.persistence.*;
+import org.moviematchers.moviematch.type.MovieGenre;
 
 import java.time.LocalDate;
 
@@ -24,20 +26,22 @@ public class Invitation {
     @Column(name = "user_id_invited")
     private Long userIDInvited;
     @Column(name = "movie_genres")
-    private String movieGenres; // TheMovieDBFetchStrategy.MOVIE_GENRE_TOKENS tokens with space separator   ex: "35 80 18"
+    //private String movieGenres; // TheMovieDBFetchStrategy.MOVIE_GENRE_TOKENS tokens with space separator   ex: "35 80 18"
+    private MovieGenre[] movieGenres;
     @Column(name = "movie_date_start")
     private LocalDate movieDateStart;
     @Column(name = "movie_date_end")
     private LocalDate movieDateEnd;
     @Column(name = "movie_country")
-    private String movieCountry; // CountryCode.alpha3   ex: LVA for Latvia
+    //private String movieCountry; // CountryCode.alpha3   ex: LVA for Latvia
+    private CountryCode movieCountry;
     @Column(name = "is_movie_adult")
     private boolean isMovieAdult;
 
     public Invitation() {
     }
 
-    public Invitation(Long invitationID, Long userIDInitiator, Long userIDInvited, String movieGenres, LocalDate movieDateStart, LocalDate movieDateEnd, String movieCountry, boolean isMovieAdult) {
+    public Invitation(Long invitationID, Long userIDInitiator, Long userIDInvited, MovieGenre[] movieGenres, LocalDate movieDateStart, LocalDate movieDateEnd, CountryCode movieCountry, boolean isMovieAdult) {
         this.invitationID = invitationID;
         this.userIDInitiator = userIDInitiator;
         this.userIDInvited = userIDInvited;
@@ -72,11 +76,11 @@ public class Invitation {
         this.userIDInvited = userIDInvited;
     }
 
-    public String getMovieGenres() {
+    public MovieGenre[] getMovieGenres() {
         return movieGenres;
     }
 
-    public void setMovieGenres(String movieGenres) {
+    public void setMovieGenres(MovieGenre[] movieGenres) {
         this.movieGenres = movieGenres;
     }
 
@@ -96,11 +100,11 @@ public class Invitation {
         this.movieDateEnd = movieDateEnd;
     }
 
-    public String getMovieCountry() {
+    public CountryCode getMovieCountry() {
         return movieCountry;
     }
 
-    public void setMovieCountry(String movieCountry) {
+    public void setMovieCountry(CountryCode movieCountry) {
         this.movieCountry = movieCountry;
     }
 

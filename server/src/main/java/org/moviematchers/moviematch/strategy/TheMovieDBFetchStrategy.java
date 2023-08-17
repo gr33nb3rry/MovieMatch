@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 	private final static List<Movie> EMPTY_LIST = Collections.emptyList();
 	private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-	private final static String[] MOVIE_GENRE_TOKENS = new String[] {
+	public final static String[] MOVIE_GENRE_TOKENS = new String[] {
 		"28", "12", "16", "35", "80", "99", "18", "10751", "14", "36", "27",
 		"10402", "9648", "10749", "878", "10770", "53", "10752", "37"
 	};
