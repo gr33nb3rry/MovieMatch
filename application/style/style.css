@@ -75,7 +75,17 @@ content h2 {
     gap: 10px;
     width: 50%;
     font-family: 'Pacifico  ', cursive;
-    
+    justify-content: center;
+    align-items: center;
+
+}
+.friend_list_container{
+
+
+    justify-content: center;
+    align-items: center;
+
+
 
 }
 .friend {
@@ -116,12 +126,15 @@ content h2 {
     margin: 0; 
     padding-top:30px;
     font-size: 2.5em;
+    justify-content: center;
+    
 }
 body{
 
     
         background-image: 
-        url("https://i.postimg.cc/8cxLc5Qn/background.png");
+        url("https://i.postimg.cc/DyxyhDhR/background-Test.png");
+        
         
         background-repeat: repeat;
  
