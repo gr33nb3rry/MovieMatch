@@ -21,8 +21,6 @@ public class CollectionService {
     }
 
     public void addCollection(UserMovieCollection userMovieCollection) {
-        System.out.println(userMovieCollection.getUserID());
-        System.out.println(userMovieCollection.getMovieTitle());
         logger.info("Add collection movie for user_id: {}", userMovieCollection.getUserID());
         logger.info("Add collection movie with movie_title: {}", userMovieCollection.getMovieTitle());
 

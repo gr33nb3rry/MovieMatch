@@ -1,24 +1,20 @@
 package org.moviematchers.moviematch.controller;
 import org.moviematchers.moviematch.entity.MovieFriendship;
-import org.moviematchers.moviematch.entity.MovieFriendshipRequest;
-import org.moviematchers.moviematch.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import org.moviematchers.moviematch.entity.MovieUser;
+
 import org.moviematchers.moviematch.service.FriendshipService;
 
 
 @RestController
-@RequestMapping("/friendship")
+@RequestMapping(path = "friendship")
 public class FriendshipController {
     private final FriendshipService friendshipService;
-    private final UserRepository userRepository;
+
     @Autowired
-    public FriendshipController(FriendshipService friendshipService, UserRepository userRepository) {
+    public FriendshipController(FriendshipService friendshipService) {
         this.friendshipService = friendshipService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -40,39 +36,10 @@ public class FriendshipController {
         friendshipService.declineFriendship(friendshipId);
         return ResponseEntity.ok("Friendship declined");
     }*/
-    @PostMapping("/accept")
-    public ResponseEntity<String> acceptFriendship(@RequestBody MovieFriendshipRequest friendshipRequest) {
-        // Fetch user1 and user2 using their IDs from the request
-        MovieUser user1 = userRepository.findById(friendshipRequest.getUser1ID())
-                .orElseThrow(() -> new IllegalArgumentException("User1 not found"));
 
-        MovieUser user2 = userRepository.findById(friendshipRequest.getUser2ID())
-                .orElseThrow(() -> new IllegalArgumentException("User2 not found"));
-
-        friendshipService.createFriendship(user1, user2);
-        return ResponseEntity.ok("Friendship accepted");
-    }
-
-    @PostMapping("/decline")
-    public ResponseEntity<String> declineFriendship(@RequestBody MovieFriendshipRequest friendshipRequest) {
-        MovieUser user1 = userRepository.findById(friendshipRequest.getUser1ID())
-                .orElseThrow(() -> new IllegalArgumentException("User1 not found"));
-
-        MovieUser user2 = userRepository.findById(friendshipRequest.getUser2ID())
-                .orElseThrow(() -> new IllegalArgumentException("User2 not found"));
-
-        friendshipService.declineFriendship(user1, user2);
-        return ResponseEntity.ok("Friendship declined");
-    }
     @PostMapping("/request")
-    public ResponseEntity<String> sendFriendshipRequest(@RequestBody MovieFriendshipRequest friendshipRequest) {
-        MovieUser user1 = userRepository.findById(friendshipRequest.getUser1ID())
-                .orElseThrow(() -> new IllegalArgumentException("User1 not found"));
+    public void sendFriendshipRequest(@RequestBody MovieFriendship friendship) {
 
-        MovieUser user2 = userRepository.findById(friendshipRequest.getUser2ID())
-                .orElseThrow(() -> new IllegalArgumentException("User2 not found"));
-
-        friendshipService.sendFriendshipRequest(user1, user2);
-        return ResponseEntity.ok("Friendship request sent");
+        friendshipService.sendFriendshipRequest(friendship);
     }
 }

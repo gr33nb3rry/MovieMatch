@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface FriendshipRepository extends JpaRepository<MovieFriendship, Long> {
-    List<MovieFriendship> findByUser1OrUser2(MovieUser user1, MovieUser user2);
+    List<MovieFriendship> findByUser1IDOrUser2ID(MovieUser user1, MovieUser user2);
     //Find a friendship by user1 and user2
-    Optional<MovieFriendship> findByUser1AndUser2(MovieUser user1, MovieUser user2);
+    Optional<MovieFriendship> findByUser1IDAndUser2ID(MovieUser user1, MovieUser user2);
 }

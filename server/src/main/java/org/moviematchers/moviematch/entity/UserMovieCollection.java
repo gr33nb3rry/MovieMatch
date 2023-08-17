@@ -20,8 +20,6 @@ public class UserMovieCollection {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private MovieUser userID;
-    //@Column(name = "user_id")
-    //private Long userID;
     @Column(name = "movie_title")
     private String movieTitle;
     @Column(name = "user_rating")

@@ -7,6 +7,7 @@ import org.moviematchers.moviematch.repository.FriendshipRepository;
 import org.moviematchers.moviematch.entity.MovieUser;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class FriendshipService {
@@ -17,41 +18,20 @@ public class FriendshipService {
     }
     //get friendships for a specific user
     public List<MovieFriendship> getFriendshipsForUser(MovieUser user) {
-        return friendshipRepository.findByUser1OrUser2(user, user);
+        return friendshipRepository.findByUser1IDOrUser2ID(user, user);
     }
     //create new friendship
-    public void createFriendship(MovieUser user1, MovieUser user2) {
-        MovieFriendship friendship = new MovieFriendship(user1, user2, "Accepted");
-        friendshipRepository.save(friendship);
-    }
-    //accept a friendship
-   /* public MovieFriendship acceptFriendship(MovieUser user1, MovieUser user2) {
-        MovieFriendship friendship = friendshipRepository.findByUser1AndUser2(user1, user2)
-                .orElseThrow(() -> new IllegalArgumentException("Friendship not found"));
 
-        // Update the friendship status to "Accepted"
-        friendship.setStatus("Accepted");
-        return friendshipRepository.save(friendship);
-    } */
-    //decline a friendship
-    public void declineFriendship(MovieUser user1, MovieUser user2) {
-        MovieFriendship friendship = friendshipRepository.findByUser1AndUser2(user1, user2)
-                .orElseThrow(() -> new IllegalArgumentException("Friendship not found"));
-
-        // Update the friendship status to "Declined"
-        MovieFriendship declinedFriendship = new MovieFriendship(user1, user2, "Declined");
-        friendshipRepository.save(declinedFriendship);
-    }
 
     public List<MovieFriendship> getFriendships() {
         return friendshipRepository.findAll();
     }
 
-    public void sendFriendshipRequest(MovieUser user1, MovieUser user2) {
-        MovieFriendship friendshipRequest = new MovieFriendship();
-        friendshipRequest.setUser1ID(user1);
-        friendshipRequest.setUser2ID(user2);
-        friendshipRequest.setStatus("Pending");
-        friendshipRepository.save(friendshipRequest);
+    public void sendFriendshipRequest(MovieFriendship friendship) {
+        Long user1ID = friendship.getUser1ID().getUserID();
+        Long user2ID = friendship.getUser2ID().getUserID();
+        if (!Objects.equals(user1ID, user2ID)){
+            friendshipRepository.save(friendship);
+        }
     }
 }
