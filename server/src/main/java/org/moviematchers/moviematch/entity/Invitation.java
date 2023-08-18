@@ -26,14 +26,12 @@ public class Invitation {
     @Column(name = "user_id_invited")
     private Long userIDInvited;
     @Column(name = "movie_genres")
-    //private String movieGenres; // TheMovieDBFetchStrategy.MOVIE_GENRE_TOKENS tokens with space separator   ex: "35 80 18"
     private MovieGenre[] movieGenres;
     @Column(name = "movie_date_start")
     private LocalDate movieDateStart;
     @Column(name = "movie_date_end")
     private LocalDate movieDateEnd;
     @Column(name = "movie_country")
-    //private String movieCountry; // CountryCode.alpha3   ex: LVA for Latvia
     private CountryCode movieCountry;
     @Column(name = "is_movie_adult")
     private boolean isMovieAdult;
