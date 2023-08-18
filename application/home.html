@@ -29,26 +29,33 @@
                 <a href="#"><img src="asset/information.png" class="upper_button"></a>
             </div>
         </div>
-        <div id="add_friend">
-        <!-- Implement this UI! ~ Dovidas Z. -->
-        </div>
-        <div id="friend_list_container">
-            <div id="invite_friend_container">
-            <h2 id="header_up_friend" > Find movie with friend </h2>
-            <div class="friend">
-                <div class="friend_left_side">
-                    <div class="friend_picture" style="background-color: white;">
-                        
-                        <img src="asset/profile.png" class="header_button_icon" width="30px" height="30px" >
-                    </div>
-                    <p class="friend_name">Friend name</p>
-                </div>
+        <div class="content">
+            <div id="add_friend">
+                <form onsubmit="event.preventDefault(); addFriend()" id="add_friend_form">
+                    <h3>Add friend by ID</h3>
+                    <input type="number" id="user_id" name="user_id" required>
+                    <button type="submit"><img src="asset/plus.png" width="50px" height="50px"></button>
+                </form>
+            </div>
+            <div id="friend_list_container">
+                <div id="invite_friend_container">
+                <h2 id="header_up_friend" > Find movie with friend </h2>
+                <div class="friend">
+                    <div class="friend_left_side">
+                        <div class="friend_picture" style="background-color: white;">
 
-                <a href="#"><div class="friend_picture" style="background-color: #faae2b;">
-                    <img src="asset/popcorn.png"  width="25px" height="30px">
-                </div></a>
+                            <img src="asset/profile.png" class="header_button_icon" width="30px" height="30px" >
+                        </div>
+                        <p class="friend_name">Friend name</p>
+                    </div>
+
+                    <a href="#"><div class="friend_picture" style="background-color: #faae2b;">
+                        <img src="asset/popcorn.png"  width="25px" height="30px">
+                    </div></a>
+                </div>
             </div>
         </div>
     </div>
     </body>
+    <script src="script/home.js"></script>
 </html>

@@ -4,6 +4,10 @@ body {
     scrollbar-width: none;  /* Firefox */
     background-color: #f2f7f5;
     background-repeat: repeat;
+
+    background-image: 
+        url("https://i.postimg.cc/DyxyhDhR/background-Test.png");
+    background-repeat: repeat;
 }
 body::-webkit-scrollbar {
     display: none;
@@ -47,10 +51,13 @@ header {
     height: 150px;
     margin: 0 30px 0 30px;
 }
+.upper_button_container {
+    display: flex;
+    gap: 10px;
+}
 .upper_button {
     width: 50px;
     height: 50px;
-   
 }
 .quote {
     font-family: 'Itim', cursive;
@@ -58,10 +65,11 @@ header {
     font-size: 1.5em;
     max-width: 500px;
 }
-content {
+.content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 content h2 {
     font-family: 'Pacifico', cursive; 
@@ -73,7 +81,7 @@ content h2 {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    width: 50%;
+    width: 100%;
     font-family: 'Pacifico  ', cursive;
     justify-content: center;
     align-items: center;
@@ -84,7 +92,6 @@ content h2 {
 
     justify-content: center;
     align-items: center;
-
 
 
 }
@@ -129,14 +136,35 @@ content h2 {
     justify-content: center;
     
 }
-body{
+#add_friend_form {
+    font-family: 'Itim', cursive;
+    font-size: 1.5em;
+    color: #475d5b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#add_friend_form input{
+    border-radius: 40px;
+    border: 4px solid #00332c;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 40px;
+    width: 200px;
+    font-family: 'Itim', cursive;
+    font-size: 1em;
+    color: #475d5b;
+    background: none;
+}
+#add_friend_form button{
+    border-radius: 50%;
+    border: 4px solid #00332c;
+    height: 60px;
+    width: 60px;
+    background-color: #475d5b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    
-        background-image: 
-        url("https://i.postimg.cc/DyxyhDhR/background-Test.png");
-        
-        
-        background-repeat: repeat;
- 
 }
 
