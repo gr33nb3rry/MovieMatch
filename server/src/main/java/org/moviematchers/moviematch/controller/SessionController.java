@@ -1,7 +1,6 @@
 package org.moviematchers.moviematch.controller;
 
 import org.moviematchers.moviematch.entity.Session;
-import org.moviematchers.moviematch.service.InvitationService;
 import org.moviematchers.moviematch.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +20,12 @@ public class SessionController {
     public List<Session> getAllSessions() {
         return sessionService.getAllSessions();
     }
-    @PostMapping
-    public void createSession(@RequestBody Session session) {
+    @PostMapping //returns session_id
+    public Long createSession(@RequestBody Session session) {
         sessionService.createSession(session);
+        return session.getSessionID();
     }
-    @GetMapping("join")
+    @GetMapping("join") // for frontend: if response is "Joined" open session.html
     public String joinSession(@RequestParam Long sessionID, @RequestParam Long userID) {
         boolean response = sessionService.joinSession(sessionID, userID);
         if (response) return "Joined";
