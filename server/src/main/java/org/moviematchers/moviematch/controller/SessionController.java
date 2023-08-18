@@ -25,4 +25,10 @@ public class SessionController {
     public void createSession(@RequestBody Session session) {
         sessionService.createSession(session);
     }
+    @GetMapping("join")
+    public String joinSession(@RequestParam Long sessionID, @RequestParam Long userID) {
+        boolean response = sessionService.joinSession(sessionID, userID);
+        if (response) return "Joined";
+        else return "Failed";
+    }
 }
