@@ -153,8 +153,10 @@ public class SessionService {
 
     public List<Movie> getMatches(Long sessionID) {
         if (Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[0], "") ||
-                Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[1], ""))
+                Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[1], "")) {
+            logger.error("No matches");
             return new ArrayList<>();
+        }
         String movieIndexes;
         movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[0];
         int[] User1Indexes = Arrays.stream(movieIndexes.split("\\s+"))
@@ -177,8 +179,10 @@ public class SessionService {
     }
     public int getMatchCount(Long sessionID) {
         if (Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[0], "") ||
-                Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[1], ""))
+                Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[1], "")) {
+            logger.error("No matches");
             return 0;
+        }
         String movieIndexes;
         movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[0];
         int[] User1Indexes = Arrays.stream(movieIndexes.split("\\s+"))
@@ -206,7 +210,10 @@ public class SessionService {
 
     public Movie getLastMatch(Long sessionID) {
         List<Movie> matches = getMatches(sessionID);
-        if (matches.size() == 0) return null;
+        if (matches.size() == 0) {
+            logger.error("No matches");
+            return null;
+        }
         return matches.get(matches.size()-1);
     }
 
