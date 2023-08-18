@@ -70,6 +70,7 @@ header {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    
 }
 content h2 {
     font-family: 'Pacifico', cursive; 
@@ -106,6 +107,7 @@ content h2 {
     background-color: #475d5b;
     border-radius: 58px;
     border: 4px solid #00332c;
+    
 }
 .friend p {
     font-family: 'Borel', cursive;
@@ -165,6 +167,15 @@ content h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
+
+hr {
+
+    color: transparent;
+    color:none;
+    border: none;
+    margin-top: 5px;
+    
+}
+
 
