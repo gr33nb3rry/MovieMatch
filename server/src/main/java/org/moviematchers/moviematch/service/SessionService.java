@@ -152,4 +152,9 @@ public class SessionService {
     public boolean checkForNewMatch(Long sessionID) {
         return getMatchCount(sessionID) > SessionManager.sessionMatchCount.get(sessionID);
     }
+
+    public Movie getLastMatch(Long sessionID) {
+        List<Movie> matches = getMatches(sessionID);
+        return matches.get(matches.size()-1);
+    }
 }

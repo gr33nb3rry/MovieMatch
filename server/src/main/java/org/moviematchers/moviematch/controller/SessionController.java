@@ -60,16 +60,20 @@ public class SessionController {
     public List<Movie> getLikedMovies(@RequestParam Long sessionID, @RequestParam int userNumber) {
         return sessionService.getLikedMovies(sessionID, userNumber);
     }
-    @GetMapping("getMatches")
+    @GetMapping("allMatches")
     public List<Movie> getMatches(@RequestParam Long sessionID) {
         return sessionService.getMatches(sessionID);
     }
-    @GetMapping("getMatchCount")
+    @GetMapping("matchCount")
     public int getMatchCount(@RequestParam Long sessionID) {
         return sessionService.getMatchCount(sessionID);
     }
     @GetMapping("match")
     public boolean checkForNewMatch(@RequestParam Long sessionID) {
         return sessionService.checkForNewMatch(sessionID);
+    }
+    @GetMapping("lastMatch")
+    public Movie getLastMatch(@RequestParam Long sessionID) {
+        return sessionService.getLastMatch(sessionID);
     }
 }
