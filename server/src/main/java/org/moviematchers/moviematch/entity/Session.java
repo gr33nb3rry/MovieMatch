@@ -17,6 +17,8 @@ public class Session {
     )
     @Column(name = "session_id")
     private Long sessionID;
+    @Column(name = "invitation_id")
+    private Long invitationID;
     @Column(name = "user_1_id")
     private Long user1ID;
     @Column(name = "user_2_id")
@@ -30,8 +32,9 @@ public class Session {
     public Session() {
     }
 
-    public Session(Long sessionID, Long user1ID, Long user2ID, String user1LikedMovies, String user2LikedMovies) {
+    public Session(Long sessionID, Long invitationID, Long user1ID, Long user2ID, String user1LikedMovies, String user2LikedMovies) {
         this.sessionID = sessionID;
+        this.invitationID = invitationID;
         this.user1ID = user1ID;
         this.user2ID = user2ID;
         User1LikedMovies = user1LikedMovies;
@@ -44,6 +47,14 @@ public class Session {
 
     public void setSessionID(Long sessionID) {
         this.sessionID = sessionID;
+    }
+
+    public Long getInvitationID() {
+        return invitationID;
+    }
+
+    public void setInvitationID(Long invitationID) {
+        this.invitationID = invitationID;
     }
 
     public Long getUser1ID() {
