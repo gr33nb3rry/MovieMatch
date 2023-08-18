@@ -27,6 +27,13 @@ public class UserController {
         System.out.println(user.getPassword());
         return userService.getUsers();
     }
+    @GetMapping("getLoginID")
+    public Long getLoginUserID(Authentication auth) {
+        User user = (User)auth.getPrincipal();
+        String username = user.getUsername();
+        return userService.getLoginUserID(username);
+    }
+
     @PostMapping(path = "register")
     public void addUser(@RequestBody MovieUser movieUser) {
         userService.addUser(movieUser);

@@ -81,4 +81,8 @@ public class UserService {
             );
         }
     }
+    public Long getLoginUserID(String username) {
+        MovieUser user = userRepository.findByUserName(username);
+        return user.getUserID();
+    }
 }
