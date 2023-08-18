@@ -89,6 +89,11 @@ public class SessionService {
 
     public void increaseCurrentMovieIndex(Long sessionID, int userNumber) {
         SessionManager.sessionCurrentMovieIndex.get(sessionID)[userNumber]++;
+        if (SessionManager.sessionCurrentMovieIndex.get(sessionID)[userNumber] >=
+        SessionManager.sessionMovies.get(sessionID).size()-4) {
+            boolean response = addMovies(sessionID);
+            logger.info("Added new movies to list, success?: {}", response);
+        }
     }
 
     public List<Movie> getCurrentListOfMovie(Long sessionID) {
