@@ -150,7 +150,13 @@ public class SessionService {
     }
 
     public boolean checkForNewMatch(Long sessionID) {
-        return getMatchCount(sessionID) > SessionManager.sessionMatchCount.get(sessionID);
+        int matchCount = getMatchCount(sessionID);
+        if (matchCount > SessionManager.sessionMatchCount.get(sessionID)){
+            SessionManager.sessionMatchCount.get(sessionID);
+            SessionManager.sessionMatchCount.put(sessionID, matchCount);
+            return true;
+        }
+        else return false;
     }
 
     public Movie getLastMatch(Long sessionID) {
