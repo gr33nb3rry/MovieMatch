@@ -51,6 +51,10 @@ public class SessionService {
         SessionManager.sessionCurrentMovieIndex.get(sessionID)[0] = 0;
         SessionManager.sessionCurrentMovieIndex.get(sessionID)[1] = 0;
 
+        SessionManager.sessionLikedMovieIndex.put(sessionID, new String[2]);
+        SessionManager.sessionLikedMovieIndex.get(sessionID)[0] = "";
+        SessionManager.sessionLikedMovieIndex.get(sessionID)[1] = "";
+
         if(Objects.equals(session.getUser1ID(), userID)) return 0;
         else if(Objects.equals(session.getUser2ID(), userID)) return 1;
         else return -1;
@@ -71,11 +75,32 @@ public class SessionService {
         return SessionManager.sessionMovies.get(sessionID).get(SessionManager.sessionCurrentMovieIndex.get(sessionID)[userNumber]);
     }
 
-    public void nextMovie(Long sessionID, int userNumber) {
+    public void increaseCurrentMovieIndex(Long sessionID, int userNumber) {
         SessionManager.sessionCurrentMovieIndex.get(sessionID)[userNumber]++;
     }
 
     public List<Movie> getCurrentListOfMovie(Long sessionID) {
         return SessionManager.sessionMovies.get(sessionID);
+    }
+
+    public Movie skipMovie(Long sessionID, int userNumber) {
+        increaseCurrentMovieIndex(sessionID, userNumber);
+        return getCurrentMovie(sessionID, userNumber);
+    }
+    public Movie likeMovie(Long sessionID, int userNumber) {
+        Integer likedMovieIndex =
+                SessionManager.sessionCurrentMovieIndex.get(sessionID)[userNumber];
+
+        if (SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber].length() == 0)
+            SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber] += likedMovieIndex;
+        else
+            SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber] += " " + likedMovieIndex;
+
+        increaseCurrentMovieIndex(sessionID, userNumber);
+        return getCurrentMovie(sessionID, userNumber);
+    }
+
+    public String getLikedMovies(Long sessionID, int userNumber) {
+        return SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber];
     }
 }
