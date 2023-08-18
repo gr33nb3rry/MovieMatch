@@ -109,4 +109,26 @@ public class SessionService {
         }
         return likedMovies;
     }
+
+    public List<Movie> getMatches(Long sessionID) {
+        String movieIndexes;
+        movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[0];
+        int[] User1Indexes = Arrays.stream(movieIndexes.split("\\s+"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[1];
+        int[] User2Indexes = Arrays.stream(movieIndexes.split("\\s+"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+
+        int[] matchIndexed = Arrays.stream(User1Indexes)
+                .filter(element -> Arrays.stream(User2Indexes).anyMatch(e -> e == element))
+                .toArray();
+
+        List<Movie> matchMovies = new ArrayList<>();
+        for (int index : matchIndexed) {
+            matchMovies.add(SessionManager.sessionMovies.get(sessionID).get(index));
+        }
+        return matchMovies;
+    }
 }

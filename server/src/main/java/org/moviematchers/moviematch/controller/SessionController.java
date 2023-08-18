@@ -21,7 +21,7 @@ public class SessionController {
     public List<Session> getAllSessions() {
         return sessionService.getAllSessions();
     }
-    @PostMapping //returns session_id
+    @PostMapping("create") //returns session_id
     public Long createSession(@RequestBody Session session) {
         sessionService.createSession(session);
         return session.getSessionID();
@@ -60,5 +60,9 @@ public class SessionController {
     @GetMapping("likedMovies")
     public List<Movie> getLikedMovies(@RequestParam Long sessionID, @RequestParam int userNumber) {
         return sessionService.getLikedMovies(sessionID, userNumber);
+    }
+    @GetMapping("getMatches")
+    public List<Movie> getMatches(@RequestParam Long sessionID) {
+        return sessionService.getMatches(sessionID);
     }
 }
