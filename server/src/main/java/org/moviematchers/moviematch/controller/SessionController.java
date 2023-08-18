@@ -33,7 +33,6 @@ public class SessionController {
     @PostMapping("addMovies") // for frontend: if response is "Joined" open session.html
     public String addMovies(@RequestParam Long sessionID) {
         boolean response = sessionService.addMovies(sessionID);
-
         if (response) return "Added";
         else return "Failed";
     }
@@ -64,5 +63,13 @@ public class SessionController {
     @GetMapping("getMatches")
     public List<Movie> getMatches(@RequestParam Long sessionID) {
         return sessionService.getMatches(sessionID);
+    }
+    @GetMapping("getMatchCount")
+    public int getMatchCount(@RequestParam Long sessionID) {
+        return sessionService.getMatchCount(sessionID);
+    }
+    @GetMapping("match")
+    public boolean checkForNewMatch(@RequestParam Long sessionID) {
+        return sessionService.checkForNewMatch(sessionID);
     }
 }

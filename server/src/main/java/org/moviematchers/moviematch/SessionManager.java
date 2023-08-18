@@ -19,6 +19,7 @@ public class SessionManager {
     public static Map<Long, Consumer<MovieFilter>> sessionCurrentMovieFilter = new LinkedHashMap<>();
     public static Map<Long, Integer[]> sessionCurrentMovieIndex = new LinkedHashMap<>();
     public static Map<Long, String[]> sessionLikedMovieIndex = new LinkedHashMap<>();
+    public static Map<Long, Integer> sessionMatchCount = new LinkedHashMap<>();
     public static Consumer<MovieFilter> InvitationFiltersToConsumerMovieFilter(Invitation invitation) {
         return (movieFilter) -> {
             movieFilter.setGenres(invitation.getMovieGenres());

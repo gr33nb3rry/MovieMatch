@@ -52,6 +52,8 @@ public class SessionService {
         SessionManager.sessionLikedMovieIndex.get(sessionID)[0] = "";
         SessionManager.sessionLikedMovieIndex.get(sessionID)[1] = "";
 
+        SessionManager.sessionMatchCount.put(sessionID, 0);
+
         if(Objects.equals(session.getUser1ID(), userID)) return 0;
         else if(Objects.equals(session.getUser2ID(), userID)) return 1;
         else return -1;
@@ -130,5 +132,24 @@ public class SessionService {
             matchMovies.add(SessionManager.sessionMovies.get(sessionID).get(index));
         }
         return matchMovies;
+    }
+    public int getMatchCount(Long sessionID) {
+        String movieIndexes;
+        movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[0];
+        int[] User1Indexes = Arrays.stream(movieIndexes.split("\\s+"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[1];
+        int[] User2Indexes = Arrays.stream(movieIndexes.split("\\s+"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+
+        return (int) Arrays.stream(User1Indexes)
+                .filter(element -> Arrays.stream(User2Indexes).anyMatch(e -> e == element))
+                .count();
+    }
+
+    public boolean checkForNewMatch(Long sessionID) {
+        return getMatchCount(sessionID) > SessionManager.sessionMatchCount.get(sessionID);
     }
 }
