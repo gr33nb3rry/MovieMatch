@@ -49,12 +49,16 @@ public class SessionController {
         sessionService.increaseCurrentMovieIndex(sessionID, userNumber);
     }
     @PostMapping("skip")
-    public Movie SkipMovie(@RequestParam Long sessionID, @RequestParam int userNumber) {
+    public Movie skipMovie(@RequestParam Long sessionID, @RequestParam int userNumber) {
         return sessionService.skipMovie(sessionID, userNumber);
     }
     @PostMapping("like")
-    public Movie LikeMovie(@RequestParam Long sessionID, @RequestParam int userNumber) {
+    public Movie likeMovie(@RequestParam Long sessionID, @RequestParam int userNumber) {
         return sessionService.likeMovie(sessionID, userNumber);
+    }
+    @PostMapping("return")
+    public Movie returnLastMovie(@RequestParam Long sessionID, @RequestParam int userNumber) {
+        return sessionService.returnLastMovie(sessionID, userNumber);
     }
     @GetMapping("likedMovies")
     public List<Movie> getLikedMovies(@RequestParam Long sessionID, @RequestParam int userNumber) {

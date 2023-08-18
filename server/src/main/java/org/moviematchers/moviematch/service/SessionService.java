@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SessionService {
@@ -98,6 +99,29 @@ public class SessionService {
         increaseCurrentMovieIndex(sessionID, userNumber);
         return getCurrentMovie(sessionID, userNumber);
     }
+    public Movie returnLastMovie(Long sessionID, int userNumber) {
+        if (SessionManager.sessionCurrentMovieIndex.get(sessionID)[userNumber] > 0) {
+            SessionManager.sessionCurrentMovieIndex.get(sessionID)[userNumber]--;
+
+            int index = SessionManager.sessionCurrentMovieIndex.get(sessionID)[userNumber];
+
+            String likedMovieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber];
+            int[] indexes = Arrays.stream(likedMovieIndexes.split("\\s+"))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            int lastLikedIndex = indexes[indexes.length-1];
+
+            if (index == lastLikedIndex) {
+                String newLikedMovies = Arrays.stream(indexes)
+                        .limit(indexes.length - 1)
+                        .mapToObj(String::valueOf)
+                        .collect(Collectors.joining(" "));
+                SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber] = newLikedMovies;
+            }
+        }
+
+        return getCurrentMovie(sessionID, userNumber);
+    }
 
     public List<Movie> getLikedMovies(Long sessionID, int userNumber) {
         String movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber];
@@ -163,4 +187,6 @@ public class SessionService {
         List<Movie> matches = getMatches(sessionID);
         return matches.get(matches.size()-1);
     }
+
+
 }
