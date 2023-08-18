@@ -34,7 +34,7 @@ public class CollectionService {
     public List<UserMovieCollection> getAllCollectionsOfUser(Long id) {
         return collectionRepository.findByUserIDUserID(id);
     }
-    public Movie getMovieFromTheMovieDBByName(String movieTitle) {
+    public Movie getMovieFromAPIByName(String movieTitle) {
         List<Movie> movies = this.movieService.fetch(options -> {}, movieTitle);
         logger.info("Fetched movie title: {}", movies.get(0).getTitle());
         logger.info("Fetched movie description: {}", movies.get(0).getDescription());
@@ -43,7 +43,7 @@ public class CollectionService {
         return movies.get(0);
     }
 
-    public List<Movie> getAllCollectionsOfUserFromMovieDB(Long id) {
+    public List<Movie> getAllCollectionsOfUserFromAPI(Long id) {
         List<UserMovieCollection> userMovieCollections = collectionRepository.findByUserIDUserID(id);
         List<Movie> movieCollectionsFromDB = new ArrayList<Movie>();
 

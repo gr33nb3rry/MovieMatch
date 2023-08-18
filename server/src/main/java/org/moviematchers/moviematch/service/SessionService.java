@@ -7,6 +7,8 @@ import org.moviematchers.moviematch.entity.Session;
 import org.moviematchers.moviematch.repository.InvitationRepository;
 import org.moviematchers.moviematch.repository.SessionRepository;
 import org.moviematchers.moviematch.strategy.TheMovieDBFetchStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class SessionService {
+    private final Logger logger = LoggerFactory.getLogger(SessionService.class);
     private final SessionRepository sessionRepository;
     private final InvitationRepository invitationRepository;
     private final TheMovieDBFetchStrategy theMovieDB;
@@ -37,9 +40,20 @@ public class SessionService {
 
     public int joinSession(Long sessionID, Long userID) {
         Optional<Session> sessionByID = sessionRepository.findById(sessionID);
-        if (sessionByID.isEmpty()) return -1;
+        if (sessionByID.isEmpty()) {
+            logger.error("Session with ID " + sessionID + " doesn't exists");
+            return -1;
+        }
         Session session = sessionByID.get();
 
+        setupSession(sessionID, session);
+
+        if(Objects.equals(session.getUser1ID(), userID)) return 0;
+        else if(Objects.equals(session.getUser2ID(), userID)) return 1;
+        else return -1;
+
+    }
+    private void setupSession(Long sessionID, Session session) {
         Optional<Invitation> invitationOfSession = invitationRepository.findById(session.getInvitationID());
         Invitation invitation = invitationOfSession.orElseGet(Invitation::new);
         SessionManager.sessionCurrentMovieFilter.put(sessionID, SessionManager.InvitationFiltersToConsumerMovieFilter(invitation));
@@ -54,16 +68,14 @@ public class SessionService {
         SessionManager.sessionLikedMovieIndex.get(sessionID)[1] = "";
 
         SessionManager.sessionMatchCount.put(sessionID, 0);
-
-        if(Objects.equals(session.getUser1ID(), userID)) return 0;
-        else if(Objects.equals(session.getUser2ID(), userID)) return 1;
-        else return -1;
-
     }
 
     public boolean addMovies(Long sessionID) {
         Optional<Session> sessionByID = sessionRepository.findById(sessionID);
-        if (sessionByID.isEmpty()) return false;
+        if (sessionByID.isEmpty()) {
+            logger.error("Session with ID " + sessionID + " doesn't exists");
+            return false;
+        }
 
         List<Movie> newMovies = theMovieDB.fetch(options -> {}, SessionManager.sessionCurrentMovieFilter.get(sessionID));
         SessionManager.sessionMovies.get(sessionID).addAll(newMovies);
@@ -119,11 +131,14 @@ public class SessionService {
                 SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber] = newLikedMovies;
             }
         }
+        else logger.error("Cannot return last movie, because current movie index is 0");
 
         return getCurrentMovie(sessionID, userNumber);
     }
 
     public List<Movie> getLikedMovies(Long sessionID, int userNumber) {
+        if (Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber], ""))
+            return new ArrayList<>();
         String movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber];
         int[] indexes = Arrays.stream(movieIndexes.split("\\s+"))
                 .mapToInt(Integer::parseInt)
@@ -137,6 +152,9 @@ public class SessionService {
     }
 
     public List<Movie> getMatches(Long sessionID) {
+        if (Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[0], "") ||
+                Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[1], ""))
+            return new ArrayList<>();
         String movieIndexes;
         movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[0];
         int[] User1Indexes = Arrays.stream(movieIndexes.split("\\s+"))
@@ -158,6 +176,9 @@ public class SessionService {
         return matchMovies;
     }
     public int getMatchCount(Long sessionID) {
+        if (Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[0], "") ||
+                Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[1], ""))
+            return 0;
         String movieIndexes;
         movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[0];
         int[] User1Indexes = Arrays.stream(movieIndexes.split("\\s+"))
@@ -185,6 +206,7 @@ public class SessionService {
 
     public Movie getLastMatch(Long sessionID) {
         List<Movie> matches = getMatches(sessionID);
+        if (matches.size() == 0) return null;
         return matches.get(matches.size()-1);
     }
 
