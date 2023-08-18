@@ -58,7 +58,7 @@ public class SessionController {
         return sessionService.likeMovie(sessionID, userNumber);
     }
     @GetMapping("likedMovies")
-    public String getLikedMovies(@RequestParam Long sessionID, @RequestParam int userNumber) {
+    public List<Movie> getLikedMovies(@RequestParam Long sessionID, @RequestParam int userNumber) {
         return sessionService.getLikedMovies(sessionID, userNumber);
     }
 }

@@ -10,10 +10,7 @@ import org.moviematchers.moviematch.strategy.TheMovieDBFetchStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SessionService {
@@ -100,7 +97,16 @@ public class SessionService {
         return getCurrentMovie(sessionID, userNumber);
     }
 
-    public String getLikedMovies(Long sessionID, int userNumber) {
-        return SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber];
+    public List<Movie> getLikedMovies(Long sessionID, int userNumber) {
+        String movieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber];
+        int[] indexes = Arrays.stream(movieIndexes.split("\\s+"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+
+        List<Movie> likedMovies = new ArrayList<>();
+        for (int index : indexes) {
+            likedMovies.add(SessionManager.sessionMovies.get(sessionID).get(index));
+        }
+        return likedMovies;
     }
 }
