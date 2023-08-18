@@ -1,5 +1,8 @@
 //const currentUserId;
 getCurrentUserID();
+const button = document.getElementById("button");
+const popUp = document.getElementById("popUp");
+const closePopUp = document.getElementById("closePopUp");
 
 function getCurrentUserID() {
     const apiUrl = `http://localhost:8080/user/getLoginID`;
@@ -18,3 +21,15 @@ function getCurrentUserID() {
 function addFriend() {
     const userIdInvited = document.getElementById('user_id').value;
 }
+
+    myButton.addEventListener("click", function () {
+        myPopup.classList.add("show");
+    });
+    closePopup.addEventListener("click", function () {
+        myPopup.classList.remove("show");
+    });
+
+    window.addEventListener("click", function (event) {
+        if (event.target == myPopup) {
+            myPopup.classList.remove("show");
+        }});
