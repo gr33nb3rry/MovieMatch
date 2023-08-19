@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="style/style.css">
     <link rel="stylesheet" type="text/css" href="style/popup.css">
     <link rel="stylesheet" type="text/css" href="style/collection.css">
+    <link rel="stylesheet" type="text/css" href="style/movieFilters.css">
     <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
@@ -28,7 +29,7 @@
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>Movie title (YYYY)
             </div>
             <div class="upper_button_container">
-                <a href="#"><img src="asset/history.png"   class="upper_button" ></a>
+                <!---<a href="#"><img src="asset/history.png"   class="upper_button" ></a>-->
                 <a href="#popup-info"><img src="asset/information.png" class="upper_button"></a>
             </div>
         </div>
@@ -52,7 +53,7 @@
                         <p class="friend_name">Friend name</p>
                     </div>
                 <hr >
-                    <a href="#"><div class="friend_picture" style="background-color: #faae2b;">
+                    <a href="#popup-filters"><div class="friend_picture" style="background-color: #faae2b;">
                         <img src="asset/popcorn.png"  width="25px" height="30px">
                     </div></a>
                 </div>
@@ -126,6 +127,70 @@
                 You can also mark and rate the films you have watched in the collection.
             </p>
             <p>Ruslans&emsp;•&emsp;Dovidas&emsp;•&emsp;Lukas&emsp;•&emsp;Lada</p>
+            <a href="#">
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id="popup-filters" class="popup">
+        <div class="popup_container">
+            <h1>Choose filters</h1>
+            
+            <form id="movie_filters_form">
+                <fieldset>
+                    <legend>Genres</legend>
+                    <label><input type="checkbox" name="genre" value="ACTION"> Action</label><br>
+                    <label><input type="checkbox" name="genre" value="ADVENTURE"> Adventure</label><br>
+                    <label><input type="checkbox" name="genre" value="ANIMATION"> Animation</label><br>
+                    <label><input type="checkbox" name="genre" value="COMEDY"> Comedy</label><br>
+                    <label><input type="checkbox" name="genre" value="CRIME"> Crime</label><br>
+                    <label><input type="checkbox" name="genre" value="DOCUMENTARY"> Documentary</label><br>
+                    <label><input type="checkbox" name="genre" value="DRAMA"> Drama</label><br>
+                    <label><input type="checkbox" name="genre" value="FAMILY"> Family</label><br>
+                    <label><input type="checkbox" name="genre" value="FANTASY"> Fantasy</label><br>
+                    <label><input type="checkbox" name="genre" value="HISTORY"> History</label><br>
+                    <label><input type="checkbox" name="genre" value="HORROR"> Horror</label><br>
+                    <label><input type="checkbox" name="genre" value="MUSIC"> Music</label><br>
+                    <label><input type="checkbox" name="genre" value="MYSTERY"> Mystery</label><br>
+                    <label><input type="checkbox" name="genre" value="ROMANCE"> Romance</label><br>
+                    <label><input type="checkbox" name="genre" value="SCIENCE_FICTION"> Science Fiction</label><br>
+                    <label><input type="checkbox" name="genre" value="TV"> TV</label><br>
+                    <label><input type="checkbox" name="genre" value="THRILLER"> Thriller</label><br>
+                    <label><input type="checkbox" name="genre" value="WAR"> War</label><br>
+                </fieldset>
+        
+                <fieldset>
+                    <legend>Countries</legend>
+                    <label><input type="radio" name="country" value="US"> USA</label><br>
+                    <label><input type="radio" name="country" value="CN"> China</label><br>
+                    <label><input type="radio" name="country" value="RU"> Russia</label><br>
+                    <label><input type="radio" name="country" value="FR"> France</label><br>
+                    <label><input type="radio" name="country" value="PL"> Poland</label><br>
+                    <label><input type="radio" name="country" value="EE"> Estonia</label><br>
+                    <label><input type="radio" name="country" value="LV"> Latvia</label><br>
+                    <label><input type="radio" name="country" value="LT"> Lithuania</label><br>
+                </fieldset>
+        
+                <fieldset>
+                    <legend>Years</legend>
+                    <label for="start_year">Start year:</label><br>
+                    <input type="number" id="start_year" name="start_year" min="1900" max="2023"><br>
+        
+                    <label for="end_year">End year:</label><br>
+                    <input type="number" id="end_year" name="end_year" min="1900" max="2023"><br>
+                </fieldset>
+        
+                <fieldset>
+                    <legend>Age</legend>
+                    <label><input type="radio" name="age_rating" value="all" checked> All Ages</label><br>
+                    <label><input type="radio" name="age_rating" value="18plus"> 18+</label><br>
+                </fieldset>
+        
+                <button type="submit" class="popup_filters_invite">Invite</button>
+            </form>        
+
             <a href="#">
                 <div class="popup_close">
                     <img src="asset/close-cross.png" width="40px" height="40px">
