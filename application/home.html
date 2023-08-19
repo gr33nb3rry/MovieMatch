@@ -4,28 +4,10 @@
     <meta charset="UTF-8">
     <title>Movies</title>
     <link rel="stylesheet" type="text/css" href="style/style.css">
+    <link rel="stylesheet" type="text/css" href="style/popup.css">
     <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
-    <style>
-        .pop_up {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            transition: all 0.4s;
-            visibility: hidden;
-            opacity: 0;
-        }
-        .pop_up:target {
-            visibility: visible;
-            opacity: 1;
-        }
-    </style>
 </head>
     <body>
         <header>
@@ -76,14 +58,15 @@
             </div>
             
     </div>
-    <div id="popup-box" class="pop_up">
-        
-            <h1 style="color: green;">
-                Hello GeeksForGeeks !
-            </h1>
+    <div id="popup-box" class="popup">
+        <div class="popup_container">
+            <h1>Title</h1>
             <a href="#">
-                ×
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
             </a>
+        </div>
     </div>
     </body>
     <script src="script/home.js"></script>
