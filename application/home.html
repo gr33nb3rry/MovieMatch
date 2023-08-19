@@ -5,6 +5,7 @@
     <title>Movies</title>
     <link rel="stylesheet" type="text/css" href="style/style.css">
     <link rel="stylesheet" type="text/css" href="style/popup.css">
+    <link rel="stylesheet" type="text/css" href="style/collection.css">
     <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
@@ -13,11 +14,11 @@
         <header>
             <h1 id="logo">MovieMatch</h1>
             <div class="header_button_container">
-                <a href="#popup-box"><div class="header_button">
+                <a href="#popup-collection"><div class="header_button">
                     <img src="asset/collection.png"   width="40px" height="40px" >
                 </div></a>
                 
-                <a href="#"><div class="header_button">
+                <a href="#popup-profile"><div class="header_button">
                     <img src="asset/profile.png"  width="40px" height="40px">
                 </div></a>
             </div>
@@ -58,9 +59,56 @@
             </div>
             
     </div>
-    <div id="popup-box" class="popup">
+
+
+    <div id="popup-ex" class="popup">
         <div class="popup_container">
             <h1>Title</h1>
+            <a href="#">
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id="popup-collection" class="popup">
+        <div class="popup_container">
+            <h1>Collection</h1>
+            <div id="popup_collection_add_movie">
+                <form onsubmit="event.preventDefault(); addMovie()" id="add_movie_form">
+                    <input type="text" id="movie_title" name="movie_title" placeholder="Movie title" required>
+                    <input type="number" id="movie_rating" name="movie_rating" required>
+                    <button type="submit"><img src="asset/plus.png" width="50px" height="50px"></button>
+                </form>
+            </div>
+            <div id="collection_movies">
+                <div class="collection_movie">
+                    <img src="https://image.tmdb.org/t/p/original/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" width="150px">
+                    <div class="collection_movie_rating">9.2</div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id="popup-profile" class="popup">
+        <div class="popup_container">
+            <h1>Profile</h1>
+            <div id="popup_profile_picture_username">
+                <div class="popup_profile_picture">
+                    <img src="asset/profile.png"  width="40px" height="40px">
+                </div>
+                <p>Username</p>
+            </div>
+            <a href="#" style="text-decoration: none;"><div class="popup_profile_change_button">
+                Change username
+            </div></a>
+            <a href="#" style="text-decoration: none;"><div class="popup_profile_change_button">
+                Change password
+            </div></a>
             <a href="#">
                 <div class="popup_close">
                     <img src="asset/close-cross.png" width="40px" height="40px">

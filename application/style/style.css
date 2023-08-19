@@ -76,12 +76,8 @@ content h2 {
 
 }
 .friend_list_container{
-
-
     justify-content: center;
     align-items: center;
-
-
 }
 .friend {
     display: flex;

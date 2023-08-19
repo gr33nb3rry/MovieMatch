@@ -1,5 +1,4 @@
 .popup {
-    align-items: center;
     display: flex;
     justify-content: center;
     position: absolute;
@@ -17,15 +16,18 @@
     opacity: 1;
 }
 .popup_container {
+    min-width: 400px;
     width: 50%;
-    height: 600px;
+    padding-bottom: 50px;
     border-radius: 30px;
     background-color: #00473e;
     border: 4px solid #00332c;
     position: absolute;
+    top:20%;
     display: flex;
     align-items: center;
     flex-direction: column;
+    gap: 10px;
 }
 .popup_container  h1{
     font-family: 'Pacifico', cursive;
@@ -44,4 +46,39 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+#popup_profile_picture_username {
+    display: flex;
+    gap: 20px;
+    width: 70%;
+    justify-content: left;
+    align-items: center;
+}
+#popup_profile_picture_username p {
+    font-size: 2em;
+    margin-top:45px;
+    color: #f2f7f5;
+    font-family: 'Borel', cursive; 
+}
+.popup_profile_picture {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid #00332c;
+    background-color: #475d5b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.popup_profile_change_button {
+    background-color: #faae2b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#00332c;
+    padding: 15px 20px 15px 20px;
+    font-size: 1.5em;
+    font-family: 'Itim', cursive;
+    border-radius: 30px;
+    border: 4px solid #00332c;
 }
