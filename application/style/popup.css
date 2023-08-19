@@ -19,6 +19,7 @@
     min-width: 400px;
     width: 50%;
     padding-bottom: 50px;
+    padding: 0 50px 50px 50px;
     border-radius: 30px;
     background-color: #00473e;
     border: 4px solid #00332c;
@@ -33,6 +34,11 @@
     font-family: 'Pacifico', cursive;
     color: #faae2b;
     margin-top: 0;
+}
+.popup_container  p{
+    font-family: 'Itim', cursive;
+    color: #f2f7f5;
+    font-size: 1.5em;
 }
 .popup_close {
     position:absolute;
