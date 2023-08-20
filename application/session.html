@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="style/session.css">
     <link rel="stylesheet" type="text/css" href="style/popup.css">
     <link rel="stylesheet" type="text/css" href="style/collection.css">
+    <link rel="stylesheet" type="text/css" href="style/match.css">
     <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
@@ -29,7 +30,7 @@
         <div id="upper_container">
             <div class="match_container">
                 Username and Username
-                <a href="#" style="text-decoration: none;"><div class ="match_button" >
+                <a href="#popup-matches" style="text-decoration: none;"><div class ="match_button" >
                     <img src="asset/bolt.png">
                     0
                     <span style="color: #f2f7f5; text-shadow:none; opacity:50%;">i</span>
@@ -113,7 +114,23 @@
                 </a>
             </div>
         </div>
-        
+        <div id="popup-matches" class="popup">
+            <div class="popup_container">
+                <h1>Matches</h1>
+                
+                <div id="match_movies">
+                    <div class="match_movie">
+                        <img src="https://image.tmdb.org/t/p/original/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" width="150px">
+                        <div class="match_movie_rating">9.2</div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="popup_close">
+                        <img src="asset/close-cross.png" width="40px" height="40px">
+                    </div>
+                </a>
+            </div>
+        </div>
     </body>
     <script src="script/home.js"></script>
 </html>
