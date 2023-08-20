@@ -35,6 +35,7 @@ public class SessionService {
     }
 
     public void createSession(Session session) {
+
         sessionRepository.save(session);
     }
 
@@ -68,6 +69,7 @@ public class SessionService {
         SessionManager.sessionLikedMovieIndex.get(sessionID)[1] = "";
 
         SessionManager.sessionMatchCount.put(sessionID, 0);
+        SessionManager.sessionMoviePage.put(sessionID, 1);
     }
 
     public boolean addMovies(Long sessionID) {
@@ -77,9 +79,13 @@ public class SessionService {
             return false;
         }
 
-        List<Movie> newMovies = theMovieDB.fetch(options -> {}, SessionManager.sessionCurrentMovieFilter.get(sessionID));
+        List<Movie> newMovies = theMovieDB.fetch(
+                options -> options.setPage(SessionManager.sessionMoviePage.get(sessionID)),
+                SessionManager.sessionCurrentMovieFilter.get(sessionID));
         SessionManager.sessionMovies.get(sessionID).addAll(newMovies);
 
+        int currentPage = SessionManager.sessionMoviePage.get(sessionID);
+        SessionManager.sessionMoviePage.put(sessionID, currentPage+1);
         return true;
     }
 
