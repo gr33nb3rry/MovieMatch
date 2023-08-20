@@ -1,23 +1,28 @@
 package org.moviematchers.moviematch.dto;
 
+import org.moviematchers.moviematch.type.MovieGenre;
+
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Set;
 
 public class MovieImpl implements Movie {
 	private final String title;
 	private final String description;
 	private final LocalDate date;
 	private final Double rating;
+	private final Set<MovieGenre> genres;
 	private final Boolean adult;
 	private final URL poster;
 
-	public MovieImpl(String title, String description, LocalDate releaseDate, Double rating, Boolean adultRated, URL posterURL) {
+	public MovieImpl(String title, String description, LocalDate date, Double rating, Set<MovieGenre> genres, Boolean adult, URL poster) {
 		this.title = title;
 		this.description = description;
-		this.date = releaseDate;
+		this.date = date;
 		this.rating = rating;
-		this.adult = adultRated;
-		this.poster = posterURL;
+		this.genres = genres;
+		this.adult = adult;
+		this.poster = poster;
 	}
 
 	@Override
@@ -38,6 +43,11 @@ public class MovieImpl implements Movie {
 	@Override
 	public Double getRating() {
 		return this.rating;
+	}
+
+	@Override
+	public Set<MovieGenre> getGenres() {
+		return this.genres;
 	}
 
 	public Boolean isAdultRated() {

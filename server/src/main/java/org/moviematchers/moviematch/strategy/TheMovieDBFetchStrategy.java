@@ -22,19 +22,42 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @ConditionalOnBean(TheMovieDBProviderConfiguration.class)
 public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
+	private final static String PARSE_ERROR_MESSAGE = "failed to parse json data from themoviedb.org api";
 	private final static List<Movie> EMPTY_LIST = Collections.emptyList();
 	private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-	public final static String[] MOVIE_GENRE_TOKENS = new String[] {
-		"28", "12", "16", "35", "80", "99", "18", "10751", "14", "36", "27",
-		"10402", "9648", "10749", "878", "10770", "53", "10752", "37"
-	};
 	private final static WebClient WEB_CLIENT = WebClient.builder()
 		.baseUrl("https://api.themoviedb.org")
 		.build();
+
+	private final static Map<MovieGenre, String> MOVIE_GENRE_TOKEN_MAP = new EnumMap<>(MovieGenre.class);
+	static {
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.ACTION, "28");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.ADVENTURE, "12");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.ANIMATION, "16");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.COMEDY, "35");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.CRIME, "80");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.DOCUMENTARY, "99");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.DRAMA, "18");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.FAMILY, "10751");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.FANTASY, "14");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.HISTORY, "36");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.HORROR, "27");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.MUSIC, "10402");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.MYSTERY, "9648");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.ROMANCE, "10749");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.SCIENCE_FICTION, "878");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.TV, "10770");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.THRILLER, "53");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.WAR, "10752");
+		TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.put(MovieGenre.WESTERN, "37");
+	}
+	private final static Map<String, MovieGenre> MOVIE_GENRE_TYPE_MAP = TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP.keySet().stream()
+		.collect(Collectors.toMap(TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP::get, Function.identity()));
 
 	private final TheMovieDBProviderConfiguration configuration;
 	private final Logger logger = LoggerFactory.getLogger(TheMovieDBFetchStrategy.class);
@@ -54,7 +77,7 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 	private List<Movie> deserializeResponse(WebClient.ResponseSpec spec) {
 		ResponseEntity<String> entity = spec.toEntity(String.class).block();
 		if (entity == null || !entity.getStatusCode().is2xxSuccessful()) {
-			logger.error("failed to parse json data from themoviedb.org api");
+			logger.error(TheMovieDBFetchStrategy.PARSE_ERROR_MESSAGE);
 			return TheMovieDBFetchStrategy.EMPTY_LIST;
 		}
 		String jsonResponse = entity.getBody();
@@ -73,18 +96,33 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 					posterURL = new URL("https://image.tmdb.org/t/p/original" + posterPath);
 				}
 
+				Set<MovieGenre> genreSet = EnumSet.noneOf(MovieGenre.class);
+				JsonNode genreNodes = matchers.get("genre_ids");
+				for (JsonNode genreNode : genreNodes) {
+					if (!genreNode.isInt()) {
+						logger.error(TheMovieDBFetchStrategy.PARSE_ERROR_MESSAGE);
+						return TheMovieDBFetchStrategy.EMPTY_LIST;
+					}
+					String genreToken = genreNode.asText();
+					MovieGenre genre = TheMovieDBFetchStrategy.MOVIE_GENRE_TYPE_MAP.get(genreToken);
+					if (genre != null) {
+						genreSet.add(genre);
+					}
+				}
+
 				Movie movie = new MovieImpl(
-					matchers.get("original_title").asText(),
-					matchers.get("overview").asText(),
+					matchers.get("original_title").textValue(),
+					matchers.get("overview").textValue(),
 					LocalDate.parse(releaseDate),
-					matchers.get("vote_average").asDouble(),
-					matchers.get("adult").asBoolean(),
+					matchers.get("vote_average").doubleValue(),
+					genreSet,
+					matchers.get("adult").booleanValue(),
 					posterURL
 				);
 				movies.add(movie);
 			}
 		} catch (Exception exception) {
-			logger.error("failed to parse json data from themoviedb.org api", exception);
+			logger.error(TheMovieDBFetchStrategy.PARSE_ERROR_MESSAGE, exception);
 			return TheMovieDBFetchStrategy.EMPTY_LIST;
 		}
 		return movies;
@@ -102,9 +140,9 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 		return this.deserializeResponse(spec);
 	}
 
-	private String mapGenres(Set<MovieGenre> genreTypes) {
+	private String mapGenreQuery(Set<MovieGenre> genreTypes) {
 		return genreTypes.stream()
-			.map(genreType -> TheMovieDBFetchStrategy.MOVIE_GENRE_TOKENS[genreType.ordinal()])
+			.map(TheMovieDBFetchStrategy.MOVIE_GENRE_TOKEN_MAP::get)
 			.collect(Collectors.joining(","));
 	}
 
@@ -123,7 +161,7 @@ public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 				if (genres != null && genres.length != 0) {
 					// TODO: MAYBE WE DONT NEED SET IN HERE?
 					Set<MovieGenre> genresSet = Set.of(genres);
-					builder.queryParam("with_genres", this.mapGenres(genresSet));
+					builder.queryParam("with_genres", this.mapGenreQuery(genresSet));
 				}
 				CountryCode originCountry = filter.getOriginCountry();
 				if (originCountry != null) {

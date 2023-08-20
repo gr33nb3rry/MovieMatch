@@ -3,8 +3,6 @@ package org.moviematchers.moviematch;
 import org.moviematchers.moviematch.dto.Movie;
 import org.moviematchers.moviematch.service.MovieService;
 
-import org.moviematchers.moviematch.strategy.TheMovieDBFetchStrategy;
-import org.moviematchers.moviematch.type.MovieGenre;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +26,7 @@ public class MovieMatchApplication {
 			logger.info("Movie title: {}", movie.getTitle());
 			logger.info("Movie description: {}", movie.getDescription());
 			logger.info("Movie release date: {}", movie.getReleaseDate());
+			logger.info("Movie genres: {}", movie.getGenres());
 			logger.info("Movie poster URL: {}", movie.getPosterURL());
 			logger.info("Movie rating: {}", movie.getRating());
 		}

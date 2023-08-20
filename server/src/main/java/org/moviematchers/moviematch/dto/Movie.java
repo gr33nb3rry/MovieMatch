@@ -1,7 +1,10 @@
 package org.moviematchers.moviematch.dto;
 
-import java.net.URL;
+import org.moviematchers.moviematch.type.MovieGenre;
+
 import java.time.LocalDate;
+import java.util.Set;
+import java.net.URL;
 
 public interface Movie {
 	String getTitle();
@@ -11,6 +14,8 @@ public interface Movie {
 	LocalDate getReleaseDate();
 
 	Double getRating();
+
+	Set<MovieGenre> getGenres();
 
 	Boolean isAdultRated();
 

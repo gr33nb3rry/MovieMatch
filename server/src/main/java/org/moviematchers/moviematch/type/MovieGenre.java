@@ -18,5 +18,6 @@ public enum MovieGenre {
     SCIENCE_FICTION,
     TV,
     THRILLER,
-    WAR
+    WAR,
+    WESTERN
 }
