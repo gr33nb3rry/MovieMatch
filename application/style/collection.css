@@ -1,0 +1,63 @@
+#add_movie_form {
+    font-family: 'Itim', cursive;
+    font-size: 1.5em;
+    color: #475d5b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+#add_movie_form input{
+    border-radius: 40px;
+    border: 4px solid #00332c;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 30%;
+    height: 40px;
+    font-family: 'Itim', cursive;
+    font-size: 1em;
+    color: #8bd3dd;
+    background-color: #475d5b;
+}
+#add_movie_form button{
+    border-radius: 50%;
+    border: 4px solid #00332c;
+    height: 60px;
+    width: 60px;
+    background-color: #475d5b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#collection_movies {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap:10px;
+    position: relative;
+    padding: 20px;
+}
+.collection_movie {
+    position:relative;
+}
+.collection_movie img{
+    border: 4px solid #8bd3dd;
+    border-radius: 30px;
+}
+.collection_movie_rating {
+    width: 40px;
+    height: 40px;
+    background-color: #8bd3dd;
+    border: 4px solid #00332c;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:absolute;
+    top: -12px;
+    right: -12px;
+    color: #00332c;
+    font-family: 'Itim', cursive;
+    font-size: 1.2em;
+}

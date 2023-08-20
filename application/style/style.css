@@ -76,12 +76,8 @@ content h2 {
 
 }
 .friend_list_container{
-
-
     justify-content: center;
     align-items: center;
-
-
 }
 .friend {
     display: flex;
@@ -165,17 +161,6 @@ hr {
     
 }
 
-
-/* The button functionality */
-.button{
-
-    background-color: #00473e;
-    height: 60px;
-    width: 60px;
-    border: transparent;
-
-    
-}
 .header_button_container {
     display: flex;
     gap: 15px;
@@ -190,67 +175,4 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-
-
-.popUp {
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: #00473e;
-    display: none;
-}
-.popup-content {
-    background-color: #00473e;
-    border: 4px solid #00332c;
-    padding: 20px;
-    height: 1500px;
-    width: 1000px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    position: absolute;
-    top: 12%;
-    left: 35%;
-    border-radius: 50px;
-    
-}
-.popup-content button {
-    display: block;
-    margin: 0 auto;
-}
-.show {
-    display: block;
-}
-
-/* The button functionality */
-
-.header_button_bolt {
-    background-color: #475d5b;
-    border-radius: 50px;
-    border: 4px solid #00332c;
-    width: 250px;
-    height: 60px;
-    display: block;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    margin: 30px;
-
-
-    
-}
-.bolt_button {
-    width: 50px;
-    height: 50px;
-    float: left;
-    object-position: left;
-    
 }
