@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>Movies</title>
     <link rel="stylesheet" type="text/css" href="style/style.css">
+    <link rel="stylesheet" type="text/css" href="style/popup.css">
+    <link rel="stylesheet" type="text/css" href="style/collection.css">
+    <link rel="stylesheet" type="text/css" href="style/movieFilters.css">
+    <link rel="stylesheet" type="text/css" href="style/invite.css">
     <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
@@ -12,11 +16,12 @@
         <header>
             <h1 id="logo">MovieMatch</h1>
             <div class="header_button_container">
-                <a href="#"><div class="header_button">
-                    <img src="asset/collection.png" class="header_button_icon" width="30px" height="30px">
+                <a href="#popup-collection"><div class="header_button">
+                    <img src="asset/collection.png"   width="40px" height="40px" >
                 </div></a>
-                <a href="#"><div class="header_button">
-                    <img src="asset/profile.png" class="header_button_icon" width="40px" height="40px">
+                
+                <a href="#popup-profile"><div class="header_button">
+                    <img src="asset/profile.png"  width="40px" height="40px">
                 </div></a>
             </div>
         </header>
@@ -25,27 +30,205 @@
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>Movie title (YYYY)
             </div>
             <div class="upper_button_container">
-                <a href="#"><img src="asset/history.png" class="upper_button"></a>
-                <a href="#"><img src="asset/information.png" class="upper_button"></a>
+                <!---<a href="#"><img src="asset/history.png"   class="upper_button" ></a>-->
+                <a href="#popup-info"><img src="asset/information.png" class="upper_button"></a>
             </div>
         </div>
-        <div id="add_friend">
-        <!-- Implement this UI! ~ Dovidas Z. -->
-        </div>
-        <div id="invite_friend_container">
-            <h2>Find movie with friend</h2>
-            <div class="friend">
-                <div class="friend_left_side">
-                    <div class="friend_picture" style="background-color: #ffa8ba;">
-                        <img src="asset/profile.png" width="30px" height="30px">
-                    </div>
-                    <p class="friend_name">Friend name</p>
-                </div>
+        <div class="content">
+            <div id="add_friend">
+                <form onsubmit="event.preventDefault(); addFriend()" id="add_friend_form">
+                    <h3>Add friend by ID</h3>
+                    <input type="number" id="user_id" name="user_id" required>
+                    <button type="submit"><img src="asset/plus.png" width="50px" height="50px"></button>
+                </form>
+            </div>
+            <div id="friend_list_container">
+                <div id="invite_friend_container">
+                <h2 id="header_up_friend" > Find movie with friend </h2>
+                <div class="friend">
+                    <div class="friend_left_side">
+                        <div class="friend_picture" style="background-color: white;">
 
-                <a href="#"><div class="friend_picture" style="background-color: #faae2b;">
-                    <img src="asset/popcorn.png" width="30px" height="30px">
-                </div></a>
+                            <img src="asset/profile.png" class="header_button_icon" width="30px" height="30px" >
+                        </div>
+                        <p class="friend_name">Friend name</p>
+                    </div>
+                <hr >
+                    <a href="#popup-filters"><div class="friend_picture" style="background-color: #faae2b;">
+                        <img src="asset/popcorn.png"  width="25px" height="30px">
+                    </div></a>
+                </div>
             </div>
+            
+    </div>
+
+
+    <div id="popup-ex" class="popup">
+        <div class="popup_container">
+            <h1>Title</h1>
+            <a href="#">
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
+            </a>
         </div>
+    </div>
+    <div id="popup-collection" class="popup">
+        <div class="popup_container">
+            <h1>Collection</h1>
+            <div id="popup_collection_add_movie">
+                <form onsubmit="event.preventDefault(); addMovie()" id="add_movie_form">
+                    <input type="text" id="movie_title" name="movie_title" placeholder="Movie title" required>
+                    <input type="number" id="movie_rating" name="movie_rating" required>
+                    <button type="submit"><img src="asset/plus.png" width="50px" height="50px"></button>
+                </form>
+            </div>
+            <div id="collection_movies">
+                <div class="collection_movie">
+                    <img src="https://image.tmdb.org/t/p/original/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" width="150px">
+                    <div class="collection_movie_rating">9.2</div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id="popup-profile" class="popup">
+        <div class="popup_container">
+            <h1>Profile</h1>
+            <div id="popup_profile_picture_username">
+                <div class="popup_profile_picture">
+                    <img src="asset/profile.png"  width="40px" height="40px">
+                </div>
+                <p>Username</p>
+            </div>
+            <a href="#" style="text-decoration: none;"><div class="popup_profile_change_button">
+                Change username
+            </div></a>
+            <a href="#" style="text-decoration: none;"><div class="popup_profile_change_button">
+                Change password
+            </div></a>
+            <a href="#">
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id="popup-info" class="popup">
+        <div class="popup_container">
+            <h1>About us</h1>
+            <p>The idea of the project is to help couples or friends to find a movie they can watch together.
+                <br>
+                Two people connect to 1 session and like the films they would like to watch and skip the ones they wouldn't. In a special tab, people can see movies they both liked.
+                <br>
+                You can also mark and rate the films you have watched in the collection.
+            </p>
+            <p>Ruslans&emsp;•&emsp;Dovidas&emsp;•&emsp;Lukas&emsp;•&emsp;Lada</p>
+            <a href="#">
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id="popup-filters" class="popup">
+        <div class="popup_container">
+            <h1>Choose filters</h1>
+            
+            <form id="movie_filters_form">
+                <fieldset>
+                    <legend>Genres</legend>
+                    <label><input type="checkbox" name="genre" value="ACTION"> Action</label><br>
+                    <label><input type="checkbox" name="genre" value="ADVENTURE"> Adventure</label><br>
+                    <label><input type="checkbox" name="genre" value="ANIMATION"> Animation</label><br>
+                    <label><input type="checkbox" name="genre" value="COMEDY"> Comedy</label><br>
+                    <label><input type="checkbox" name="genre" value="CRIME"> Crime</label><br>
+                    <label><input type="checkbox" name="genre" value="DOCUMENTARY"> Documentary</label><br>
+                    <label><input type="checkbox" name="genre" value="DRAMA"> Drama</label><br>
+                    <label><input type="checkbox" name="genre" value="FAMILY"> Family</label><br>
+                    <label><input type="checkbox" name="genre" value="FANTASY"> Fantasy</label><br>
+                    <label><input type="checkbox" name="genre" value="HISTORY"> History</label><br>
+                    <label><input type="checkbox" name="genre" value="HORROR"> Horror</label><br>
+                    <label><input type="checkbox" name="genre" value="MUSIC"> Music</label><br>
+                    <label><input type="checkbox" name="genre" value="MYSTERY"> Mystery</label><br>
+                    <label><input type="checkbox" name="genre" value="ROMANCE"> Romance</label><br>
+                    <label><input type="checkbox" name="genre" value="SCIENCE_FICTION"> Science Fiction</label><br>
+                    <label><input type="checkbox" name="genre" value="TV"> TV</label><br>
+                    <label><input type="checkbox" name="genre" value="THRILLER"> Thriller</label><br>
+                    <label><input type="checkbox" name="genre" value="WAR"> War</label><br>
+                </fieldset>
+        
+                <fieldset>
+                    <legend>Countries</legend>
+                    <label><input type="radio" name="country" value="US"> USA</label><br>
+                    <label><input type="radio" name="country" value="CN"> China</label><br>
+                    <label><input type="radio" name="country" value="RU"> Russia</label><br>
+                    <label><input type="radio" name="country" value="FR"> France</label><br>
+                    <label><input type="radio" name="country" value="PL"> Poland</label><br>
+                    <label><input type="radio" name="country" value="EE"> Estonia</label><br>
+                    <label><input type="radio" name="country" value="LV"> Latvia</label><br>
+                    <label><input type="radio" name="country" value="LT"> Lithuania</label><br>
+                </fieldset>
+        
+                <fieldset>
+                    <legend>Years</legend>
+                    <label for="start_year">Start year:</label><br>
+                    <input type="number" id="start_year" name="start_year" min="1900" max="2023"><br>
+        
+                    <label for="end_year">End year:</label><br>
+                    <input type="number" id="end_year" name="end_year" min="1900" max="2023"><br>
+                </fieldset>
+        
+                <fieldset>
+                    <legend>Age</legend>
+                    <label><input type="radio" name="age_rating" value="all" checked> All Ages</label><br>
+                    <label><input type="radio" name="age_rating" value="18plus"> 18+</label><br>
+                </fieldset>
+        
+                <button type="submit" class="popup_filters_invite">Invite</button>
+            </form>        
+
+            <a href="#">
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id="popup-invite" class="popup">
+        <div class="popup_container">
+            <h1>Invite from Username</h1>
+            <div id="popup_invite_filter_container">
+                <div class="popup_invite_filter">
+                    <h2>Genres</h2>
+                    <p>ACTION, ADVENTURE</p>
+                </div>
+                <div class="popup_invite_filter">
+                    <h2>Country</h2>
+                    <p>US</p>
+                </div>
+                <div class="popup_invite_filter">
+                    <h2>Years</h2>
+                    <p>1990-2020</p>
+                </div>
+                <div class="popup_invite_filter">
+                    <h2>Age</h2>
+                    <p>All ages</p>
+                </div>
+            </div>
+            
+            <div class="popup_invite_join">Join</div>
+            <a href="#">
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
+            </a>
+        </div>
+    </div>
     </body>
+    <script src="script/home.js"></script>
 </html>

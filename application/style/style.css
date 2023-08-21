@@ -4,6 +4,10 @@ body {
     scrollbar-width: none;  /* Firefox */
     background-color: #f2f7f5;
     background-repeat: repeat;
+
+    background-image: 
+        url("https://i.postimg.cc/DyxyhDhR/background-Test.png");
+    background-repeat: repeat;
 }
 body::-webkit-scrollbar {
     display: none;
@@ -13,6 +17,9 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
+
+
 }
 #logo {
     font-family: 'Borel', cursive; 
@@ -21,26 +28,8 @@ header {
     padding-top:30px;
     font-size: 2.5em;
 }
-.header_button_container {
-    display: flex;
-    gap: 15px;
-}
-.header_button {
-    background-color: #475d5b;
-    border-radius: 50%;
-    border: 4px solid #00332c;
-    width: 70px;
-    height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.header_button_icon {
-    filter: drop-shadow(2px 2px 0 #00332c)
-        drop-shadow(-2px 2px 0 #00332c)
-        drop-shadow(2px -2px 0 #00332c)
-        drop-shadow(-2px -2px 0 #00332c);
-}
+
+
 #upper_container {
     display: flex;
     justify-content: space-between;
@@ -49,9 +38,13 @@ header {
     height: 150px;
     margin: 0 30px 0 30px;
 }
+.upper_button_container {
+    display: flex;
+    gap: 10px;
+}
 .upper_button {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
 }
 .quote {
     font-family: 'Itim', cursive;
@@ -59,10 +52,12 @@ header {
     font-size: 1.5em;
     max-width: 500px;
 }
-content {
+.content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    
 }
 content h2 {
     font-family: 'Pacifico', cursive; 
@@ -74,7 +69,15 @@ content h2 {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    width: 50%;
+    width: 100%;
+    font-family: 'Pacifico  ', cursive;
+    justify-content: center;
+    align-items: center;
+
+}
+.friend_list_container{
+    justify-content: center;
+    align-items: center;
 }
 .friend {
     display: flex;
@@ -87,6 +90,7 @@ content h2 {
     background-color: #475d5b;
     border-radius: 58px;
     border: 4px solid #00332c;
+    
 }
 .friend p {
     font-family: 'Borel', cursive;
@@ -108,3 +112,69 @@ content h2 {
     justify-content: center;
     align-items: center;
 }
+#header_up_friend {
+    font-family: 'Borel', cursive; 
+    color: #00332c; 
+    margin: 0; 
+    padding-top:30px;
+    font-size: 2.5em;
+    justify-content: center;
+    
+}
+#add_friend_form {
+    font-family: 'Itim', cursive;
+    font-size: 1.5em;
+    color: #475d5b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#add_friend_form input{
+    border-radius: 40px;
+    border: 4px solid #00332c;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 40px;
+    width: 200px;
+    font-family: 'Itim', cursive;
+    font-size: 1em;
+    color: #475d5b;
+    background: none;
+}
+#add_friend_form button{
+    border-radius: 50%;
+    border: 4px solid #00332c;
+    height: 60px;
+    width: 60px;
+    background-color: #475d5b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+hr {
+
+    color: transparent;
+    color:none;
+    border: none;
+    margin-top: 5px;
+    
+}
+
+.header_button_container {
+    display: flex;
+    gap: 15px;
+
+}
+.header_button {
+    background-color: #475d5b;
+    border-radius: 50%;
+    border: 4px solid #00332c;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
