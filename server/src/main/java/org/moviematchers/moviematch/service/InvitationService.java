@@ -33,6 +33,8 @@ public class InvitationService {
 
     public Invitation getLastInvitationsByID(Long id) {
         List<Invitation> invitations = invitationRepository.findByUserIDInvited(id);
-        return invitations.get(invitations.size()-1);
+        if (invitations.size() > 0)
+            return invitations.get(invitations.size()-1);
+        else return null;
     }
 }
