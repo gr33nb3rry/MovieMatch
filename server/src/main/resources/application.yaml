@@ -6,19 +6,19 @@ spring:
     jpa:
       hibernate:
         ddl-auto: update
-    security:
-      user:
-        name: user
-        password: password
 
-
-# Remove this debug property in production!
+# Remove these debug properties in production!
 debug: true
 logging:
   level:
     org.springframework.security.web: DEBUG
 
-movie-matcher:
+
+movie-match:
+  authorization:
+    jwt:
+      public-key: certificate/public.pem
+      private-key: certificate/private.pem
   provider:
     the-movie-db:
       api-key: 0b5c632fd58d000a27736409177ef13a

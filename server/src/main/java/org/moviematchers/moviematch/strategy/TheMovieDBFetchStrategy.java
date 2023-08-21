@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.neovisionaries.i18n.CountryCode;
 
+import org.moviematchers.moviematch.configuration.TheMovieDBProviderCondition;
 import org.moviematchers.moviematch.configuration.TheMovieDBProviderConfiguration;
 import org.moviematchers.moviematch.dto.*;
 import org.moviematchers.moviematch.type.MovieGenre;
@@ -12,8 +13,9 @@ import org.moviematchers.moviematch.type.MovieGenre;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.http.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 
@@ -25,7 +27,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@ConditionalOnBean(TheMovieDBProviderConfiguration.class)
+@Service
+@Conditional(TheMovieDBProviderCondition.class)
 public class TheMovieDBFetchStrategy implements MovieFetchStrategy {
 	private final static String PARSE_ERROR_MESSAGE = "failed to parse json data from themoviedb.org api";
 	private final static List<Movie> EMPTY_LIST = Collections.emptyList();

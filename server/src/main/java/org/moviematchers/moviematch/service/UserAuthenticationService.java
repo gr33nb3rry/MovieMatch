@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
-public class UserDetailAuthService implements UserDetailsService {
+public class UserAuthenticationService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Autowired
-    public UserDetailAuthService(UserRepository userRepository) {
+    public UserAuthenticationService(UserRepository userRepository) {
 
         this.userRepository = userRepository;
     }
@@ -25,8 +25,7 @@ public class UserDetailAuthService implements UserDetailsService {
 
         MovieUser movieUser = userRepository.findByUserName(username);
         if (movieUser != null){
-            User user = new User(movieUser.getUserName(), movieUser.getUserPassword(), Collections.emptyList());
-            return user;
+			return new User(movieUser.getUserName(), movieUser.getUserPassword(), Collections.emptyList());
         }
         else {
             throw new UsernameNotFoundException("user is not found");
