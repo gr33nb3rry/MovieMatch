@@ -13,7 +13,6 @@ logging:
   level:
     org.springframework.security.web: DEBUG
 
-
 movie-match:
   authorization:
     jwt:
