@@ -27,7 +27,7 @@ public class SecurityConfiguration {
 		security
 			.securityMatcher("/authorization/token")
 			.authorizeHttpRequests(requestsConfigurer -> requestsConfigurer
-				.requestMatchers("/authorization/token").authenticated()
+				.anyRequest().authenticated()
 			)
 			.sessionManagement(sessionConfigurer -> sessionConfigurer
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -44,7 +44,6 @@ public class SecurityConfiguration {
 
 	// TODO: This CORS configuration only for development purposes only.
 	// TODO: Please change it, if we would host the project remotely.
-	// - Dovidas Z.
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
