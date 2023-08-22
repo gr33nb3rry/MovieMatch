@@ -26,12 +26,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUser(MovieUser movieUser) {
-        String password = movieUser.getUserPassword();
-        String encodedPassword = bCryptPasswordEncoder.encode(password);
-        movieUser.setUserPassword(encodedPassword);
+    public boolean addUser(MovieUser movieUser) {
+        try {
+            String password = movieUser.getUserPassword();
+            String encodedPassword = bCryptPasswordEncoder.encode(password);
+            movieUser.setUserPassword(encodedPassword);
 
-        userRepository.save(movieUser);
+            userRepository.save(movieUser);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
     /*
     public boolean login(MovieUser movieUser) {
@@ -54,31 +59,43 @@ public class UserService {
     }
 */
     @Transactional
-    public void changeUsername(Long id, String value) {
-        MovieUser movieUser = userRepository.findById(id).
-                orElseThrow(() -> new IllegalStateException(
-                        "User with ID " + id + " is not found"
-                ));
-        if (value != null && value.length() > 0 && !Objects.equals(movieUser.getUserPassword(), value)) {
-            movieUser.setUserName(value);
+    public boolean changeUsername(Long id, String value) {
+        try {
+            MovieUser movieUser = userRepository.findById(id).
+                    orElseThrow(() -> new IllegalStateException(
+                            "User with ID " + id + " is not found"
+                    ));
+            if (value != null && value.length() > 0 && !Objects.equals(movieUser.getUserPassword(), value)) {
+                movieUser.setUserName(value);
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        else {
-            throw new IllegalStateException("Inappropriate username");
+        catch(Exception e) {
+            return false;
         }
+
     }
     @Transactional
-    public void changePassword(Long id, String value) {
-        MovieUser movieUser = userRepository.findById(id).
-                orElseThrow(() -> new IllegalStateException(
-                        "User with ID " + id + " is not found"
-                ));
-        if (value != null && value.length() > 0 && !Objects.equals(movieUser.getUserPassword(), value)) {
-            movieUser.setUserPassword(bCryptPasswordEncoder.encode(value));
+    public boolean changePassword(Long id, String value) {
+
+        try {
+            MovieUser movieUser = userRepository.findById(id).
+                    orElseThrow(() -> new IllegalStateException(
+                            "User with ID " + id + " is not found"
+                    ));
+            if (value != null && value.length() > 0 && !Objects.equals(movieUser.getUserPassword(), value)) {
+                movieUser.setUserPassword(bCryptPasswordEncoder.encode(value));
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        else {
-            throw new IllegalStateException(
-                    "Inappropriate password"
-            );
+        catch(Exception e) {
+            return false;
         }
     }
 

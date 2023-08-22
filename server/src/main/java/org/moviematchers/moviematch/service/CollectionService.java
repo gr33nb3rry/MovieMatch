@@ -20,11 +20,18 @@ public class CollectionService {
         this.movieService = movieService;
     }
 
-    public void addCollection(UserMovieCollection userMovieCollection) {
-        logger.info("Add collection movie for user_id: {}", userMovieCollection.getUserID());
-        logger.info("Add collection movie with movie_title: {}", userMovieCollection.getMovieTitle());
+    public boolean addCollection(UserMovieCollection userMovieCollection) {
+        try {
+            logger.info("Add collection movie for user_id: {}", userMovieCollection.getUserID());
+            logger.info("Add collection movie with movie_title: {}", userMovieCollection.getMovieTitle());
 
-        collectionRepository.save(userMovieCollection);
+            collectionRepository.save(userMovieCollection);
+            return true;
+        }
+        catch(Exception e) {
+            return false;
+        }
+
     }
 
     public List<UserMovieCollection> getAllCollections() {

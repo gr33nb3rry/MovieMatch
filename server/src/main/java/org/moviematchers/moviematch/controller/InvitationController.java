@@ -3,6 +3,8 @@ package org.moviematchers.moviematch.controller;
 import org.moviematchers.moviematch.entity.Invitation;
 import org.moviematchers.moviematch.service.InvitationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,11 +30,21 @@ public class InvitationController {
     }
 
     @PostMapping
-    public void addInvitation(@RequestBody Invitation invitation) {
-        invitationService.addInvitation(invitation);
+    public ResponseEntity<Long> addInvitation(@RequestBody Invitation invitation) {
+        boolean result = invitationService.addInvitation(invitation);
+        if (result) {
+            return new ResponseEntity<>(invitation.getInvitationID(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(-1L, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @DeleteMapping
-    public void deleteInvitation(@RequestParam Long id) {
-        invitationService.deleteInvitation(id);
+    public ResponseEntity<String> deleteInvitation(@RequestParam Long id) {
+        boolean result = invitationService.deleteInvitation(id);
+        if (result) {
+            return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Failed to delete invitation", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

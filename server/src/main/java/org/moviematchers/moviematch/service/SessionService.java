@@ -34,9 +34,14 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public void createSession(Session session) {
-
-        sessionRepository.save(session);
+    public boolean createSession(Session session) {
+        try {
+            sessionRepository.save(session);
+            return true;
+        }
+        catch(Exception e) {
+            return false;
+        }
     }
 
     public int joinSession(Long sessionID, Long userID) {
