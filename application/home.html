@@ -78,9 +78,9 @@
         <div class="popup_container">
             <h1>Collection</h1>
             <div id="popup_collection_add_movie">
-                <form onsubmit="event.preventDefault(); addMovie()" id="add_movie_form">
+                <form onsubmit="event.preventDefault(); addCollection()" id="add_movie_form">
                     <input type="text" id="movie_title" name="movie_title" placeholder="Movie title" required>
-                    <input type="number" id="movie_rating" name="movie_rating" required>
+                    <input type="number" id="movie_rating" name="movie_rating" step="0.1" required>
                     <button type="submit"><img src="asset/plus.png" width="50px" height="50px"></button>
                 </form>
             </div>

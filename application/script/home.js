@@ -118,7 +118,7 @@ function getProfile() {
 function getCollection() {
     
     refreshCollection();
-    const url = 'http://localhost:8080/collection/byID?id=4';
+    const url = 'http://localhost:8080/collection/byID?id=' + userID;
     fetch(url, {
         method: 'GET',
         headers: {
@@ -190,16 +190,23 @@ function sendInvite(friendId) {
 
 
 
-//error 401 & home.js:215 Failed to add movie.
-function addCollection(movieTitle, movieRating, userID) {
-    const addCollectionUrl = 'http://localhost:8080/collection';
+function addCollection() {
+    const movieTitleInput = document.getElementById('movie_title');
+    const movieRatingInput = document.getElementById('movie_rating');
+
+    const movieTitle = movieTitleInput.value;
+    const movieRating = movieRatingInput.value;
+
+    const url = 'http://localhost:8080/collection';
     const requestBody = {
-        userID: userID,
+        userID: {userID: 6},
         movieTitle: movieTitle,
         userRating: movieRating
     };
-
-    fetch(addCollectionUrl, {
+    console.log(requestBody);
+    console.log(JSON.stringify(requestBody));
+    
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -208,11 +215,10 @@ function addCollection(movieTitle, movieRating, userID) {
         body: JSON.stringify(requestBody)
         
     })
-    
     .then(response => {
         if (response.ok) {
             console.log('Movie added successfully to collection.');
-            refreshCollection();
+            getCollection();
         } else {
             
             console.error('Failed to add movie.');
@@ -228,7 +234,7 @@ function addCollection(movieTitle, movieRating, userID) {
       const movieRatingInput = document.getElementById('movie_rating');
 
       const movieTitle = movieTitleInput.value;
-      const movieRating = parseFloat(movieRatingInput.value);
+      const movieRating = movieRatingInput.value;
 
       if (isNaN(movieRating) || movieRating < 0 || movieRating > 10) {
           alert('Invalid rating.');
