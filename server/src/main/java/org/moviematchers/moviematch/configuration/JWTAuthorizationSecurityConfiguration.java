@@ -27,13 +27,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class JWTAuthorizationSecurityConfiguration {
 	private final JWTAuthorizationConfiguration configuration;
 
-
 	public JWTAuthorizationSecurityConfiguration(JWTAuthorizationConfiguration configuration) {
 		this.configuration = configuration;
 	}
 
 	@Bean
-	@Order(1)
+	@Order
 	public SecurityFilterChain tokenAuthorizationSecurityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable)
 			.oauth2ResourceServer(oauth2Configurer -> oauth2Configurer
