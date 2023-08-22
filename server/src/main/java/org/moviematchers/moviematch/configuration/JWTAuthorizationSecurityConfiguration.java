@@ -11,18 +11,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 @Configuration
-@EnableWebSecurity
 @Conditional(JWTAuthorizationCondition.class)
 public class JWTAuthorizationSecurityConfiguration {
 	private final JWTAuthorizationConfiguration configuration;
@@ -32,16 +33,26 @@ public class JWTAuthorizationSecurityConfiguration {
 	}
 
 	@Bean
-	@Order
-	public SecurityFilterChain tokenAuthorizationSecurityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(AbstractHttpConfigurer::disable)
-			.oauth2ResourceServer(oauth2Configurer -> oauth2Configurer
-				.jwt(jwtConfigurer -> jwtConfigurer
-					.decoder(this.jwtDecoder())
-				)
+	@Order(2)
+	public SecurityFilterChain jwtAuthorizationSecurityFilterChain(HttpSecurity security) throws Exception {
+		security
+			.authorizeHttpRequests(requestsConfigurer -> requestsConfigurer
+				.anyRequest().authenticated()
 			)
+			.sessionManagement(sessionConfigurer -> sessionConfigurer
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			)
+			.exceptionHandling(exceptionConfigurer ->
+				exceptionConfigurer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+			)
+			.oauth2ResourceServer(oauth2Configurer -> oauth2Configurer
+				.jwt(Customizer.withDefaults())
+			)
+			.cors(Customizer.withDefaults())
+			.csrf(AbstractHttpConfigurer::disable)
 			.httpBasic(Customizer.withDefaults());
-		return http.build();
+
+		return security.build();
 	}
 
 	@Bean
