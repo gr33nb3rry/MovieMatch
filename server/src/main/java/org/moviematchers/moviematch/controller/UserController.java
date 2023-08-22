@@ -41,8 +41,8 @@ public class UserController {
     }
     @PostMapping(path = "register")
     public ResponseEntity<String> addUser(@RequestBody MovieUser movieUser) {
-        boolean userAdded = userService.addUser(movieUser);
-        if (userAdded) {
+        boolean result = userService.addUser(movieUser);
+        if (result) {
             return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -60,16 +60,26 @@ public class UserController {
 */
 
     @PutMapping("username")
-    public void changeUsername(
+    public ResponseEntity<String> changeUsername(
             @RequestParam Long id,
             @RequestParam String value) {
-        userService.changeUsername(id, value);
+        boolean result = userService.changeUsername(id, value);
+        if (result) {
+            return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @PutMapping("password")
-    public void changePassword(
+    public ResponseEntity<String> changePassword(
             @RequestParam Long id,
             @RequestParam String value) {
-        userService.changePassword(id, value);
+        boolean result = userService.changePassword(id, value);
+        if (result) {
+            return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
