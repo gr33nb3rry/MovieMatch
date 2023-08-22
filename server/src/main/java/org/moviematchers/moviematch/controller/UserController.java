@@ -4,6 +4,8 @@ import org.moviematchers.moviematch.entity.MovieUser;
 import org.moviematchers.moviematch.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -34,8 +36,13 @@ public class UserController {
     }
 
     @PostMapping(path = "register")
-    public void addUser(@RequestBody MovieUser movieUser) {
-        userService.addUser(movieUser);
+    public ResponseEntity<String> addUser(@RequestBody MovieUser movieUser) {
+        boolean result = userService.addUser(movieUser);
+        if (result) {
+            return new ResponseEntity<>("User successfully registered", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     /*
     @PostMapping(path = "login")
@@ -49,16 +56,26 @@ public class UserController {
 */
 
     @PutMapping("username")
-    public void changeUsername(
+    public ResponseEntity<String> changeUsername(
             @RequestParam Long id,
             @RequestParam String value) {
-        userService.changeUsername(id, value);
+        boolean result = userService.changeUsername(id, value);
+        if (result) {
+            return new ResponseEntity<>("Username successfully changed", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Failed to change username", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @PutMapping("password")
-    public void changePassword(
+    public ResponseEntity<String> changePassword(
             @RequestParam Long id,
             @RequestParam String value) {
-        userService.changePassword(id, value);
+        boolean result = userService.changePassword(id, value);
+        if (result) {
+            return new ResponseEntity<>("Password successfully changed", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Failed to change password", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
