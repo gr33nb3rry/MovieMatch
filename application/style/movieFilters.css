@@ -20,7 +20,7 @@
 #movie_filters_form fieldset{
     border: none;
 }
-#movie_filters_form input[type=number]{
+#movie_filters_form input[type=date]{
     height: 40px;
     width: 100px;
     border-radius: 40px;
@@ -28,7 +28,7 @@
     background-color: #475d5b;
     padding: 0 10px 0 10px;
     color: #8bd3dd;
-    font-size: 1.2em;
+    font-size: 0.6em;
     font-family: 'Itim', cursive;
 }
 #movie_filters_form legend{
