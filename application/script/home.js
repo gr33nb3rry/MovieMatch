@@ -240,9 +240,11 @@ function addCollection(movieTitle, movieRating, userID) {
       movieRatingInput.value = '';
   }
 
+  ///api maybe is bad.
 function addFriend(user1ID,user2ID){
     const addFriendUrl = 'http://localhost:8080/friendship/request';
     const requestUrl = {
+        friendshipID: 9999999,
         user1ID: userID,
         user2ID: userID,
     };
