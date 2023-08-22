@@ -19,12 +19,24 @@ public class InvitationService {
         return invitationRepository.findAll();
     }
 
-    public void addInvitation(Invitation invitation) {
-        invitationRepository.save(invitation);
+    public boolean addInvitation(Invitation invitation) {
+        try {
+            invitationRepository.save(invitation);
+            return true;
+        }
+        catch(Exception e) {
+            return false;
+        }
     }
 
-    public void deleteInvitation(Long id) {
-        invitationRepository.deleteById(id);
+    public boolean deleteInvitation(Long id) {
+        try {
+            invitationRepository.deleteById(id);
+            return true;
+        }
+        catch(Exception e) {
+            return false;
+        }
     }
 
     public List<Invitation> getAllInvitationsByID(Long id) {

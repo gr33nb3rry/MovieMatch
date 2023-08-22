@@ -43,7 +43,7 @@ public class UserController {
     public ResponseEntity<String> addUser(@RequestBody MovieUser movieUser) {
         boolean result = userService.addUser(movieUser);
         if (result) {
-            return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
+            return new ResponseEntity<>("User successfully registered", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
         }

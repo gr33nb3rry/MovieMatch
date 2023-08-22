@@ -34,7 +34,7 @@ public class FriendshipController {
 
         boolean result = friendshipService.addFriendship(friendship);
         if (result) {
-            return new ResponseEntity<>("Successfully created new friendship", HttpStatus.CREATED);
+            return new ResponseEntity<>("Successfully created new friendship", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Failed to created new friendship", HttpStatus.INTERNAL_SERVER_ERROR);
         }

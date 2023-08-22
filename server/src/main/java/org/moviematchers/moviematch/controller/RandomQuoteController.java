@@ -30,7 +30,7 @@ public class RandomQuoteController {
     public ResponseEntity<String> addQuote(@RequestBody Quote quote) {
         boolean result = randomQuoteService.addQuote(quote);
         if (result) {
-            return new ResponseEntity<>("Quote successfully added", HttpStatus.CREATED);
+            return new ResponseEntity<>("Quote successfully added", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Failed to add quote", HttpStatus.INTERNAL_SERVER_ERROR);
         }
