@@ -87,7 +87,7 @@ function updateFriendlist() {
                 </div>
                 <p class="friend_name">${friendlist[i][1]}</p>
             </div>
-            <a href="#popup-filters"><div class="friend_picture" style="background-color: #faae2b;">
+            <a href="#popup-filters" onclick="sendInvite(${friendlist[i][0]})"><div class="friend_picture" style="background-color: #faae2b;">
                 <img src="asset/popcorn.png"  width="25px" height="30px">
             </div></a>
         </div>
@@ -169,5 +169,37 @@ function updateCollection(poster, rating) {
     `
     collectionContainer.innerHTML += movie;
 }
+
+function sendInvite(friendId) {
+    console.log(friendId);
+    // Convert the date string to a JavaScript Date object
+    const dateObj = new Date(studentDob);
+  
+    // Format the date as "yyyy-MM-dd" to match the format expected by the backend
+    const formattedDate = dateObj.toISOString().split('T')[0];
+  
+    // Construct the student data object with correct property names
+    const studentData = {
+      name: studentName,
+      dob: formattedDate,
+    };
+  
+    console.log(JSON.stringify(studentData));
+  
+  }
+
+
+// {
+//     "userIDInitiator": 6,
+//     "userIDInvited": 4,
+//     "movieGenres": [
+//     "ACTION", "ADVENTURE"
+//     ],
+//     "movieDateStart": "1990-01-01",
+//     "movieDateEnd": "2020-01-01",
+//     "movieCountry": "US",
+//     "isMovieAdult": false
+//     }
+    
 
 
