@@ -33,7 +33,10 @@ public class UserController {
         String username = user.getUsername();
         return userService.getLoginUserID(username);
     }
-
+    @GetMapping("name")
+    public String getUserNameByID(@RequestParam Long id) {
+        return userService.getUserNameByID(id);
+    }
     @PostMapping(path = "register")
     public void addUser(@RequestBody MovieUser movieUser) {
         userService.addUser(movieUser);

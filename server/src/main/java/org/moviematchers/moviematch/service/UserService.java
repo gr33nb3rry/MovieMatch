@@ -86,4 +86,8 @@ public class UserService {
         MovieUser user = userRepository.findByUserName(username);
         return user.getUserID();
     }
+    public String getUserNameByID(Long id) {
+        MovieUser user =  userRepository.findById(id).orElseGet(MovieUser::new);
+        return user.getUserName();
+    }
 }
