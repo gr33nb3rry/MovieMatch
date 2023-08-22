@@ -6,6 +6,7 @@ let friendlist = [];
 getToken();
 getRandomQuote();
 getFriends();
+getUsername();
 
 function getToken() {
     fetch('http://localhost:8080/authorization/token', {
@@ -93,4 +94,22 @@ function updateFriendlist() {
         `
         friendlistContainer.innerHTML += friend;
     }
+}
+
+function getUsername() {
+    const userUrl = 'http://localhost:8080/user/name?id=' + userID;
+    const usernameElement = document.getElementById('username');
+
+    fetch(userUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': basicAuth
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        usernameElement.innerHTML = data.userName;
+    })
+    .catch(err => console.error(err));
 }
