@@ -70,7 +70,7 @@ public class UserService {
                 return true;
             }
             else {
-                throw new IllegalStateException("Inappropriate username");
+                return false;
             }
         }
         catch(Exception e) {
@@ -91,7 +91,7 @@ public class UserService {
                 return true;
             }
             else {
-                throw new IllegalStateException("Inappropriate password");
+                return false;
             }
         }
         catch(Exception e) {

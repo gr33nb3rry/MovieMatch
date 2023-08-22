@@ -1,6 +1,8 @@
 package org.moviematchers.moviematch.controller;
 import org.moviematchers.moviematch.entity.MovieFriendship;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -28,8 +30,13 @@ public class FriendshipController {
     }
 
     @PostMapping("request")
-    public void addFriendship(@RequestBody MovieFriendship friendship) {
+    public ResponseEntity<String> addFriendship(@RequestBody MovieFriendship friendship) {
 
-        friendshipService.addFriendship(friendship);
+        boolean result = friendshipService.addFriendship(friendship);
+        if (result) {
+            return new ResponseEntity<>("Successfully created new friendship", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Failed to created new friendship", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
