@@ -3,6 +3,8 @@ package org.moviematchers.moviematch.controller;
 import org.moviematchers.moviematch.entity.MovieUser;
 import org.moviematchers.moviematch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +40,13 @@ public class UserController {
         return userService.getUserNameByID(id);
     }
     @PostMapping(path = "register")
-    public void addUser(@RequestBody MovieUser movieUser) {
-        userService.addUser(movieUser);
+    public ResponseEntity<String> addUser(@RequestBody MovieUser movieUser) {
+        boolean userAdded = userService.addUser(movieUser);
+        if (userAdded) {
+            return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     /*
     @PostMapping(path = "login")

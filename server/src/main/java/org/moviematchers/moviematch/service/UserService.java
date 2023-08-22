@@ -26,12 +26,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUser(MovieUser movieUser) {
+    public boolean addUser(MovieUser movieUser) {
         String password = movieUser.getUserPassword();
         String encodedPassword = bCryptPasswordEncoder.encode(password);
         movieUser.setUserPassword(encodedPassword);
 
-        userRepository.save(movieUser);
+        try {
+            userRepository.save(movieUser);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
     /*
     public boolean login(MovieUser movieUser) {
