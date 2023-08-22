@@ -6,7 +6,7 @@ let friendlist = [];
 getToken();
 getRandomQuote();
 getFriends();
-getProfile();
+
 
 function getToken() {
     fetch('http://localhost:8080/authorization/token', {
@@ -99,8 +99,27 @@ function updateFriendlist() {
 function getProfile() {
     const userUrl = 'http://localhost:8080/user/name?id=' + userID;
     const usernameElement = document.getElementById('popup-username');
-
     fetch(userUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': basicAuth
+        },
+    })   
+    .then(response => response.text())
+    .then((text) => {
+        console.log(text);
+        usernameElement.innerHTML = `<p>${text}</p>`;
+    })
+    .catch(err => console.error(err));
+}
+
+
+
+function getCollection() {
+    
+    refreshCollection();
+    const url = 'http://localhost:8080/collection/byID?id=4';
+    fetch(url, {
         method: 'GET',
         headers: {
             'Authorization': basicAuth
@@ -108,8 +127,47 @@ function getProfile() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
-        usernameElement.innerHTML = data.userName;
+        for(let i = 0; i < data.length; i++) {
+            let moviePoster;
+            let userRating;
+            
+            userRating = data[i].userRating;
+            fetch("http://localhost:8080/collection/fromDBbyName?movieTitle="+ data[i].movieTitle,{
+                method: 'GET',
+                headers: {
+                    'Authorization': basicAuth
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                moviePoster = data.posterURL;
+                console.log(data);
+                updateCollection(moviePoster, userRating);
+            })
+            .catch(err => console.error(err));
+        }    
     })
     .catch(err => console.error(err));
 }
+
+function refreshCollection(){
+    const collectionContainer = document.getElementById('collection_movies');
+    collectionContainer.innerHTML = "";
+}
+
+function updateCollection(poster, rating) {
+
+    const collectionContainer = document.getElementById('collection_movies');
+    console.log(poster);
+
+    const movie = 
+    `
+        <div class="collection_movie">
+            <img src="${poster}" width="150px">
+            <div class="collection_movie_rating">${rating}</div>
+        </div>
+    `
+    collectionContainer.innerHTML += movie;
+}
+
+
