@@ -188,6 +188,50 @@ function sendInvite(friendId) {
   
   }
 
+function addCollection(movieTitle, movieRating) {
+    const addCollectionUrl = 'http://localhost:8080/collection';
+    const requestBody = {
+        movieTitle: movieTitle,
+        userRating: movieRating
+    };
+
+    fetch(addCollectionUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        },
+        body: JSON.stringify(requestBody)
+    })
+    .then(response => {
+        if (response.ok) {
+            refreshCollection();
+        } else {
+            console.error('Failed to add movie.');
+        }
+    })
+    .catch(err => console.error(err));
+}
+
+  function addMovie() {
+      const movieTitleInput = document.getElementById('movie_title');
+      const movieRatingInput = document.getElementById('movie_rating');
+
+      const movieTitle = movieTitleInput.value;
+      const movieRating = parseFloat(movieRatingInput.value);
+
+      if (isNaN(movieRating) || movieRating < 0 || movieRating > 10) {
+          alert('Invalid rating.');
+          return;
+      }
+
+      addCollection(movieTitle, movieRating);
+      movieTitleInput.value = '';
+      movieRatingInput.value = '';
+  }
+
+
+
 
 // {
 //     "userIDInitiator": 6,
