@@ -188,9 +188,13 @@ function sendInvite(friendId) {
   
   }
 
-function addCollection(movieTitle, movieRating) {
+
+
+//error 401 & home.js:215 Failed to add movie.
+function addCollection(movieTitle, movieRating, userID) {
     const addCollectionUrl = 'http://localhost:8080/collection';
     const requestBody = {
+        userID: userID,
         movieTitle: movieTitle,
         userRating: movieRating
     };
@@ -202,16 +206,22 @@ function addCollection(movieTitle, movieRating) {
             'Authorization': basicAuth
         },
         body: JSON.stringify(requestBody)
+        
     })
+    
     .then(response => {
         if (response.ok) {
+            console.log('Movie added successfully to collection.');
             refreshCollection();
         } else {
+            
             console.error('Failed to add movie.');
         }
     })
     .catch(err => console.error(err));
 }
+
+
 
   function addMovie() {
       const movieTitleInput = document.getElementById('movie_title');
@@ -230,20 +240,46 @@ function addCollection(movieTitle, movieRating) {
       movieRatingInput.value = '';
   }
 
-
-
-
-// {
-//     "userIDInitiator": 6,
-//     "userIDInvited": 4,
-//     "movieGenres": [
-//     "ACTION", "ADVENTURE"
-//     ],
-//     "movieDateStart": "1990-01-01",
-//     "movieDateEnd": "2020-01-01",
-//     "movieCountry": "US",
-//     "isMovieAdult": false
-//     }
+function addFriend(user1ID,user2ID){
+    const addFriendUrl = 'http://localhost:8080/friendship/request';
+    const requestUrl = {
+        user1ID: userID,
+        user2ID: userID,
+    };
+    fetch(addFriendUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        },
+        body: JSON.stringify(requestUrl)  
+    })
     
+    .then(response => {
+        if (response.ok) {
+            console.log('successfully');
+            refreshCollection();
+        } else {
+            
+            console.error('Failed to add friend id.');
+        }
+    })
+    
+    .catch(err => console.error(err));
 
 
+
+    fetch(addFriendUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        },
+        body: JSON.stringify(requestUrl)  
+    })
+    
+    .then(response => response.json())
+    .then(data => {console.log(data); })
+}
+
+//updateFriendlist
