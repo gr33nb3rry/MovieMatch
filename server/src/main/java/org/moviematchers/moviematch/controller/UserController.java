@@ -65,9 +65,9 @@ public class UserController {
             @RequestParam String value) {
         boolean result = userService.changeUsername(id, value);
         if (result) {
-            return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
+            return new ResponseEntity<>("Username successfully changed", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to change username", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @PutMapping("password")
@@ -76,9 +76,9 @@ public class UserController {
             @RequestParam String value) {
         boolean result = userService.changePassword(id, value);
         if (result) {
-            return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
+            return new ResponseEntity<>("Password successfully changed", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to change password", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
