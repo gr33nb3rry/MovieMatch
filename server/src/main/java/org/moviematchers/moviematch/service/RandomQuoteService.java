@@ -34,7 +34,13 @@ public class RandomQuoteService {
 
     }
 
-    public void addQuote(Quote quote) {
-        randomQuoteRepository.save(quote);
+    public boolean addQuote(Quote quote) {
+        try {
+            randomQuoteRepository.save(quote);
+            return true;
+        }
+        catch(Exception e) {
+            return false;
+        }
     }
 }

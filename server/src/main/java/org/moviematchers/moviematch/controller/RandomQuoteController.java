@@ -3,6 +3,8 @@ package org.moviematchers.moviematch.controller;
 import org.moviematchers.moviematch.entity.Quote;
 import org.moviematchers.moviematch.service.RandomQuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +27,12 @@ public class RandomQuoteController {
         return randomQuoteService.getRandomQuote();
     }
     @PostMapping
-    public void addQuote(@RequestBody Quote quote) {
-        randomQuoteService.addQuote(quote);
+    public ResponseEntity<String> addQuote(@RequestBody Quote quote) {
+        boolean result = randomQuoteService.addQuote(quote);
+        if (result) {
+            return new ResponseEntity<>("Quote successfully added", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Failed to add quote", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

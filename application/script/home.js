@@ -2,6 +2,8 @@ const basicAuth = "Basic YWRtaW46YWRtaW4";
 let userToken;
 let userMainID = 6;
 let friendlist = [];
+let inviteFriendID;
+let lastInviteID;
 
 getToken();
 getRandomQuote();
@@ -87,7 +89,7 @@ function updateFriendlist() {
                 </div>
                 <p class="friend_name">${friendlist[i][1]}</p>
             </div>
-            <a href="#popup-filters" onclick="sendInvite(${friendlist[i][0]})"><div class="friend_picture" style="background-color: #faae2b;">
+            <a href="#popup-filters" onclick="setInviteFriendID(${friendlist[i][0]})"><div class="friend_picture" style="background-color: #faae2b;">
                 <img src="asset/popcorn.png"  width="25px" height="30px">
             </div></a>
         </div>
@@ -168,22 +170,52 @@ function updateCollection(poster, rating) {
     `
     collectionContainer.innerHTML += movie;
 }
+function setInviteFriendID(friendId) {
+    inviteFriendID = friendId;
+}
+function sendInvite() {
+    const form = document.getElementById("movie_filters_form");
+    const selectedGenres = Array.from(form.elements["genre"])
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
+    const selectedDateStart = form.elements["start_year"].value;
+    const selectedDateEnd = form.elements["end_year"].value;
+    const selectedCountry = form.elements["country"].value;
+    const selectedAgeRating = form.elements["age_rating"].value;
+    
+    const dateStart = new Date(selectedDateStart);
+    const formattedDateStart = dateStart.toISOString().split('T')[0];
+    const dateEnd = new Date(selectedDateEnd);
+    const formattedDateEnd = dateEnd.toISOString().split('T')[0];
 
-function sendInvite(friendId) {
-    console.log(friendId);
-    // Convert the date string to a JavaScript Date object
-    const dateObj = new Date(studentDob);
+    const isMovieAdult = selectedAgeRating === "18plus";
   
-    // Format the date as "yyyy-MM-dd" to match the format expected by the backend
-    const formattedDate = dateObj.toISOString().split('T')[0];
-  
-    // Construct the student data object with correct property names
-    const studentData = {
-      name: studentName,
-      dob: formattedDate,
+    const inviteData = {
+      userIDInitiator: userMainID,
+      userIDInvited: inviteFriendID,
+      movieGenres: selectedGenres,
+      movieDateStart: formattedDateStart,
+      movieDateEnd: formattedDateEnd,
+      movieCountry: selectedCountry,
+      isMovieAdult: isMovieAdult
+
     };
-  
-    console.log(JSON.stringify(studentData));
+    const url = 'http://localhost:8080/invite';
+    console.log(JSON.stringify(inviteData));
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        },
+        body: JSON.stringify(inviteData)
+    })
+    .then(response => response.text())
+    .then((text) => {
+        lastInviteID = text;
+    })
+    .catch(err => console.error(err));
   
   }
 

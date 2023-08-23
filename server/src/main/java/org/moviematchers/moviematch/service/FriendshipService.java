@@ -32,17 +32,23 @@ public class FriendshipService {
         return friendshipRepository.findAll();
     }
 
-    public void addFriendship(MovieFriendship friendship) {
-        Long user1ID = friendship.getUser1ID().getUserID();
-        Long user2ID = friendship.getUser2ID().getUserID();
-        logger.info("New friendship user1_id: {}", user1ID);
-        logger.info("New friendship user2_id: {}", user2ID);
-        if (!Objects.equals(user1ID, user2ID)){
-            logger.info("user1_id and user2_id aren't equal. SAVING");
-            friendshipRepository.save(friendship);
+    public boolean addFriendship(MovieFriendship friendship) {
+        try {
+            Long user1ID = friendship.getUser1ID().getUserID();
+            Long user2ID = friendship.getUser2ID().getUserID();
+            logger.info("New friendship user1_id: {}", user1ID);
+            logger.info("New friendship user2_id: {}", user2ID);
+            if (!Objects.equals(user1ID, user2ID)) {
+                logger.info("user1_id and user2_id aren't equal. SAVING");
+                friendshipRepository.save(friendship);
+                return true;
+            } else {
+                logger.error("user1_id and user2_id are the same");
+                return false;
+            }
         }
-        else {
-            logger.error("user1_id and user2_id are the same");
+        catch(Exception e) {
+            return false;
         }
     }
 }
