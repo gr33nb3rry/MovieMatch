@@ -12,8 +12,6 @@ let sessionUserID;
 getToken();
 getRandomQuote();
 getFriends();
-
-
 function getToken() {
     fetch('http://localhost:8080/authorization/token', {
         method: 'GET',
@@ -363,6 +361,10 @@ function joinSession() {
     .then(response => response.text())
     .then((text) => {
         sessionUserID = parseInt(text);
+        window.location.replace(
+            window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1)
+            + "session.html"
+        );
         console.log("joined! new id is " + sessionUserID);
     })
     .catch(err => console.error(err));
