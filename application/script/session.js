@@ -41,6 +41,13 @@ function getCurrentMovie() {
     })
     .catch(err => console.error(err));
 }
+function getShortDescription(description) {
+    if (description.length <= 110) {
+        return description;
+    } else {
+        return description.substring(0, 107) + '...';
+    }
+}
 function updateCurrentMovie(data) {
     const movie = document.getElementById("main_movie");
     const code = 
@@ -48,7 +55,7 @@ function updateCurrentMovie(data) {
     <img class="main_movie_image" src="${data.posterURL}">
     <div id="main_movie_text">
         <p style="text-align: center;opacity:50%;">click to read more</p>
-        <p>${data.description}</p>
+        <p>${getShortDescription(data.description)}</p>
         <h2>${data.title}</h2>
     </div>
     <div id="main_movie_upper">
@@ -59,4 +66,52 @@ function updateCurrentMovie(data) {
     </div>
     `
     movie.innerHTML = code;
+}
+function likeMovie() {
+    const url = 'http://localhost:8080/session/like?sessionID='+sessionID+'&userNumber='+sessionUserID;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        updateCurrentMovie(data);
+    })
+    .catch(err => console.error(err));
+}
+function skipMovie() {
+    const url = 'http://localhost:8080/session/skip?sessionID='+sessionID+'&userNumber='+sessionUserID;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        updateCurrentMovie(data);
+    })
+    .catch(err => console.error(err));
+}
+function returnMovie() {
+    const url = 'http://localhost:8080/session/return?sessionID='+sessionID+'&userNumber='+sessionUserID;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        updateCurrentMovie(data);
+    })
+    .catch(err => console.error(err));
 }
