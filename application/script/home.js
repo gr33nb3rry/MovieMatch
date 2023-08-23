@@ -276,6 +276,22 @@ function checkForInvite() {
     })
     .catch(err => console.error(err));
 }
+function deleteInvitation() {
+    const url = 'http://localhost:8080/invite?id=' + lastInviteGotID;
+
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        }
+    })
+    .then(response => response.text())
+    .then((text) => {
+        console.log(text);
+    })
+    .catch(err => console.error(err));
+}
 function updateInvitePopup(data) {
     fetch('http://localhost:8080/user/name?id=' + data.userIDInitiator, {
         method: 'GET',
@@ -312,7 +328,7 @@ function updateInvitePopup(data) {
             </div>
             
             <a onclick="createSession()"><div class="popup_invite_join">Join</div></a>
-            <a href="#">
+            <a href="#" onclick="deleteInvitation()">
                 <div class="popup_close">
                     <img src="asset/close-cross.png" width="40px" height="40px">
                 </div>
