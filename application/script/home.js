@@ -2,7 +2,8 @@ const basicAuth = "Basic YWRtaW46YWRtaW4";
 let userToken;
 let userMainID = 6;
 let friendlist = [];
-let inviteFrindID;
+let inviteFriendID;
+let lastInviteID;
 
 getToken();
 getRandomQuote();
@@ -170,7 +171,7 @@ function updateCollection(poster, rating) {
     collectionContainer.innerHTML += movie;
 }
 function setInviteFriendID(friendId) {
-    inviteFrindID = friendId;
+    inviteFriendID = friendId;
 }
 function sendInvite() {
     const form = document.getElementById("movie_filters_form");
@@ -191,7 +192,7 @@ function sendInvite() {
   
     const inviteData = {
       userIDInitiator: userMainID,
-      userIDInvited: inviteFrindID,
+      userIDInvited: inviteFriendID,
       movieGenres: selectedGenres,
       movieDateStart: formattedDateStart,
       movieDateEnd: formattedDateEnd,
@@ -212,7 +213,7 @@ function sendInvite() {
     })
     .then(response => response.text())
     .then((text) => {
-        console.log(text);
+        lastInviteID = text;
     })
     .catch(err => console.error(err));
   
