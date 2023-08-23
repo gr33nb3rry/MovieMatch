@@ -383,10 +383,10 @@ function closePasswordChangeForm() {
 
 function changePassword(){
     const newPassword = document.getElementById('new_password').value;
-    fetch('http://localhost:8080/user/password?id='+userID+'value='+newPassword, {
+    fetch('http://localhost:8080/user/password?id=' + userMainID +'&value='+newPassword, {
         method: 'PUT',
         headers: {
-            'Authorization': userToken,
+            'Authorization': basicAuth,
             'Content-Type': 'application/json'
         },
     })
