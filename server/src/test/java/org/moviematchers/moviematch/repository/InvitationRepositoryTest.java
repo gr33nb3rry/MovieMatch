@@ -14,7 +14,7 @@ class InvitationRepositoryTest {
     @Autowired
     private InvitationRepository underTest;
     @Test
-    void findByUserIDInvited() {
+    void shouldReturnListOfInvitationsByUserIDInvited() {
         Long invitedID = 3L;
         Invitation invite = new Invitation(4L, invitedID);
         underTest.save(invite);
