@@ -3,7 +3,8 @@ let userToken;
 let userMainID = 6;
 let friendlist = [];
 let inviteFriendID;
-let lastInviteID;
+let lastInviteSentID;
+let lastInviteGotID = 0;
 
 getToken();
 getRandomQuote();
@@ -25,6 +26,13 @@ function getToken() {
     .catch(err => console.error(err));
 }
 
+function checkForNewInviteLoop() {   
+  setTimeout(function() {
+    checkForInvite();
+    checkForNewInviteLoop();
+  }, 3000)
+}
+checkForNewInviteLoop();
 
 function getRandomQuote(){
     const quote = document.getElementById('quote');
@@ -213,13 +221,90 @@ function sendInvite() {
     })
     .then(response => response.text())
     .then((text) => {
-        lastInviteID = text;
+        lastInviteSentID = text;
     })
     .catch(err => console.error(err));
-  
   }
 
+function checkForSessionCreating() {
+    //method to fetch sessions by lastInviteID if that session exists -> join
+}
+function checkForInvite() {
+    const url = 'http://localhost:8080/invite/byID?id=' + userMainID;
 
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.invitationID > lastInviteGotID) {
+            console.log(data.invitationID + ' > ' + lastInviteGotID);
+            lastInviteGotID = data.invitationID;
+            const currentUrl = window.location.href;
+            if (currentUrl.endsWith('#')) {
+                window.location.replace(currentUrl + 'popup-invite');
+            }
+            else {
+                window.location.replace(currentUrl + '#popup-invite');
+            }
+            updateInvitePopup(data);
+        }
+    })
+    .catch(err => console.error(err));
+}
+function updateInvitePopup(data) {
+    fetch('http://localhost:8080/user/name?id=' + data.userIDInitiator, {
+        method: 'GET',
+        headers: {
+            'Authorization': basicAuth
+        },
+    })   
+    .then(response => response.text())
+    .then((text) => {
+        const initiatorName = text;
+        console.log(data);
+        const popup = document.getElementById("popup-invite");
+        const code = 
+        `
+        <div class="popup_container">
+            <h1>Invite from ${initiatorName}</h1>
+            <div id="popup_invite_filter_container">
+                <div class="popup_invite_filter">
+                    <h2>Genres</h2>
+                    <p>${data.movieGenres}</p>
+                </div>
+                <div class="popup_invite_filter">
+                    <h2>Country</h2>
+                    <p>${data.movieCountry}</p>
+                </div>
+                <div class="popup_invite_filter">
+                    <h2>Years</h2>
+                    <p>${data.movieDateStart} - ${data.movieDateEnd}</p>
+                </div>
+                <div class="popup_invite_filter">
+                    <h2>Age</h2>
+                    <p>${data.isMovieAdult}</p>
+                </div>
+            </div>
+            
+            <div class="popup_invite_join">Join</div>
+            <a href="#">
+                <div class="popup_close">
+                    <img src="asset/close-cross.png" width="40px" height="40px">
+                </div>
+            </a>
+        </div>
+        `
+        popup.innerHTML = code;
+    })
+    .catch(err => console.error(err));
+
+    
+}
 
 function addCollection() {
     const movieTitleInput = document.getElementById('movie_title');
