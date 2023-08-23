@@ -3,8 +3,11 @@ let userToken;
 let userMainID = 6;
 let friendlist = [];
 let inviteFriendID;
-let lastInviteSentID;
+let lastInviteSentID = 0;
 let lastInviteGotID = 0;
+let userInviteInitiatorID;
+let sessionID;
+let sessionUserID;
 
 getToken();
 getRandomQuote();
@@ -26,13 +29,17 @@ function getToken() {
     .catch(err => console.error(err));
 }
 
-function checkForNewInviteLoop() {   
+function loop() {   
   setTimeout(function() {
-    checkForInvite();
-    checkForNewInviteLoop();
+    if (sessionUserID !== 0 && sessionUserID !== 1) {
+        checkForInvite();
+        checkForSessionCreating();
+    }
+    
+    loop();
   }, 3000)
 }
-checkForNewInviteLoop();
+loop();
 
 function getRandomQuote(){
     const quote = document.getElementById('quote');
@@ -221,13 +228,28 @@ function sendInvite() {
     })
     .then(response => response.text())
     .then((text) => {
-        lastInviteSentID = text;
+        lastInviteSentID = parseInt(text);
     })
     .catch(err => console.error(err));
   }
 
 function checkForSessionCreating() {
     //method to fetch sessions by lastInviteID if that session exists -> join
+    const url = 'http://localhost:8080/session/byInvite?invitationID='+lastInviteSentID;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        }
+    })
+    .then(response => response.text())
+    .then((text) => {
+        sessionID = parseInt(text);
+        if (sessionID >= 0) joinSession();
+    })
+    .catch(err => console.error(err));
 }
 function checkForInvite() {
     const url = 'http://localhost:8080/invite/byID?id=' + userMainID;
@@ -242,7 +264,7 @@ function checkForInvite() {
     .then(response => response.json())
     .then(data => {
         if (data.invitationID > lastInviteGotID) {
-            console.log(data.invitationID + ' > ' + lastInviteGotID);
+            userInviteInitiatorID = data.userIDInitiator;
             lastInviteGotID = data.invitationID;
             const currentUrl = window.location.href;
             if (currentUrl.endsWith('#')) {
@@ -291,7 +313,7 @@ function updateInvitePopup(data) {
                 </div>
             </div>
             
-            <div class="popup_invite_join">Join</div>
+            <a onclick="createSession()"><div class="popup_invite_join">Join</div></a>
             <a href="#">
                 <div class="popup_close">
                     <img src="asset/close-cross.png" width="40px" height="40px">
@@ -304,6 +326,46 @@ function updateInvitePopup(data) {
     .catch(err => console.error(err));
 
     
+}
+function createSession() {
+    const sessionData = {
+        invitationID: lastInviteGotID,
+        user1ID: userInviteInitiatorID,
+        user2ID: userMainID
+    };
+    const url = 'http://localhost:8080/session/create';
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        },
+        body: JSON.stringify(sessionData)
+    })
+    .then(response => response.text())
+    .then((text) => {
+        sessionID = parseInt(text);
+        joinSession();
+    })
+    .catch(err => console.error(err));
+}
+function joinSession() {
+    const url = 'http://localhost:8080/session/join?sessionID='+sessionID+'&userID='+userMainID;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth
+        }
+    })
+    .then(response => response.text())
+    .then((text) => {
+        sessionUserID = parseInt(text);
+        console.log("joined! new id is " + sessionUserID);
+    })
+    .catch(err => console.error(err));
 }
 
 function addCollection() {

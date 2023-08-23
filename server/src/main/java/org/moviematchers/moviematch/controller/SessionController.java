@@ -23,6 +23,15 @@ public class SessionController {
     public List<Session> getAllSessions() {
         return sessionService.getAllSessions();
     }
+    @GetMapping("byInvite")
+    public ResponseEntity<Long> getSessionIDByInvite(@RequestParam Long invitationID) {
+        Long result =  sessionService.getSessionIDByInvite(invitationID);
+        if (result != -1L) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(-1L, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @PostMapping("create") //returns session_id
     public ResponseEntity<Long> createSession(@RequestBody Session session) {
         boolean result = sessionService.createSession(session);

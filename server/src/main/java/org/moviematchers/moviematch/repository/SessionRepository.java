@@ -8,4 +8,5 @@ import java.util.List;
 
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
+    Session findByInvitationID(Long invitationID);
 }

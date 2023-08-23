@@ -234,4 +234,9 @@ public class SessionService {
     }
 
 
+    public Long getSessionIDByInvite(Long invitationID) {
+        Session session = sessionRepository.findByInvitationID(invitationID);
+        if (session != null) return session.getSessionID();
+        else return -1L;
+    }
 }
