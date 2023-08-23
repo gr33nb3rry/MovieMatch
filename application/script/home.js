@@ -1,6 +1,6 @@
 const basicAuth = "Basic YWRtaW46YWRtaW4";
 let userToken;
-let userID = 6;
+let userMainID = 6;
 let friendlist = [];
 
 getToken();
@@ -41,8 +41,9 @@ function getRandomQuote(){
 }
 
 function getFriends() {
+    friendlist = [];
 
-    const friendshipsUrl = 'http://localhost:8080/friendship/byID?id=' + userID;
+    const friendshipsUrl = 'http://localhost:8080/friendship/byID?id=' + userMainID;
     fetch(friendshipsUrl, {
         method: 'GET',
         headers: {
@@ -51,13 +52,12 @@ function getFriends() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
 
         for(let i = 0; i < data.length; i++) {
             let friendId;
             let friendUsername;
             
-            if (data[i].user1ID.userID === userID) {
+            if (data[i].user1ID.userID === userMainID) {
                 friendId = data[i].user2ID.userID;
                 friendUsername = data[i].user2ID.userName;
             }
@@ -97,7 +97,7 @@ function updateFriendlist() {
 }
 
 function getProfile() {
-    const userUrl = 'http://localhost:8080/user/name?id=' + userID;
+    const userUrl = 'http://localhost:8080/user/name?id=' + userMainID;
     const usernameElement = document.getElementById('popup-username');
     fetch(userUrl, {
         method: 'GET',
@@ -107,7 +107,6 @@ function getProfile() {
     })   
     .then(response => response.text())
     .then((text) => {
-        console.log(text);
         usernameElement.innerHTML = `<p>${text}</p>`;
     })
     .catch(err => console.error(err));
@@ -118,7 +117,7 @@ function getProfile() {
 function getCollection() {
     
     refreshCollection();
-    const url = 'http://localhost:8080/collection/byID?id=4';
+    const url = 'http://localhost:8080/collection/byID?id=' + userMainID;
     fetch(url, {
         method: 'GET',
         headers: {
@@ -190,61 +189,45 @@ function sendInvite(friendId) {
 
 
 
-//error 401 & home.js:215 Failed to add movie.
-function addCollection(movieTitle, movieRating, userID) {
-    const addCollectionUrl = 'http://localhost:8080/collection';
+function addCollection() {
+    const movieTitleInput = document.getElementById('movie_title');
+    const movieRatingInput = document.getElementById('movie_rating');
+    const movieTitle = movieTitleInput.value;
+    const movieRating = movieRatingInput.value;
+
+    const url = 'http://localhost:8080/collection';
     const requestBody = {
-        userID: userID,
+        userID: {userID: userMainID},
         movieTitle: movieTitle,
         userRating: movieRating
     };
-
-    fetch(addCollectionUrl, {
+    
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': basicAuth
         },
         body: JSON.stringify(requestBody)
-        
     })
-    
     .then(response => {
         if (response.ok) {
             console.log('Movie added successfully to collection.');
-            refreshCollection();
+            getCollection();
         } else {
-            
             console.error('Failed to add movie.');
         }
     })
     .catch(err => console.error(err));
 }
 
-
-
-  function addMovie() {
-      const movieTitleInput = document.getElementById('movie_title');
-      const movieRatingInput = document.getElementById('movie_rating');
-
-      const movieTitle = movieTitleInput.value;
-      const movieRating = parseFloat(movieRatingInput.value);
-
-      if (isNaN(movieRating) || movieRating < 0 || movieRating > 10) {
-          alert('Invalid rating.');
-          return;
-      }
-
-      addCollection(movieTitle, movieRating);
-      movieTitleInput.value = '';
-      movieRatingInput.value = '';
-  }
-
-function addFriend(user1ID,user2ID){
+function addFriend(){
+    const friendIDInput = document.getElementById('add_friend_user_id');
+    const friendID = friendIDInput.value;
     const addFriendUrl = 'http://localhost:8080/friendship/request';
     const requestUrl = {
-        user1ID: userID,
-        user2ID: userID,
+        user1ID: {userID: userMainID},
+        user2ID: {userID: friendID}
     };
     fetch(addFriendUrl, {
         method: 'POST',
@@ -254,32 +237,13 @@ function addFriend(user1ID,user2ID){
         },
         body: JSON.stringify(requestUrl)  
     })
-    
     .then(response => {
         if (response.ok) {
             console.log('successfully');
-            refreshCollection();
+            getFriends();
         } else {
-            
             console.error('Failed to add friend id.');
         }
     })
-    
     .catch(err => console.error(err));
-
-
-
-    fetch(addFriendUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': basicAuth
-        },
-        body: JSON.stringify(requestUrl)  
-    })
-    
-    .then(response => response.json())
-    .then(data => {console.log(data); })
 }
-
-//updateFriendlist
