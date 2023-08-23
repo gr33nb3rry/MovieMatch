@@ -1,4 +1,6 @@
 const basicAuth = "Basic YWRtaW46YWRtaW4";
+let currentMovieDescription;
+let currentMovieTitle;
 let userMainID = 6;
 let sessionID = parseInt(localStorage.getItem("sessionID"));
 let sessionUserID = parseInt(localStorage.getItem("sessionUserID"));
@@ -48,7 +50,16 @@ function getShortDescription(description) {
         return description.substring(0, 107) + '...';
     }
 }
+function getLongDescription(description) {
+    if (description.length <= 300) {
+        return description;
+    } else {
+        return description.substring(0, 297) + '...';
+    }
+}
 function updateCurrentMovie(data) {
+    currentMovieDescription = data.description;
+    currentMovieTitle = data.title;
     const movie = document.getElementById("main_movie");
     const code = 
     `
@@ -66,6 +77,16 @@ function updateCurrentMovie(data) {
     </div>
     `
     movie.innerHTML = code;
+}
+function showMoreMovieinfo() {
+    const text = document.getElementById("main_movie_text");
+    const code = 
+    `
+    <p style="text-align: center;opacity:50%;">click to read more</p>
+    <p>${getLongDescription(currentMovieDescription)}</p>
+    <h2>${currentMovieTitle}</h2>
+    `
+    text.innerHTML = code;
 }
 function likeMovie() {
     const url = 'http://localhost:8080/session/like?sessionID='+sessionID+'&userNumber='+sessionUserID;
