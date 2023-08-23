@@ -364,3 +364,35 @@ function addFriend(){
     })
     .catch(err => console.error(err));
 }
+
+const changePasswordButton = document.getElementById('change_password_button');
+changePasswordButton.addEventListener('click', openChangePasswordForm);
+
+function openChangePasswordForm() {
+
+    const passwordForm = document.getElementById('password_change_form');
+    passwordForm.style.display = 'block';
+}
+
+function closePasswordChangeForm() {
+    const passwordForm = document.getElementById('password_change_form');
+    const newPasswordInput = document.getElementById('new_password');
+    passwordForm.style.display = 'none';
+    newPasswordInput.value = '';
+}
+
+function changePassword(){
+    const newPassword = document.getElementById('new_password').value;
+    fetch('http://localhost:8080/user/password?id='+userID+'value='+newPassword, {
+        method: 'PUT',
+        headers: {
+            'Authorization': userToken,
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.text())
+    .then(text => {
+        console.log(text);
+    })
+    .catch(err => console.error(err));
+}

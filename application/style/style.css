@@ -176,5 +176,29 @@ hr {
     justify-content: center;
     align-items: center;
 }
+.popup_profile_change_button {
+    cursor: pointer;
+}
+#new_password {
+    font-family: 'Itim', cursive;
+    font-size: 1.3em;
+    color: #475d5b;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+}
+#new_password_button{
+    background-color: #faae2b;
+    /*display: flex;*/
+    color:#00332c;
+    align-items: center;
+    /*padding: 15px 20px 15px 20px;*/
+    font-size: 1.1em;
+    font-family: 'Itim', cursive;
+    border-radius: 30px;
+    border: 4px solid #00332c;
+    cursor: pointer;
 
+}
 

@@ -110,9 +110,14 @@
             <a href="#" style="text-decoration: none;"><div class="popup_profile_change_button">
                 Change username
             </div></a>
-            <a href="#" style="text-decoration: none;"><div class="popup_profile_change_button">
+            <div class="popup_profile_change_button" id="change_password_button">
                 Change password
-            </div></a>
+            </div>
+            <div id="password_change_form" style="display: none;">
+                <input type="password" id="new_password" placeholder="New password" required>
+                <button id="new_password_button" onclick="changePassword()">Save</button>
+                <button id="new_password_button" onclick="closePasswordChangeForm()">Cancel</button>
+            </div>
             <a href="#">
                 <div class="popup_close">
                     <img src="asset/close-cross.png" width="40px" height="40px">
