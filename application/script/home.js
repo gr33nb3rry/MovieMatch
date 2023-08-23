@@ -377,6 +377,10 @@ function joinSession() {
     .then(response => response.text())
     .then((text) => {
         sessionUserID = parseInt(text);
+
+        localStorage.setItem('sessionID', sessionID);
+        localStorage.setItem('sessionUserID', sessionUserID);
+
         window.location.replace(
             window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1)
             + "session.html"
