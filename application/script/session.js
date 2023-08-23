@@ -37,6 +37,26 @@ function getCurrentMovie() {
     .then(response => response.json())
     .then(data => {
         console.log(data);
+        updateCurrentMovie(data);
     })
     .catch(err => console.error(err));
+}
+function updateCurrentMovie(data) {
+    const movie = document.getElementById("main_movie");
+    const code = 
+    `
+    <img class="main_movie_image" src="${data.posterURL}">
+    <div id="main_movie_text">
+        <p style="text-align: center;opacity:50%;">click to read more</p>
+        <p>${data.description}</p>
+        <h2>${data.title}</h2>
+    </div>
+    <div id="main_movie_upper">
+        <div class="main_movie_rating">${data.rating}</div>
+        <div class="main_movie_genre">
+            <img src="asset/heart.png">
+        </div>
+    </div>
+    `
+    movie.innerHTML = code;
 }
