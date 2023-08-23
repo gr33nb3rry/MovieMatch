@@ -53,7 +53,6 @@
                         </div>
                         <p class="friend_name">Friend name</p>
                     </div>
-                <hr >
                     <a href="#popup-filters"><div class="friend_picture" style="background-color: #faae2b;">
                         <img src="asset/popcorn.png"  width="25px" height="30px">
                     </div></a>
@@ -142,7 +141,7 @@
         <div class="popup_container">
             <h1>Choose filters</h1>
             
-            <form id="movie_filters_form">
+            <form onsubmit="event.preventDefault(); sendInvite()" id="movie_filters_form">
                 <fieldset>
                     <legend>Genres</legend>
                     <label><input type="checkbox" name="genre" value="ACTION"> Action</label><br>
