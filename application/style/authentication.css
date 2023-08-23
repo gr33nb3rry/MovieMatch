@@ -9,6 +9,7 @@ body {
 	background-repeat: space;
 	background-size: 50px 70px;
 
+	color: #475d5b;
 	font-family: 'Itim', cursive;
 }
 
@@ -17,7 +18,8 @@ body {
 }
 
 .header {
-	font-family: 'Borel', cursive; 
+	font-family: 'Borel', cursive;
+	color: #00332c;
     margin: 0.25em 0;
 }
 
@@ -30,22 +32,33 @@ body {
 }
 
 .text-1 {
-	color: #00332c; 
 	font-size: 2.5em;
 }
 
 .text-2 {
-	color: #475d5b;
 	font-size: 1.5em;
 }
 
+.text-3 {
+	font-size: 1.25em;
+}
+
+.notification {
+	display: block;
+
+	padding: 0.5em 1em;
+	border-width: 4px;
+	border-style: solid;
+	border-radius: 20px;
+}
+
 .container {
-	display: flex;
 	margin: 2em;
 }
 
 .prompt {
 	margin: auto;
+	max-width: 450px;
 }
 
 .input-label {
@@ -85,12 +98,20 @@ body {
 
 .secondary-color, .button.secondary-color:active {
 	background: #EBB65A;
-
 }
 
-.primary-color, .secondary-color {
+.error-color {
+	background: #e7a6a6;
+	border-color: #691d1d;
+}
+
+.primary-color, .secondary-color, .error-color {
 	color: white;
 	text-shadow: 0.1em 0.1em 0 rgba(0, 0, 0, 0.4);
+}
+
+.hidden {
+	display: none;
 }
 
 .button {
