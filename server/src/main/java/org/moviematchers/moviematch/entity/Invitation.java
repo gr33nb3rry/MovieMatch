@@ -49,6 +49,10 @@ public class Invitation {
         this.movieCountry = movieCountry;
         this.isMovieAdult = isMovieAdult;
     }
+    public Invitation(Long userIDInitiator, Long userIDInvited) {
+        this.userIDInitiator = userIDInitiator;
+        this.userIDInvited = userIDInvited;
+    }
 
     public Long getInvitationID() {
         return invitationID;
