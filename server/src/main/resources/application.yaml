@@ -20,5 +20,5 @@ movie-match:
       private-key: certificate/private.pem
   provider:
     the-movie-db:
-      api-key: 0b5c632fd58d000a27736409177ef13a
+      api-key: 3963874aea0d1648ed6aed15e1f837bf
       api-token: eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjVjNjMyZmQ1OGQwMDBhMjc3MzY0MDkxNzdlZjEzYSIsInN1YiI6IjY0ZGE5YWZhZjQ5NWVlMDI4ZjY1OTA1NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.v1Im4HTqaSm-mC4su1N3-08k7NO3sRoH74VJVTSjbPA
