@@ -174,8 +174,9 @@ function setInviteFriendID(friendId) {
 }
 function sendInvite() {
     const form = document.getElementById("movie_filters_form");
-
-    const selectedGenres = Array.from(form.elements["genre"]).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+    const selectedGenres = Array.from(form.elements["genre"])
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
     const selectedDateStart = form.elements["start_year"].value;
     const selectedDateEnd = form.elements["end_year"].value;
     const selectedCountry = form.elements["country"].value;
@@ -209,12 +210,9 @@ function sendInvite() {
         },
         body: JSON.stringify(inviteData)
     })
-    .then(response => {
-        if (response.ok) {
-            console.log('Success.');
-        } else {
-            console.error('Failure.');
-        }
+    .then(response => response.text())
+    .then((text) => {
+        console.log(text);
     })
     .catch(err => console.error(err));
   
