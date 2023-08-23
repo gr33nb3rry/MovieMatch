@@ -3,11 +3,10 @@ body {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
     background-color: #f2f7f5;
-    background-repeat: repeat;
-
-    background-image: 
-        url("https://i.postimg.cc/DyxyhDhR/background-Test.png");
-    background-repeat: repeat;
+    
+    background: #F2F7F5 url("../asset/svg/popcorn.svg");
+    background-repeat: space;
+    background-size: 50px 70px;
 }
 body::-webkit-scrollbar {
     display: none;

@@ -1,0 +1,105 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #F2F7F5 url("../asset/svg/popcorn.svg");
+	background-repeat: space;
+	background-size: 50px 70px;
+
+	font-family: 'Itim', cursive;
+}
+
+.navigation-bar {
+	padding: 2em 2em;
+}
+
+.header {
+	font-family: 'Borel', cursive; 
+    margin: 0.25em 0;
+}
+
+.paragraph, .input-label {
+    margin: 0.25em 0;
+}
+
+.paragraph {
+	max-width: 500px;
+}
+
+.text-1 {
+	color: #00332c; 
+	font-size: 2.5em;
+}
+
+.text-2 {
+	color: #475d5b;
+	font-size: 1.5em;
+}
+
+.container {
+	display: flex;
+	margin: 2em;
+}
+
+.prompt {
+	margin: auto;
+}
+
+.input-label {
+	cursor: default;
+}
+
+.input {
+	box-sizing: border-box;
+	font-size: 1.5em;
+	margin: 0.5em 0;
+	padding: 0.35em 1em;
+
+
+	font-family: inherit;
+	border: 4px solid #00332c;
+	border-radius: 50px;
+
+}
+
+.text-field {
+	background: white;
+}
+
+
+.button.primary-color:hover {
+	background: #586c6a;
+}
+
+
+.button.secondary-color:hover {
+	background: #ecbc69;
+}
+
+.primary-color, .button.primary-color:active {
+	background: #475D5B;
+}
+
+.secondary-color, .button.secondary-color:active {
+	background: #EBB65A;
+
+}
+
+.primary-color, .secondary-color {
+	color: white;
+	text-shadow: 0.1em 0.1em 0 rgba(0, 0, 0, 0.4);
+}
+
+.button {
+	cursor: pointer;
+}
+
+
+.full-width {
+	display: block;
+
+	width: 100%;
+}
