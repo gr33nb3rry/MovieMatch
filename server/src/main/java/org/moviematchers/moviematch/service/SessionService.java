@@ -134,17 +134,19 @@ public class SessionService {
             int index = SessionManager.sessionCurrentMovieIndex.get(sessionID)[userNumber];
 
             String likedMovieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber];
-            int[] indexes = Arrays.stream(likedMovieIndexes.split("\\s+"))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-            int lastLikedIndex = indexes[indexes.length-1];
+            if(!Objects.equals(likedMovieIndexes, "")) {
+                int[] indexes = Arrays.stream(likedMovieIndexes.split("\\s+"))
+                        .mapToInt(Integer::parseInt)
+                        .toArray();
+                int lastLikedIndex = indexes[indexes.length - 1];
 
-            if (index == lastLikedIndex) {
-                String newLikedMovies = Arrays.stream(indexes)
-                        .limit(indexes.length - 1)
-                        .mapToObj(String::valueOf)
-                        .collect(Collectors.joining(" "));
-                SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber] = newLikedMovies;
+                if (index == lastLikedIndex) {
+                    String newLikedMovies = Arrays.stream(indexes)
+                            .limit(indexes.length - 1)
+                            .mapToObj(String::valueOf)
+                            .collect(Collectors.joining(" "));
+                    SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber] = newLikedMovies;
+                }
             }
         }
         else logger.error("Cannot return last movie, because current movie index is 0");
