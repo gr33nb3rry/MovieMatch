@@ -65,7 +65,7 @@ class CollectionServiceTest {
     }
 
     @Test
-    void getMovieFromAPIByName() {
+    void canGetMovieFromAPIByName() {
         // given
         String test = "Batman";
         List<Movie> mockedMovies = new ArrayList<>();
@@ -79,7 +79,7 @@ class CollectionServiceTest {
     }
 
     @Test
-    void getAllCollectionsOfUserFromAPI() {
+    void canGetAllCollectionsOfUserFromAPI() {
         // given
         Long userId = 1L;
         MovieUser user = new MovieUser(userId, "testName");
