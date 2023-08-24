@@ -282,7 +282,7 @@ class SessionServiceTest {
     }
 
     @Test
-    void getLastMatch() {
+    void canGetLastMatch() {
         // given
         Long sessionId = 1L;
         List<Movie> fetchedMovies = new ArrayList<>();
