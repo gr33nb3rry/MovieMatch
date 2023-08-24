@@ -89,6 +89,7 @@
     align-items: center;
 }
 #main_movie {
+    height: 480px;
     padding: 15px;
     background-color: #faae2b;
     border: 4px solid #00332c;
