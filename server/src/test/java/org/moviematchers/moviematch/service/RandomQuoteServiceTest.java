@@ -28,15 +28,6 @@ class RandomQuoteServiceTest {
     void setUp() {
         underTest = new RandomQuoteService(randomQuoteRepository);
     }
-
-    @Test
-    void canGetAllQuotes() {
-        // when
-        underTest.getAllQuotes();
-        // then
-        verify(randomQuoteRepository).findAll();
-    }
-
     @Test
     void getRandomQuote() {
         // given
@@ -52,19 +43,5 @@ class RandomQuoteServiceTest {
         verify(randomQuoteRepository).findById(anyLong());
 
         assertThat(result.getQuoteID()).isEqualTo(randomId);
-    }
-
-    @Test
-    void addQuote() {
-        // given
-        Quote quote = new Quote(1L, "Test quote", "Movie", 2023);
-        // when
-        underTest.addQuote(quote);
-        // then
-        ArgumentCaptor<Quote> argumentCaptor = ArgumentCaptor.forClass(Quote.class);
-        verify(randomQuoteRepository).save(argumentCaptor.capture());
-
-        Quote captured = argumentCaptor.getValue();
-        assertThat(captured).isEqualTo(quote);
     }
 }

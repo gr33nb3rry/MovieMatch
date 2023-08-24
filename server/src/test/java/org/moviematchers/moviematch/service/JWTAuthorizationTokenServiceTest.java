@@ -32,7 +32,7 @@ class JWTAuthorizationTokenServiceTest {
     }
 
     @Test
-    void generateToken() {
+    void canGenerateToken() {
         // given
         Authentication authentication = mock(Authentication.class);
         when(authentication.getName()).thenReturn("username");

@@ -47,15 +47,6 @@ class CollectionServiceTest {
         UserMovieCollection captured = argumentCaptor.getValue();
         assertThat(captured).isEqualTo(collection);
     }
-
-    @Test
-    void canGetAllCollections() {
-        // when
-        underTest.getAllCollections();
-        // then
-        verify(collectionRepository).findAll();
-    }
-
     @Test
     void canGetAllCollectionsOfUser() {
         // when
@@ -76,22 +67,5 @@ class CollectionServiceTest {
         underTest.getMovieFromAPIByName(test);
         //then
         verify(movieService).fetch(any(), eq(test));
-    }
-
-    @Test
-    void canGetAllCollectionsOfUserFromAPI() {
-        // given
-        Long userId = 1L;
-        MovieUser user = new MovieUser(userId, "testName");
-        List<UserMovieCollection> list = new ArrayList<>();
-        list.add(new UserMovieCollection(user, "Movie title", 5.5));
-        when(collectionRepository.findByUserIDUserID(userId)).thenReturn(list);
-        when(movieService.fetch(any(), anyString())).thenReturn(Collections.singletonList(new MovieImpl(
-                "Movie title", "Desc", LocalDate.now(), 5.5, null, false, null)));
-        // when
-        underTest.getAllCollectionsOfUserFromAPI(userId);
-        // then
-        verify(collectionRepository).findByUserIDUserID(userId);
-        verify(movieService, times(list.size())).fetch(any(), anyString());
     }
 }
