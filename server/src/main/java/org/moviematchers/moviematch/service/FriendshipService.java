@@ -28,10 +28,6 @@ public class FriendshipService {
     }
 
 
-    public List<MovieFriendship> getAllFriendships() {
-        return friendshipRepository.findAll();
-    }
-
     public boolean addFriendship(MovieFriendship friendship) {
         try {
             Long user1ID = friendship.getUser1ID().getUserID();

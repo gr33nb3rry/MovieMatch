@@ -49,14 +49,6 @@ class FriendshipServiceTest {
     }
 
     @Test
-    void canGetAllFriendships() {
-        // when
-        underTest.getAllFriendships();
-        // then
-        verify(friendshipRepository).findAll();
-    }
-
-    @Test
     void canAddFriendship() {
         // given
         MovieUser user1 = new MovieUser(1L, "name1");

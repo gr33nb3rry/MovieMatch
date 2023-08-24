@@ -42,7 +42,7 @@ class CollectionControllerTest {
         // then
         verify(service).getMovieFromAPIByName(movieTitle);
     }
-    
+
     @Test
     void addCollection() {
         // given
