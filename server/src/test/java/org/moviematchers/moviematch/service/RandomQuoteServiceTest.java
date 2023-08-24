@@ -1,0 +1,70 @@
+package org.moviematchers.moviematch.service;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.moviematchers.moviematch.entity.MovieUser;
+import org.moviematchers.moviematch.entity.Quote;
+import org.moviematchers.moviematch.repository.RandomQuoteRepository;
+
+import java.util.Optional;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class RandomQuoteServiceTest {
+    @Mock
+    private RandomQuoteRepository randomQuoteRepository;
+    private RandomQuoteService underTest;
+
+    @BeforeEach
+    void setUp() {
+        underTest = new RandomQuoteService(randomQuoteRepository);
+    }
+
+    @Test
+    void canGetAllQuotes() {
+        // when
+        underTest.getAllQuotes();
+        // then
+        verify(randomQuoteRepository).findAll();
+    }
+
+    @Test
+    void getRandomQuote() {
+        // given
+        long quoteCount = 10L;
+        long randomId = 5L;
+        Quote randomQuote = new Quote(randomId, "Quote text", "Movie title", 2023);
+        when(randomQuoteRepository.count()).thenReturn(quoteCount);
+        when(randomQuoteRepository.findById(anyLong())).thenReturn(Optional.of(randomQuote));
+        // when
+        Quote result = underTest.getRandomQuote();
+        // then
+        verify(randomQuoteRepository).count();
+        verify(randomQuoteRepository).findById(anyLong());
+
+        assertThat(result.getQuoteID()).isEqualTo(randomId);
+    }
+
+    @Test
+    void addQuote() {
+        // given
+        Quote quote = new Quote(1L, "Test quote", "Movie", 2023);
+        // when
+        underTest.addQuote(quote);
+        // then
+        ArgumentCaptor<Quote> argumentCaptor = ArgumentCaptor.forClass(Quote.class);
+        verify(randomQuoteRepository).save(argumentCaptor.capture());
+
+        Quote captured = argumentCaptor.getValue();
+        assertThat(captured).isEqualTo(quote);
+    }
+}
