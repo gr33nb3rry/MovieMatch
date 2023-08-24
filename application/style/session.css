@@ -168,3 +168,34 @@
 .main_movie_genre img{
     width: 50px;
 }
+#history_movies {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap:10px;
+    position: relative;
+    padding: 20px;
+}
+.history_movie {
+    position:relative;
+}
+.history_movie img{
+    border: 4px solid #8bd3dd;
+    border-radius: 30px;
+}
+.history_movie_rating {
+    width: 40px;
+    height: 40px;
+    background-color: #8bd3dd;
+    border: 4px solid #00332c;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:absolute;
+    top: -12px;
+    right: -12px;
+    color: #00332c;
+    font-family: 'Itim', cursive;
+    font-size: 1.2em;
+}
