@@ -9,14 +9,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.moviematchers.moviematch.entity.MovieFriendship;
 import org.moviematchers.moviematch.entity.MovieUser;
-import org.moviematchers.moviematch.entity.UserMovieCollection;
 import org.moviematchers.moviematch.repository.FriendshipRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
