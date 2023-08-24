@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class FriendshipServiceTest {
@@ -71,5 +70,28 @@ class FriendshipServiceTest {
 
         MovieFriendship captured = argumentCaptor.getValue();
         AssertionsForClassTypes.assertThat(captured).isEqualTo(friendship);
+    }
+    @Test
+    void cannotAddFriendshipBecauseTheSameUsers() {
+        // given
+        MovieUser user1 = new MovieUser(1L, "name1");
+        MovieFriendship friendship = new MovieFriendship(user1, user1);
+
+        // when
+        boolean result = underTest.addFriendship(friendship);
+        // then
+        assertThat(result).isEqualTo(false);
+    }
+    @Test
+    void cannotAddFriendship() {
+        // given
+        MovieUser user1 = new MovieUser(1L, "name1");
+        MovieUser user2 = new MovieUser(2L, "name2");
+        MovieFriendship friendship = new MovieFriendship(user1, user2);
+        doThrow(new RuntimeException("Some error")).when(friendshipRepository).save(friendship);
+        // when
+        boolean result = underTest.addFriendship(friendship);
+        // then
+        assertThat(result).isEqualTo(false);
     }
 }

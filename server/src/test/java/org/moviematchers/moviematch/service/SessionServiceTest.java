@@ -368,10 +368,10 @@ class SessionServiceTest {
         SessionManager.sessionCurrentMovieIndex.get(sessionId)[1] = 0;
         SessionManager.sessionLikedMovieIndex.put(sessionId, new String[2]);
         SessionManager.sessionLikedMovieIndex.get(sessionId)[0] = "0 1 2";
-        SessionManager.sessionLikedMovieIndex.get(sessionId)[1] = "0 2";
+        SessionManager.sessionLikedMovieIndex.get(sessionId)[1] = "";
         // when
-        // then
         boolean result = underTest.checkForNewMatch(sessionId);
+        // then
         assertThat(result).isEqualTo(false);
     }
     @Test
@@ -386,9 +386,9 @@ class SessionServiceTest {
         SessionManager.sessionLikedMovieIndex.get(sessionId)[0] = "0 1 2";
         SessionManager.sessionLikedMovieIndex.get(sessionId)[1] = "0 2";
         // when
-        // then
         boolean result = underTest.checkForNewMatch(sessionId);
-        assertThat(result).isEqualTo(false);
+        // then
+        assertThat(result).isEqualTo(true);
     }
 
     @Test
