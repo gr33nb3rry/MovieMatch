@@ -134,24 +134,25 @@ public class SessionService {
             int index = SessionManager.sessionCurrentMovieIndex.get(sessionID)[userNumber];
 
             String likedMovieIndexes = SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber];
-            int[] indexes = Arrays.stream(likedMovieIndexes.split("\\s+"))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-            int lastLikedIndex = indexes[indexes.length-1];
+            if(!Objects.equals(likedMovieIndexes, "")) {
+                int[] indexes = Arrays.stream(likedMovieIndexes.split("\\s+"))
+                        .mapToInt(Integer::parseInt)
+                        .toArray();
+                int lastLikedIndex = indexes[indexes.length - 1];
 
-            if (index == lastLikedIndex) {
-                String newLikedMovies = Arrays.stream(indexes)
-                        .limit(indexes.length - 1)
-                        .mapToObj(String::valueOf)
-                        .collect(Collectors.joining(" "));
-                SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber] = newLikedMovies;
+                if (index == lastLikedIndex) {
+                    String newLikedMovies = Arrays.stream(indexes)
+                            .limit(indexes.length - 1)
+                            .mapToObj(String::valueOf)
+                            .collect(Collectors.joining(" "));
+                    SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber] = newLikedMovies;
+                }
             }
         }
         else logger.error("Cannot return last movie, because current movie index is 0");
 
         return getCurrentMovie(sessionID, userNumber);
     }
-
     public List<Movie> getLikedMovies(Long sessionID, int userNumber) {
         if (Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[userNumber], ""))
             return new ArrayList<>();
@@ -166,7 +167,6 @@ public class SessionService {
         }
         return likedMovies;
     }
-
     public List<Movie> getMatches(Long sessionID) {
         if (Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[0], "") ||
                 Objects.equals(SessionManager.sessionLikedMovieIndex.get(sessionID)[1], "")) {
@@ -213,7 +213,6 @@ public class SessionService {
                 .filter(element -> Arrays.stream(User2Indexes).anyMatch(e -> e == element))
                 .count();
     }
-
     public boolean checkForNewMatch(Long sessionID) {
         int matchCount = getMatchCount(sessionID);
         if (matchCount > SessionManager.sessionMatchCount.get(sessionID)){
@@ -223,7 +222,6 @@ public class SessionService {
         }
         else return false;
     }
-
     public Movie getLastMatch(Long sessionID) {
         List<Movie> matches = getMatches(sessionID);
         if (matches.size() == 0) {
@@ -231,12 +229,5 @@ public class SessionService {
             return null;
         }
         return matches.get(matches.size()-1);
-    }
-
-
-    public Long getSessionIDByInvite(Long invitationID) {
-        Session session = sessionRepository.findByInvitationID(invitationID);
-        if (session != null) return session.getSessionID();
-        else return -1L;
     }
 }

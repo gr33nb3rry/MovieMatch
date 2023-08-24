@@ -1,6 +1,5 @@
 package org.moviematchers.moviematch.service;
 
-import org.moviematchers.moviematch.MovieMatchApplication;
 import org.moviematchers.moviematch.entity.Quote;
 import org.moviematchers.moviematch.repository.RandomQuoteRepository;
 import org.slf4j.Logger;
@@ -8,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -20,9 +18,6 @@ public class RandomQuoteService {
     public RandomQuoteService(RandomQuoteRepository randomQuoteRepository) {
         this.randomQuoteRepository = randomQuoteRepository;
     }
-    public List<Quote> getAllQuotes() {
-        return randomQuoteRepository.findAll();
-    }
     public Quote getRandomQuote() {
         Random random = new Random();
         long quoteCount = randomQuoteRepository.count();
@@ -32,15 +27,5 @@ public class RandomQuoteService {
         Optional<Quote> quote = randomQuoteRepository.findById(id);
         return quote.orElseGet(Quote::new);
 
-    }
-
-    public boolean addQuote(Quote quote) {
-        try {
-            randomQuoteRepository.save(quote);
-            return true;
-        }
-        catch(Exception e) {
-            return false;
-        }
     }
 }

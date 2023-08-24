@@ -19,10 +19,6 @@ public class FriendshipController {
         this.friendshipService = friendshipService;
     }
 
-    @GetMapping("all")
-    public List<MovieFriendship> getAllFriendships() {
-        return friendshipService.getAllFriendships();
-    }
     @GetMapping("byID")
     public List<MovieFriendship> getFriendshipsForUser(@RequestParam Long id) {
 

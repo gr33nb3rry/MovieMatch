@@ -34,9 +34,6 @@ public class CollectionService {
 
     }
 
-    public List<UserMovieCollection> getAllCollections() {
-        return collectionRepository.findAll();
-    }
 
     public List<UserMovieCollection> getAllCollectionsOfUser(Long id) {
         return collectionRepository.findByUserIDUserID(id);
@@ -48,18 +45,5 @@ public class CollectionService {
         logger.info("Fetched movie IMDB rating: {}", movies.get(0).getRating());
         logger.info("Fetched movie release date: {}", movies.get(0).getReleaseDate());
         return movies.get(0);
-    }
-
-    public List<Movie> getAllCollectionsOfUserFromAPI(Long id) {
-        List<UserMovieCollection> userMovieCollections = collectionRepository.findByUserIDUserID(id);
-        List<Movie> movieCollectionsFromDB = new ArrayList<Movie>();
-
-        for (UserMovieCollection movie : userMovieCollections) {
-            List<Movie> movies = this.movieService.fetch(options -> {}, movie.getMovieTitle());
-            movieCollectionsFromDB.add(movies.get(0));
-            logger.info("Fetched movie title: {}", movies.get(0).getTitle());
-        }
-
-        return movieCollectionsFromDB;
     }
 }
