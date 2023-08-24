@@ -233,21 +233,23 @@ function sendInvite() {
 
 function checkForSessionCreating() {
     //method to fetch sessions by lastInviteID if that session exists -> join
-    const url = 'http://localhost:8080/session/byInvite?invitationID='+lastInviteSentID;
+    if (lastInviteSentID > 0) {
+        const url = 'http://localhost:8080/session/byInvite?invitationID='+lastInviteSentID;
 
-    fetch(url, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': basicAuth
-        }
-    })
-    .then(response => response.text())
-    .then((text) => {
-        sessionID = parseInt(text);
-        if (sessionID >= 0) joinSession();
-    })
-    .catch(err => console.error(err));
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': basicAuth
+            }
+        })
+        .then(response => response.text())
+        .then((text) => {
+            sessionID = parseInt(text);
+            if (sessionID >= 0) joinSession();
+        })
+        .catch(err => console.error(err));
+    }
 }
 function checkForInvite() {
     const url = 'http://localhost:8080/invite/byID?id=' + userMainID;
