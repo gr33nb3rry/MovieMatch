@@ -43,6 +43,11 @@ public class SessionService {
             return false;
         }
     }
+    public Long getSessionIDByInvite(Long invitationID) {
+        Session session = sessionRepository.findByInvitationID(invitationID);
+        if (session != null) return session.getSessionID();
+        else return -1L;
+    }
 
     public int joinSession(Long sessionID, Long userID) {
         Optional<Session> sessionByID = sessionRepository.findById(sessionID);
