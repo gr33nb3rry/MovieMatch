@@ -71,7 +71,7 @@ class InvitationServiceTest {
     }
 
     @Test
-    void getLastInvitationsByID() {
+    void canGetLastInvitationsByID() {
         // given
         Long userId = 2L;
         Invitation invitation1 = new Invitation(1L, userId);
