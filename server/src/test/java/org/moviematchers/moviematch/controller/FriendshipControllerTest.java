@@ -39,10 +39,10 @@ class FriendshipControllerTest {
         // given
         MovieUser user1 = new MovieUser(1L, "name1");
         MovieUser user2 = new MovieUser(2L, "name2");
-        MovieFriendship collection = new MovieFriendship(user1, user2);
+        MovieFriendship friendship = new MovieFriendship(user1, user2);
         // when
-        underTest.addFriendship(collection);
+        underTest.addFriendship(friendship);
         // then
-        verify(service).addFriendship(collection);
+        verify(service).addFriendship(friendship);
     }
 }
