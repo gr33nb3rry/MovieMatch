@@ -18,8 +18,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -62,6 +61,19 @@ class UserServiceTest {
         MovieUser capturedUser = argumentCaptor.getValue();
         assertThat(capturedUser).isEqualTo(user);
     }
+    @Test
+    void cannotAddUser() {
+        // given
+        MovieUser user = new MovieUser(
+                "testName",
+                "password");
+        doThrow(new RuntimeException("Some error")).when(userRepository).save(user);
+        // when
+        boolean result = underTest.addUser(user);
+        // then
+
+        assertThat(result).isEqualTo(false);
+    }
 
     @Test
     void canChangePassword() {
@@ -78,6 +90,27 @@ class UserServiceTest {
         // then
         verify(userRepository).findById(1L);
         verify(bCryptPasswordEncoder).encode(newPassword);
+    }
+    @Test
+    void cannotChangePassword() {
+        // given
+        String newPassword = "newPassword";
+        doThrow(new RuntimeException("Some error")).when(userRepository).findById(1L);
+        // when
+        boolean result = underTest.changePassword(1L, newPassword);
+        // then
+        assertThat(result).isEqualTo(false);
+    }
+    @Test
+    void cannotChangePasswordBecauseOfBadPassword() {
+        // given
+        MovieUser user = new MovieUser("testName", "password");
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        // when
+        boolean result = underTest.changePassword(1L, null);
+        // then
+        assertThat(result).isEqualTo(false);
     }
 
     @Test

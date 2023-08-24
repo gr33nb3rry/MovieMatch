@@ -61,9 +61,25 @@ class SessionServiceTest {
         Session captured = argumentCaptor.getValue();
         assertThat(captured).isEqualTo(session);
     }
+    @Test
+    void cannotCreateSession() {
+        // given
+        Long user1Id = 1L;
+        Long user2Id = 2L;
+        Session session = new Session(1L, 1L, user1Id, user2Id);
+
+        // Configure the sessionRepository to throw an exception when save is called
+        doThrow(new RuntimeException("Save failed")).when(sessionRepository).save(any(Session.class));
+
+        // when
+        boolean result = underTest.createSession(session);
+
+        // then
+        assertThat(result).isEqualTo(false);
+    }
 
     @Test
-    void canJoinSession() {
+    void canJoinSessionUser1() {
         // given
         Long userId = 1L;
         Long user1Id = 1L;
@@ -76,6 +92,48 @@ class SessionServiceTest {
         verify(sessionRepository).findById(anyLong());
 
         assertThat(result).isEqualTo(0);
+    }
+    @Test
+    void canJoinSessionUser2() {
+        // given
+        Long userId = 2L;
+        Long user1Id = 1L;
+        Long user2Id = 2L;
+        Session session = new Session(1L, 1L, user1Id, user2Id);
+        when(sessionRepository.findById(anyLong())).thenReturn(Optional.of(session));
+        // when
+        int result = underTest.joinSession(1L, userId);
+        // then
+        verify(sessionRepository).findById(anyLong());
+
+        assertThat(result).isEqualTo(1);
+    }
+    @Test
+    void cannotJoinSessionBecauseSessionNotFound() {
+        // given
+        when(sessionRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        // when
+        int result = underTest.joinSession(1L, 1L);
+
+        // then
+        verify(sessionRepository).findById(anyLong());
+        assertThat(result).isEqualTo(-1);
+    }
+    @Test
+    void cannotJoinSessionUserNotMatching() {
+        // given
+        Long userId = 3L;
+        Long user1Id = 1L;
+        Long user2Id = 2L;
+        Session session = new Session(1L, 1L, user1Id, user2Id);
+        when(sessionRepository.findById(anyLong())).thenReturn(Optional.of(session));
+        // when
+        int result = underTest.joinSession(1L, userId);
+        // then
+        verify(sessionRepository).findById(anyLong());
+
+        assertThat(result).isEqualTo(-1);
     }
 
     @Test
@@ -163,7 +221,7 @@ class SessionServiceTest {
     }
 
     @Test
-    void canLikeMovie() {
+    void canLikeFirstMovie() {
         // given
         Long sessionId = 1L;
         int userNumber = 0;
@@ -182,6 +240,26 @@ class SessionServiceTest {
         assertThat(result).isEqualTo(fetchedMovies.get(1));
         assertThat(SessionManager.sessionLikedMovieIndex.get(sessionId)[0]).isEqualTo("0");
     }
+    @Test
+    void canLikeNotFirstMovie() {
+        // given
+        Long sessionId = 1L;
+        int userNumber = 0;
+        List<Movie> fetchedMovies = new ArrayList<>();
+        fetchedMovies.add(new MovieImpl("Movie 1", "Description 1", LocalDate.now(), 7.5, null, false, null));
+        fetchedMovies.add(new MovieImpl("Movie 2", "Description 2", LocalDate.now(), 8.0, null, false, null));
+        fetchedMovies.add(new MovieImpl("Movie 3", "Description 3", LocalDate.now(), 7.5, null, false, null));
+        SessionManager.sessionMovies.put(sessionId, fetchedMovies);
+        SessionManager.sessionCurrentMovieIndex.put(sessionId, new Integer[2]);
+        SessionManager.sessionCurrentMovieIndex.get(sessionId)[0] = 0;
+        SessionManager.sessionLikedMovieIndex.put(sessionId, new String[2]);
+        SessionManager.sessionLikedMovieIndex.get(sessionId)[0] = "0";
+        // when
+        Movie result = underTest.likeMovie(sessionId, userNumber);
+        // then
+        assertThat(result).isEqualTo(fetchedMovies.get(1));
+        assertThat(SessionManager.sessionLikedMovieIndex.get(sessionId)[0]).isEqualTo("0 0");
+    }
 
     @Test
     void canReturnLastMovie() {
@@ -197,6 +275,25 @@ class SessionServiceTest {
         SessionManager.sessionCurrentMovieIndex.get(sessionId)[0] = 1;
         SessionManager.sessionLikedMovieIndex.put(sessionId, new String[2]);
         SessionManager.sessionLikedMovieIndex.get(sessionId)[0] = "";
+        // when
+        Movie result = underTest.returnLastMovie(sessionId, userNumber);
+        // then
+        assertThat(result).isEqualTo(fetchedMovies.get(0));
+    }
+    @Test
+    void canReturnLastMovieAndRemoveLike() {
+        // given
+        Long sessionId = 1L;
+        int userNumber = 0;
+        List<Movie> fetchedMovies = new ArrayList<>();
+        fetchedMovies.add(new MovieImpl("Movie 1", "Description 1", LocalDate.now(), 7.5, null, false, null));
+        fetchedMovies.add(new MovieImpl("Movie 2", "Description 2", LocalDate.now(), 8.0, null, false, null));
+        fetchedMovies.add(new MovieImpl("Movie 3", "Description 3", LocalDate.now(), 7.5, null, false, null));
+        SessionManager.sessionMovies.put(sessionId, fetchedMovies);
+        SessionManager.sessionCurrentMovieIndex.put(sessionId, new Integer[2]);
+        SessionManager.sessionCurrentMovieIndex.get(sessionId)[0] = 1;
+        SessionManager.sessionLikedMovieIndex.put(sessionId, new String[2]);
+        SessionManager.sessionLikedMovieIndex.get(sessionId)[0] = "0";
         // when
         Movie result = underTest.returnLastMovie(sessionId, userNumber);
         // then
@@ -262,7 +359,7 @@ class SessionServiceTest {
     }
 
     @Test
-    void canCheckForNewMatch() {
+    void canCheckForNewMatchFalse() {
         // given
         Long sessionId = 1L;
         SessionManager.sessionMatchCount.put(sessionId, 0);
@@ -273,12 +370,25 @@ class SessionServiceTest {
         SessionManager.sessionLikedMovieIndex.get(sessionId)[0] = "0 1 2";
         SessionManager.sessionLikedMovieIndex.get(sessionId)[1] = "0 2";
         // when
-        boolean result1 = underTest.checkForNewMatch(sessionId);
         // then
-        assertThat(result1).isEqualTo(true);
+        boolean result = underTest.checkForNewMatch(sessionId);
+        assertThat(result).isEqualTo(false);
+    }
+    @Test
+    void canCheckForNewMatchTrue() {
+        // given
+        Long sessionId = 1L;
+        SessionManager.sessionMatchCount.put(sessionId, 0);
+        SessionManager.sessionCurrentMovieIndex.put(sessionId, new Integer[2]);
+        SessionManager.sessionCurrentMovieIndex.get(sessionId)[0] = 0;
+        SessionManager.sessionCurrentMovieIndex.get(sessionId)[1] = 0;
+        SessionManager.sessionLikedMovieIndex.put(sessionId, new String[2]);
+        SessionManager.sessionLikedMovieIndex.get(sessionId)[0] = "0 1 2";
+        SessionManager.sessionLikedMovieIndex.get(sessionId)[1] = "0 2";
+        // when
         // then
-        boolean result2 = underTest.checkForNewMatch(sessionId);
-        assertThat(result2).isEqualTo(false);
+        boolean result = underTest.checkForNewMatch(sessionId);
+        assertThat(result).isEqualTo(false);
     }
 
     @Test
@@ -300,5 +410,25 @@ class SessionServiceTest {
         Movie result = underTest.getLastMatch(sessionId);
         // then
         assertThat(result).isEqualTo(fetchedMovies.get(2));
+    }
+    @Test
+    void cannotGetLastMatch() {
+        // given
+        Long sessionId = 1L;
+        List<Movie> fetchedMovies = new ArrayList<>();
+        fetchedMovies.add(new MovieImpl("Movie 1", "Description 1", LocalDate.now(), 7.5, null, false, null));
+        fetchedMovies.add(new MovieImpl("Movie 2", "Description 2", LocalDate.now(), 8.0, null, false, null));
+        fetchedMovies.add(new MovieImpl("Movie 3", "Description 3", LocalDate.now(), 7.5, null, false, null));
+        SessionManager.sessionMovies.put(sessionId, fetchedMovies);
+        SessionManager.sessionCurrentMovieIndex.put(sessionId, new Integer[2]);
+        SessionManager.sessionCurrentMovieIndex.get(sessionId)[0] = 0;
+        SessionManager.sessionCurrentMovieIndex.get(sessionId)[1] = 0;
+        SessionManager.sessionLikedMovieIndex.put(sessionId, new String[2]);
+        SessionManager.sessionLikedMovieIndex.get(sessionId)[0] = "0 1 2";
+        SessionManager.sessionLikedMovieIndex.get(sessionId)[1] = "";
+        // when
+        Movie result = underTest.getLastMatch(sessionId);
+        // then
+        assertThat(result).isEqualTo(null);
     }
 }
