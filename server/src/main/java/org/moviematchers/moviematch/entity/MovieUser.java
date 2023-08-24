@@ -52,6 +52,10 @@ public class MovieUser {
         this.userID = userID;
         this.userName = userName;
     }
+    public MovieUser(String userName, String userPassword) {
+        this.userName = userName;
+        this.userPassword = userPassword;
+    }
 
     public Long getUserID() {
         return userID;

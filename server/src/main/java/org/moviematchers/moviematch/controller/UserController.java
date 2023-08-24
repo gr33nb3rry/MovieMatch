@@ -44,28 +44,6 @@ public class UserController {
             return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    /*
-    @PostMapping(path = "login")
-    public String login(@RequestBody MovieUser movieUser) {
-        boolean response = userService.login(movieUser);
-
-        if (response)
-            return "Successfully logged in";
-        else return "Username or password is incorrect";
-    }
-*/
-
-    @PutMapping("username")
-    public ResponseEntity<String> changeUsername(
-            @RequestParam Long id,
-            @RequestParam String value) {
-        boolean result = userService.changeUsername(id, value);
-        if (result) {
-            return new ResponseEntity<>("Username successfully changed", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Failed to change username", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
     @PutMapping("password")
     public ResponseEntity<String> changePassword(
             @RequestParam Long id,
