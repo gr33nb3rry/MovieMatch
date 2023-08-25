@@ -9,7 +9,8 @@ client.configuration = {
         },
 
         authentication: '/authentication/',
-        home: '/dashboard/'
+        home: '/dashboard/',
+        session: '/session'
     },
 
     locale: {

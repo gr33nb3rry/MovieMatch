@@ -8,23 +8,22 @@
     <link rel="stylesheet" type="text/css" href="../style/collection.css">
     <link rel="stylesheet" type="text/css" href="../style/movieFilters.css">
     <link rel="stylesheet" type="text/css" href="../style/invite.css">
-
-    <script src="../script/client.js"></script>
-    <script src="script/dashboard.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
+    <script src="../script/client.js"></script>
+    <script src="script/dashboard.js"></script>
 </head>
     <body>
         <header>
             <h1 id="logo">MovieMatch</h1>
             <div class="header_button_container">
-                <a href="#popup-collection"><div class="header_button">
-                    <img src="../asset/icon/collection.svg" width="40px" height="40px" >
+                <a href="#popup-collection" onclick="getCollection()"><div class="header_button">
+                    <img src="../asset/icon/collection.svg"   width="40px" height="40px" >
                 </div></a>
                 
-                <a href="#popup-profile"><div class="header_button">
-                    <img src="../asset/icon/profile.svg" width="40px" height="40px">
+                <a href="#popup-profile" onclick="getProfile()" ><div class="header_button">
+                    <img src="../asset/icon/profile.svg"  width="40px" height="40px">
                 </div></a>
             </div>
         </header>
@@ -41,7 +40,7 @@
             <div id="add_friend">
                 <form onsubmit="event.preventDefault(); addFriend()" id="add_friend_form">
                     <h3>Add friend by ID</h3>
-                    <input type="number" id="user_id" name="user_id" required>
+                    <input type="number" id="add_friend_user_id" name="user_id" required>
                     <button type="submit"><img src="../asset/plus.png" width="50px" height="50px"></button>
                 </form>
             </div>
@@ -56,9 +55,8 @@
                         </div>
                         <p class="friend_name">Friend name</p>
                     </div>
-                <hr >
                     <a href="#popup-filters"><div class="friend_picture" style="background-color: #faae2b;">
-                        <img src="asset/session.png" width="25px" height="30px">
+                        <img src="asset/session.png"  width="25px" height="30px">
                     </div></a>
                 </div>
             </div>
@@ -81,9 +79,9 @@
         <div class="popup_container">
             <h1>Collection</h1>
             <div id="popup_collection_add_movie">
-                <form onsubmit="event.preventDefault(); addMovie()" id="add_movie_form">
+                <form onsubmit="event.preventDefault(); addCollection()" id="add_movie_form">
                     <input type="text" id="movie_title" name="movie_title" placeholder="Movie title" required>
-                    <input type="number" id="movie_rating" name="movie_rating" required>
+                    <input type="number" id="movie_rating" name="movie_rating" step="0.1" required>
                     <button type="submit"><img src="../asset/plus.png" width="50px" height="50px"></button>
                 </form>
             </div>
@@ -105,16 +103,23 @@
             <h1>Profile</h1>
             <div id="popup_profile_picture_username">
                 <div class="popup_profile_picture">
-                    <img src="../asset/icon/profile.svg" width="40px" height="40px">
+                    <img src="../asset/icon/profile.svg"  width="40px" height="40px">
                 </div>
+                <div id="popup-username">
                 <p>Username</p>
+                </div>
             </div>
             <a href="#" style="text-decoration: none;"><div class="popup_profile_change_button">
                 Change username
             </div></a>
-            <a href="#" style="text-decoration: none;"><div class="popup_profile_change_button">
+            <div class="popup_profile_change_button" id="change_password_button">
                 Change password
-            </div></a>
+            </div>
+            <div id="password_change_form" style="display: none;">
+                <input type="password" id="new_password" placeholder="New password" required>
+                <button id="new_password_button" onclick="changePassword()">Save</button>
+                <button id="new_password_button" onclick="closePasswordChangeForm()">Cancel</button>
+            </div>
             <a href="#">
                 <div class="popup_close">
                     <img src="../asset/close.png" width="40px" height="40px">
@@ -143,7 +148,7 @@
         <div class="popup_container">
             <h1>Choose filters</h1>
             
-            <form id="movie_filters_form">
+            <form onsubmit="event.preventDefault(); sendInvite()" id="movie_filters_form">
                 <fieldset>
                     <legend>Genres</legend>
                     <label><input type="checkbox" name="genre" value="ACTION"> Action</label><br>
@@ -181,10 +186,10 @@
                 <fieldset>
                     <legend>Years</legend>
                     <label for="start_year">Start year:</label><br>
-                    <input type="number" id="start_year" name="start_year" min="1900" max="2023"><br>
+                    <input type="date" id="start_year" name="start_year"><br>
         
                     <label for="end_year">End year:</label><br>
-                    <input type="number" id="end_year" name="end_year" min="1900" max="2023"><br>
+                    <input type="date" id="end_year" name="end_year"><br>
                 </fieldset>
         
                 <fieldset>
@@ -225,7 +230,7 @@
                 </div>
             </div>
             
-            <div class="popup_invite_join">Join</div>
+            <a href="" onclick="createSession()"><div class="popup_invite_join">Join</div></a>
             <a href="#">
                 <div class="popup_close">
                     <img src="../asset/close.png" width="40px" height="40px">
