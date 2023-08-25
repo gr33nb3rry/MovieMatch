@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Movies</title>
-    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <link rel="stylesheet" type="text/css" href="../style/style.css">
     <link rel="stylesheet" type="text/css" href="style/session.css">
-    <link rel="stylesheet" type="text/css" href="style/popup.css">
-    <link rel="stylesheet" type="text/css" href="style/collection.css">
+    <link rel="stylesheet" type="text/css" href="../style/popup.css">
+    <link rel="stylesheet" type="text/css" href="../style/collection.css">
     <link rel="stylesheet" type="text/css" href="style/match.css">
     <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
-   
+    <script src="../script/client.js"></script>
+    <script src="script/session.js"></script>
 </head>
     <body>
         <header>
             <h1 id="logo">MovieMatch</h1>
             <div class="header_button_container">
                 <a href="#popup-collection"><div class="header_button">
-                    <img src="asset/collection.png"   width="40px" height="40px" >
+                    <img src="../asset/icon/collection.svg"   width="40px" height="40px" >
                 </div></a>
                 
                 <a href="#popup-profile"><div class="header_button">
-                    <img src="asset/profile.png"  width="40px" height="40px">
+                    <img src="../asset/icon/profile.svg"  width="40px" height="40px">
                 </div></a>
 
             </div>
@@ -31,7 +32,7 @@
             <div class="match_container">
                 Username and Username
                 <a href="#popup-matches" style="text-decoration: none;"><div class ="match_button" >
-                    <img src="asset/bolt.png">
+                    <img src="../asset/bolt.png">
                     0
                     <span style="color: #f2f7f5; text-shadow:none; opacity:50%;">i</span>
                 </div></a>
@@ -44,7 +45,7 @@
             </div>
             <div class="upper_button_container">
                 <a href="#popup-ex"><img src="asset/history.png"   class="upper_button" ></a>
-                <a href="#popup-info"><img src="asset/information.png" class="upper_button"></a>
+                <a href="#popup-info"><img src="../asset/information.png" class="upper_button"></a>
             </div>
            
         </div>
@@ -71,7 +72,7 @@
             </div>
             <div id="main_button_container">
                 <a onclick="skipMovie()"><div id="skip" class="main_button">
-                    <img src="asset/close-cross.png" width="50px">
+                    <img src="../asset/close.png" width="50px">
                 </div></a>
                 <div class="main_button_other">
                     <!--
@@ -84,7 +85,7 @@
                     </div></a>
                 </div>
                 <a onclick="likeMovie()"><div id="like" class="main_button">
-                    <img src="asset/heart.png" width="60px">
+                    <img src="asset/like.png" width="60px">
                 </div></a>
             </div>
         </div>
@@ -109,7 +110,7 @@
                 </div>
                 <a href="#">
                     <div class="popup_close">
-                        <img src="asset/close-cross.png" width="40px" height="40px">
+                        <img src="../asset/close.png" width="40px" height="40px">
                     </div>
                 </a>
             </div>
@@ -119,7 +120,7 @@
                 <h1>Profile</h1>
                 <div id="popup_profile_picture_username">
                     <div class="popup_profile_picture">
-                        <img src="asset/profile.png"  width="40px" height="40px">
+                        <img src="../asset/icon/profile.svg"  width="40px" height="40px">
                     </div>
                     <p>Username</p>
                 </div>
@@ -131,7 +132,7 @@
                 </div></a>
                 <a href="#">
                     <div class="popup_close">
-                        <img src="asset/close-cross.png" width="40px" height="40px">
+                        <img src="../asset/close.png" width="40px" height="40px">
                     </div>
                 </a>
             </div>
@@ -148,7 +149,7 @@
                 <p>Ruslans&emsp;•&emsp;Dovidas&emsp;•&emsp;Lukas&emsp;•&emsp;Lada</p>
                 <a href="#">
                     <div class="popup_close">
-                        <img src="asset/close-cross.png" width="40px" height="40px">
+                        <img src="../asset/close.png" width="40px" height="40px">
                     </div>
                 </a>
             </div>
@@ -165,11 +166,10 @@
                 </div>
                 <a href="#">
                     <div class="popup_close">
-                        <img src="asset/close-cross.png" width="40px" height="40px">
+                        <img src="../asset/close.png" width="40px" height="40px">
                     </div>
                 </a>
             </div>
         </div>
     </body>
-    <script src="script/session.js"></script>
 </html>
