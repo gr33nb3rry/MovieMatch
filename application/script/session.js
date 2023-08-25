@@ -72,7 +72,7 @@ function updateCurrentMovie(data) {
     <div id="main_movie_upper">
         <div class="main_movie_rating">${data.rating}</div>
         <div class="main_movie_genre">
-            <img src="asset/heart.png">
+            <img src="${assignImageByGenre()}">
         </div>
     </div>
     `
@@ -137,83 +137,69 @@ function returnMovie() {
     .catch(err => console.error(err));
 }
 
-
-///For genres icons change by movies
-
-async function fetchMovieData(movieId) {
-    const response = await fetch(`?????${movieId}`);
-    const data = await response.json();
-    return data;
-}
-
-
-async function assignImageByGenre() {
-    const code ='';
-    const movieData = await fetchMovieData(movieId);
-    const genre = movieData.genre;
-
+ function assignImageByGenre(date) {
+    let code ='';
+    const genre = date.genre[0];
     switch (genre) {
         case 'ACTION':
-             code = '<img src="asset/genres/action.png">';
+            code = 'asset/genres/action.png';
             break;
         case 'ADVENTURE':
-             code = '<img src="asset/genres/adventure.png">';
+            code = 'asset/genres/adventure.png';
             break;
         case 'ANIMATION':
-             code = '<img src="asset/genres/animation.png">';
+            code = 'asset/genres/animation.png';
             break;
         case 'COMEDY':
-             code = '<img src="asset/genres/comendy.png">';
+            code = 'asset/genres/comendy.png';
             break;
         case 'CRIME':
-             code = '<img src="asset/genres/crime.png">';
+            code = 'asset/genres/crime.png';
             break;
         case 'DOCUMENTARY':
-             code = '<img src="asset/genres/documentory.png">';
+            code = 'asset/genres/documentory.png';
             break;
         case 'DRAMA':
-             code = '<img src="asset/genres/drama.png">';
+            code = 'asset/genres/drama.png';
             break;
         case 'FAMILY':
-            const code = '<img src="asset/genres/family.png">';
+            const code = 'asset/genres/family.png';
             break;
         case 'FANTASY':
-             code = '<img src="asset/genres/fantasy.png">';
+            code = 'asset/genres/fantasy.png';
             break;
         case 'HISTORY':
-             code = '<img src="asset/genres/history.png">';
+            code = 'asset/genres/history.png';
             break;
         case 'HORROR':
-             code = '<img src="asset/genres/horror.png">';
+            code = 'asset/genres/horror.png';
             break;
         case 'MUSIC':
-             code = '<img src="asset/genres/music.png">';
+            code = 'asset/genres/music.png';
             break;
         case 'MYSTERY':
-             code = '<img src="asset/genres/mystery.png">';
+            code = 'asset/genres/mystery.png';
             break;
         case 'ROMANCE':
-             code = '<img src="asset/genres/romance.png">';
+            code = 'asset/genres/romance.png';
             break;
         case 'SCIENCE_FICTION':
-             code = '<img src="asset/genres/BLOOOOO.png">';
-            //  one missing
+            code = 'asset/genres/history.png';  
             break;
         case 'TV':
-             code = '<img src="asset/genres/tv.png">';
+            code = 'asset/genres/tv.png';
             break;
         case 'THRILLER':
-             code = '<img src="asset/genres/thriller.png">';
+            code = 'asset/genres/thriller.png';
             break;
         case 'WAR':
-             code = '<img src="asset/genres/war.png">';
+            code = 'asset/genres/war.png';
             break;
         case 'WESTERN':
-             code = '<img src="asset/genres/western.png">';
+            code = 'asset/genres/western.png';
             break;
         default:
-            log.console('Error');
+            code = 'asset/genres/family.png';
             break;
     }
-   
 }
