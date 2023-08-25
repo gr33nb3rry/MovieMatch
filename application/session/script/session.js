@@ -9,6 +9,7 @@ idPromise.then(id => {
 })
 let currentMovieDescription;
 let currentMovieTitle;
+let lastMatchMovieTitle = "";
 let sessionID = parseInt(localStorage.getItem("sessionID"));
 let sessionUserID = parseInt(localStorage.getItem("sessionUserID"));
 console.log(sessionID);
@@ -143,6 +144,123 @@ function returnMovie() {
     .catch(err => console.error(err));
 }
 
+function checkForNewMatch() {
+    const url = 'http://localhost:8080/session/lastMatch?sessionID='+sessionID;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.title !== lastMatchMovieTitle) {
+            lastMatchMovieTitle = data.title;
+            console.log("New match!");
+            getMatchCount();
+            getNewMatch();
+        }
+    })
+    .catch(err => console.error(err));
+}
+function getMatchCount() {
+    const url = 'http://localhost:8080/session/matchCount?sessionID='+sessionID;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+        }
+    })
+    .then(response => response.text())
+    .then(text => {
+        console.log(text);
+        updateMatchCount(text);
+    })
+    .catch(err => console.error(err));
+}
+function updateMatchCount(text) {
+    const matchCountContainer = document.getElementById("match_count");
+    matchCountContainer.innerHTML = text;
+}
+function getNewMatch() {
+    const url = 'http://localhost:8080/session/lastMatch?sessionID='+sessionID;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        showNewMatch(data);
+    })
+    .catch(err => console.error(err));
+}
+function showNewMatch(data) {
+    const newMatchContainer = document.getElementById("match_container");
+    const code = 
+    `
+    <div id="match_new_movie_container">
+        <div id="match_new_movie">
+            <img src="${data.posterURL}" width="150px">
+        </div>
+        New match!
+    </div>
+    `
+    newMatchContainer.innerHTML += code;
+    setTimeout(function() {
+        hideNewMatch();
+    }, 3000)
+}
+function hideNewMatch() {
+    const newMatchContainer = document.getElementById("match_new_movie_container");
+    newMatchContainer.remove();
+}
+function getAllMatches() {
+    const url = 'http://localhost:8080/session/allMatches?sessionID='+sessionID;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        displayAllMatches(data);
+    })
+    .catch(err => console.error(err));
+}
+function displayAllMatches(data) {
+    const matchesContainer = document.getElementById("match_movies");
+    matchesContainer.innerHTML = "";
+    for (let i = 0; i < data.length; i++) {
+        const code =
+        `
+        <div class="match_movie">
+            <img src="${data[i].posterURL}" width="150px">
+            <div class="match_movie_rating">${data[i].rating}</div>
+        </div>
+        `
+        matchesContainer.innerHTML += code;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     addMovie();
 })
+function loop() {   
+    setTimeout(function() {
+        checkForNewMatch();
+      
+      loop();
+    }, 3000)
+  }
+  loop();

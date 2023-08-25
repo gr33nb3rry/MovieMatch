@@ -29,19 +29,21 @@
             </div>
         </header>
         <div id="upper_container">
-            <div class="match_container">
+            <div id="match_container">
                 Username and Username
-                <a href="#popup-matches" style="text-decoration: none;"><div class ="match_button" >
+                <a href="#popup-matches" onclick="getAllMatches()" style="text-decoration: none;"><div class ="match_button" >
                     <img src="../asset/bolt.png">
-                    0
+                    <p style="margin: 0; padding: 0;" id="match_count">0</p>
                     <span style="color: #f2f7f5; text-shadow:none; opacity:50%;">i</span>
                 </div></a>
+                <!--
                 <div id="match_new_movie_container">
                     <div id="match_new_movie">
                         <img src="https://image.tmdb.org/t/p/original/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" width="150px">
                     </div>
                     New match!
                 </div>
+                -->
             </div>
             <div class="upper_button_container">
                 <a href="#popup-ex"><img src="asset/history.png"   class="upper_button" ></a>
