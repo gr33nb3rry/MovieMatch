@@ -3,19 +3,19 @@ package org.moviematchers.moviematch.dto;
 import java.time.Instant;
 
 public class AuthorizationTokenImpl implements AuthorizationToken {
-	private final String token;
+	private final String value;
 	private final Instant issuedTime;
 	private final Instant expirationTime;
 
-	public AuthorizationTokenImpl(String token, Instant issuedTime, Instant expirationTime) {
-		this.token = token;
+	public AuthorizationTokenImpl(String value, Instant issuedTime, Instant expirationTime) {
+		this.value = value;
 		this.issuedTime = issuedTime;
 		this.expirationTime = expirationTime;
 	}
 
 	@Override
-	public String getToken() {
-		return this.token;
+	public String getValue() {
+		return this.value;
 	}
 
 	@Override

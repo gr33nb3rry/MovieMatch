@@ -5,8 +5,7 @@ html, body {
 }
 
 body {
-	background: #F2F7F5 url("../asset/svg/popcorn.svg");
-	background-repeat: space;
+	background: #F2F7F5 url("../../asset/background-tile.svg") space;
 	background-size: 50px 70px;
 
 	color: #475d5b;
@@ -46,7 +45,8 @@ body {
 .notification {
 	display: block;
 
-	padding: 0.5em 1em;
+	margin: 2em 0;
+	padding: 0.25em 1em;
 	border-width: 4px;
 	border-style: solid;
 	border-radius: 20px;

@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Movies</title>
-    <link rel="stylesheet" type="text/css" href="style/style.css">
-    <link rel="stylesheet" type="text/css" href="style/popup.css">
-    <link rel="stylesheet" type="text/css" href="style/collection.css">
-    <link rel="stylesheet" type="text/css" href="style/movieFilters.css">
-    <link rel="stylesheet" type="text/css" href="style/invite.css">
+    <link rel="stylesheet" type="text/css" href="../style/style.css">
+    <link rel="stylesheet" type="text/css" href="../style/popup.css">
+    <link rel="stylesheet" type="text/css" href="../style/collection.css">
+    <link rel="stylesheet" type="text/css" href="../style/movieFilters.css">
+    <link rel="stylesheet" type="text/css" href="../style/invite.css">
+
+    <script src="../script/client.js"></script>
+    <script src="script/dashboard.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
@@ -17,11 +20,11 @@
             <h1 id="logo">MovieMatch</h1>
             <div class="header_button_container">
                 <a href="#popup-collection"><div class="header_button">
-                    <img src="asset/svg/collection.svg" width="40px" height="40px" >
+                    <img src="../asset/icon/collection.svg" width="40px" height="40px" >
                 </div></a>
                 
                 <a href="#popup-profile"><div class="header_button">
-                    <img src="asset/svg/profile.svg"  width="40px" height="40px">
+                    <img src="../asset/icon/profile.svg" width="40px" height="40px">
                 </div></a>
             </div>
         </header>
@@ -31,7 +34,7 @@
             </div>
             <div class="upper_button_container">
                 <!---<a href="#"><img src="asset/history.png"   class="upper_button" ></a>-->
-                <a href="#popup-info"><img src="asset/information.png" class="upper_button"></a>
+                <a href="#popup-info"><img src="../asset/information.png" class="upper_button"></a>
             </div>
         </div>
         <div class="content">
@@ -39,7 +42,7 @@
                 <form onsubmit="event.preventDefault(); addFriend()" id="add_friend_form">
                     <h3>Add friend by ID</h3>
                     <input type="number" id="user_id" name="user_id" required>
-                    <button type="submit"><img src="asset/plus.png" width="50px" height="50px"></button>
+                    <button type="submit"><img src="../asset/plus.png" width="50px" height="50px"></button>
                 </form>
             </div>
             <div id="friend_list_container">
@@ -49,13 +52,13 @@
                     <div class="friend_left_side">
                         <div class="friend_picture" style="background-color: white;">
 
-                            <img src="asset/profile.png" class="header_button_icon" width="30px" height="30px" >
+                            <img src="../asset/icon/profile.svg" class="header_button_icon" width="30px" height="30px" >
                         </div>
                         <p class="friend_name">Friend name</p>
                     </div>
                 <hr >
                     <a href="#popup-filters"><div class="friend_picture" style="background-color: #faae2b;">
-                        <img src="asset/popcorn.png"  width="25px" height="30px">
+                        <img src="asset/session.png" width="25px" height="30px">
                     </div></a>
                 </div>
             </div>
@@ -69,7 +72,7 @@
             
             <a href="#">
                 <div class="popup_close">
-                    <img src="asset/close-cross.png" width="40px" height="40px">
+                    <img src="../asset/close.png" width="40px" height="40px">
                 </div>
             </a>
         </div>
@@ -81,7 +84,7 @@
                 <form onsubmit="event.preventDefault(); addMovie()" id="add_movie_form">
                     <input type="text" id="movie_title" name="movie_title" placeholder="Movie title" required>
                     <input type="number" id="movie_rating" name="movie_rating" required>
-                    <button type="submit"><img src="asset/plus.png" width="50px" height="50px"></button>
+                    <button type="submit"><img src="../asset/plus.png" width="50px" height="50px"></button>
                 </form>
             </div>
             <div id="collection_movies">
@@ -92,7 +95,7 @@
             </div>
             <a href="#">
                 <div class="popup_close">
-                    <img src="asset/close-cross.png" width="40px" height="40px">
+                    <img src="../asset/close.png" width="40px" height="40px">
                 </div>
             </a>
         </div>
@@ -102,7 +105,7 @@
             <h1>Profile</h1>
             <div id="popup_profile_picture_username">
                 <div class="popup_profile_picture">
-                    <img src="asset/profile.png"  width="40px" height="40px">
+                    <img src="../asset/icon/profile.svg" width="40px" height="40px">
                 </div>
                 <p>Username</p>
             </div>
@@ -114,7 +117,7 @@
             </div></a>
             <a href="#">
                 <div class="popup_close">
-                    <img src="asset/close-cross.png" width="40px" height="40px">
+                    <img src="../asset/close.png" width="40px" height="40px">
                 </div>
             </a>
         </div>
@@ -131,7 +134,7 @@
             <p>Ruslans&emsp;•&emsp;Dovidas&emsp;•&emsp;Lukas&emsp;•&emsp;Lada</p>
             <a href="#">
                 <div class="popup_close">
-                    <img src="asset/close-cross.png" width="40px" height="40px">
+                    <img src="../asset/close.png" width="40px" height="40px">
                 </div>
             </a>
         </div>
@@ -195,7 +198,7 @@
 
             <a href="#">
                 <div class="popup_close">
-                    <img src="asset/close-cross.png" width="40px" height="40px">
+                    <img src="../asset/close.png" width="40px" height="40px">
                 </div>
             </a>
         </div>
@@ -225,11 +228,10 @@
             <div class="popup_invite_join">Join</div>
             <a href="#">
                 <div class="popup_close">
-                    <img src="asset/close-cross.png" width="40px" height="40px">
+                    <img src="../asset/close.png" width="40px" height="40px">
                 </div>
             </a>
         </div>
     </div>
     </body>
-    <script src="script/home.js"></script>
 </html>

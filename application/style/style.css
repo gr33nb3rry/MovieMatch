@@ -4,7 +4,7 @@ body {
     scrollbar-width: none;  /* Firefox */
     background-color: #f2f7f5;
     
-    background: #F2F7F5 url("../asset/svg/popcorn.svg");
+    background: #F2F7F5 url("../asset/background-tile.svg");
     background-repeat: space;
     background-size: 50px 70px;
 }
@@ -154,7 +154,6 @@ content h2 {
 hr {
 
     color: transparent;
-    color:none;
     border: none;
     margin-top: 5px;
     

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 // This class disables default error pages. Since this application
-// is a server, we don't need to process any additional information
+// is a client, we don't need to process any additional information
 // about error status in the model view controller spring boot web model.
 @Controller
 public class StatusCodeErrorController implements ErrorController {

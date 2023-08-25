@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -26,8 +25,8 @@ public class UserController {
         return userService.getUsers();
     }
     @GetMapping("getLoginID")
-    public Long getLoginUserID(Principal principal) {
-        return userService.getLoginUserID(principal.getName());
+    public Long getLoginUserID(String username) {
+        return userService.getLoginUserID(username);
     }
 
     @GetMapping("name")

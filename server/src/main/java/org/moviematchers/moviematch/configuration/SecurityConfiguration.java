@@ -27,6 +27,7 @@ public class SecurityConfiguration {
 		security
 			.securityMatcher("/authorization/token")
 			.authorizeHttpRequests(requestsConfigurer -> requestsConfigurer
+				.requestMatchers("/quote/").permitAll()
 				.anyRequest().authenticated()
 			)
 			.sessionManagement(sessionConfigurer -> sessionConfigurer
