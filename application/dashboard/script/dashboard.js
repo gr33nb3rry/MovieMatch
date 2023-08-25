@@ -4,12 +4,9 @@ function displayRandomQuote(){
     const quoteElement = document.getElementById('quote');
 
     client.getMovieQuote()
-    .then(response => response.json())
     .then(quote => {
         quoteElement.innerHTML = `${quote.text}<br>${quote.movieTitle} (${quote.movieYear})`;
-    })
-    .catch(err => console.error(err));
-}
+    })}
 
 function displayFriends() {
     client.user.getFriends().then(friendList => {

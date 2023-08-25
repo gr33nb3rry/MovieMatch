@@ -20,13 +20,13 @@ client.configuration = {
     }
 }
 
+client.user = {};
+
 client.getMovieQuote = function() {
     return fetch(`${client.configuration.path.server.url}/quote`, {
         method: 'GET'
-    });
+    }).then((response) => response.json());
 }
-
-client.user = {};
 
 // credit: https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library
 function parseJwtPayload (token) {
@@ -39,7 +39,7 @@ function parseJwtPayload (token) {
     return JSON.parse(jsonPayload);
 }
 /*
-CAUTION: Don't use this without calling client.user.identity.authorize() somewhere first..
+CAUTION: Don't use this without calling client.user.identity.authorize() somewhere first.
 This is a client-side fetching from JWT token, and server is needed to validate
 the jwt token, before it could be used. This way we can retrieve some user
 variables locally and server needs to validate it only once.
