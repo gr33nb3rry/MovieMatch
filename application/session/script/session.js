@@ -82,6 +82,10 @@ function getLongDescription(description) {
         return description.substring(0, 297) + '...';
     }
 }
+function assignImageByGenre(data) {
+    let randomGenre = Math.round(Math.random() * (data.length - 1) + 0);
+    return `asset/genres/${data[randomGenre].toLowerCase()}.png`;
+}
 function updateCurrentMovie(data) {
     currentMovieDescription = data.description;
     currentMovieTitle = data.title;
@@ -97,7 +101,7 @@ function updateCurrentMovie(data) {
     <div id="main_movie_upper">
         <div class="main_movie_rating">${data.rating}</div>
         <div class="main_movie_genre">
-            <img src="asset/heart.png">
+            <img src="${assignImageByGenre(data.genres)}">
         </div>
     </div>
     `
