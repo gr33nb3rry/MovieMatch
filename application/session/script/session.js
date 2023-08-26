@@ -10,11 +10,30 @@ idPromise.then(id => {
 let currentMovieDescription;
 let currentMovieTitle;
 let lastMatchMovieTitle = "";
+let sessionFriendID = parseInt(localStorage.getItem("sessionFriendID"));
 let sessionID = parseInt(localStorage.getItem("sessionID"));
 let sessionUserID = parseInt(localStorage.getItem("sessionUserID"));
 console.log(sessionID);
 console.log(sessionUserID);
 
+function getFriendName() {
+    fetch(`http://localhost:8080/user/name?id=${sessionFriendID}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+        }
+    })
+    .then(response => response.text())
+    .then(text => {
+        displaySessionUsernames(text);
+    })
+    .catch(err => console.error(err));
+}
+function displaySessionUsernames(friendName) {
+    const usernamesContainer = document.getElementById("session_usernames");
+    usernamesContainer.innerHTML = `${client.user.getUsername()} and ${friendName}`;
+}
 
 function addMovie() {
     const url = 'http://localhost:8080/session/addMovies?sessionID='+sessionID;
@@ -45,7 +64,6 @@ function getCurrentMovie() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         updateCurrentMovie(data);
     })
     .catch(err => console.error(err));
@@ -254,6 +272,7 @@ function displayAllMatches(data) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    getFriendName();
     addMovie();
 })
 function loop() {   

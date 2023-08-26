@@ -80,6 +80,8 @@ function addFriend(){
 
 function setInviteFriendID(friendId) {
     inviteFriendID = friendId;
+    localStorage.setItem('sessionFriendID', friendId);
+
 }
 function sendInvite() {
     const form = document.getElementById("movie_filters_form");
@@ -160,6 +162,7 @@ function checkForInvite() {
         if (data.invitationID > lastInviteGotID) {
             userInviteInitiatorID = data.userIDInitiator;
             lastInviteGotID = data.invitationID;
+            localStorage.setItem('sessionFriendID', userInviteInitiatorID);
             const currentUrl = window.location.href;
             if (currentUrl.endsWith('#')) {
                 window.location.replace(currentUrl + 'popup-invite');
