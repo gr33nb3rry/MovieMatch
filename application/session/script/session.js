@@ -270,6 +270,36 @@ function displayAllMatches(data) {
         matchesContainer.innerHTML += code;
     }
 }
+function getHistory() {
+    const url = 'http://localhost:8080/session/likedMovies?sessionID='+sessionID+'&userNumber='+sessionUserID;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        displayHistory(data);
+    })
+    .catch(err => console.error(err));
+}
+function displayHistory(data) {
+    const historyContainer = document.getElementById("history_movies");
+    historyContainer.innerHTML = "";
+    for (let i = 0; i < data.length; i++) {
+        const code =
+        `
+        <div class="history_movie">
+            <img src="${data[i].posterURL}" width="150px">
+            <div class="history_movie_rating">${data[i].rating}</div>
+        </div>
+        `
+        historyContainer.innerHTML += code;
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     getFriendName();

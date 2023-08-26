@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../style/popup.css">
     <link rel="stylesheet" type="text/css" href="../style/collection.css">
     <link rel="stylesheet" type="text/css" href="style/match.css">
+    <link rel="stylesheet" type="text/css" href="style/history.css">
     <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"> 
@@ -46,7 +47,7 @@
                 -->
             </div>
             <div class="upper_button_container">
-                <a href="#popup-ex"><img src="asset/history.png"   class="upper_button" ></a>
+                <a href="#popup-history" onclick="getHistory()"><img src="asset/history.png"   class="upper_button" ></a>
                 <a href="#popup-info"><img src="../asset/information.png" class="upper_button"></a>
             </div>
            
@@ -170,6 +171,23 @@
                     <div class="match_movie">
                         <img src="https://image.tmdb.org/t/p/original/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" width="150px">
                         <div class="match_movie_rating">9.2</div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="popup_close">
+                        <img src="../asset/close.png" width="40px" height="40px">
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id="popup-history" class="popup">
+            <div class="popup_container">
+                <h1>Liked movies history</h1>
+                
+                <div id="history_movies">
+                    <div class="history_movie">
+                        <img src="https://image.tmdb.org/t/p/original/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" width="150px">
+                        <div class="history_movie_rating">9.2</div>
                     </div>
                 </div>
                 <a href="#">
