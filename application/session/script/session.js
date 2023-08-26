@@ -17,7 +17,7 @@ console.log(sessionID);
 console.log(sessionUserID);
 
 function getFriendName() {
-    fetch(`http://localhost:8080/user/name?id=${sessionFriendID}`, {
+    fetch(`${client.configuration.path.server.url}/user/name?id=${sessionFriendID}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function displaySessionUsernames(friendName) {
 }
 
 function addMovie() {
-    const url = 'http://localhost:8080/session/addMovies?sessionID='+sessionID;
+    const url = client.configuration.path.server.url+'/session/addMovies?sessionID='+sessionID;
 
     fetch(url, {
         method: 'POST',
@@ -53,7 +53,7 @@ function addMovie() {
     .catch(err => console.error(err));
 }
 function getCurrentMovie() {
-    const url = 'http://localhost:8080/session/getCurrent?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = client.configuration.path.server.url+'session/getCurrent?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'GET',
@@ -118,7 +118,7 @@ function showMoreMovieinfo() {
     text.innerHTML = code;
 }
 function likeMovie() {
-    const url = 'http://localhost:8080/session/like?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = client.configuration.path.server.url+'/session/like?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'POST',
@@ -134,7 +134,7 @@ function likeMovie() {
     .catch(err => console.error(err));
 }
 function skipMovie() {
-    const url = 'http://localhost:8080/session/skip?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = client.configuration.path.server.url+'/session/skip?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'POST',
@@ -150,7 +150,7 @@ function skipMovie() {
     .catch(err => console.error(err));
 }
 function returnMovie() {
-    const url = 'http://localhost:8080/session/return?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = client.configuration.path.server.url+'/session/return?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'POST',
@@ -167,7 +167,7 @@ function returnMovie() {
 }
 
 function checkForNewMatch() {
-    const url = 'http://localhost:8080/session/lastMatch?sessionID='+sessionID;
+    const url = client.configuration.path.server.url+'/session/lastMatch?sessionID='+sessionID;
 
     fetch(url, {
         method: 'GET',
@@ -188,7 +188,7 @@ function checkForNewMatch() {
     .catch(err => console.error(err));
 }
 function getMatchCount() {
-    const url = 'http://localhost:8080/session/matchCount?sessionID='+sessionID;
+    const url = client.configuration.path.server.url+'/session/matchCount?sessionID='+sessionID;
 
     fetch(url, {
         method: 'GET',
@@ -209,7 +209,7 @@ function updateMatchCount(text) {
     matchCountContainer.innerHTML = text;
 }
 function getNewMatch() {
-    const url = 'http://localhost:8080/session/lastMatch?sessionID='+sessionID;
+    const url = client.configuration.path.server.url+'/session/lastMatch?sessionID='+sessionID;
 
     fetch(url, {
         method: 'GET',
@@ -245,7 +245,7 @@ function hideNewMatch() {
     newMatchContainer.remove();
 }
 function getAllMatches() {
-    const url = 'http://localhost:8080/session/allMatches?sessionID='+sessionID;
+    const url = client.configuration.path.server.url+'/session/allMatches?sessionID='+sessionID;
 
     fetch(url, {
         method: 'GET',
@@ -275,7 +275,7 @@ function displayAllMatches(data) {
     }
 }
 function getHistory() {
-    const url = 'http://localhost:8080/session/likedMovies?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = client.configuration.path.server.url+'/session/likedMovies?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'GET',

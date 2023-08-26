@@ -13,7 +13,7 @@ function getProfile() {
 function getCollection() {
     refreshCollection();
     console.log(client.user.getId());
-    const url = 'http://localhost:8080/collection/byID?id=' + userId;
+    const url = client.configuration.path.server.url+'/collection/byID?id=' + userId;
     fetch(url, {
         method: 'GET',
         headers: {
@@ -27,7 +27,7 @@ function getCollection() {
             let userRating;
             
             userRating = data[i].userRating;
-            fetch("http://localhost:8080/collection/fromDBbyName?movieTitle="+ data[i].movieTitle,{
+            fetch(client.configuration.path.server.url+"/collection/fromDBbyName?movieTitle="+ data[i].movieTitle,{
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
@@ -49,7 +49,7 @@ function addCollection() {
     const movieTitle = movieTitleInput.value;
     const movieRating = movieRatingInput.value;
 
-    const url = 'http://localhost:8080/collection';
+    const url = client.configuration.path.server.url+'/collection';
     const requestBody = {
         userID: {userID: userId},
         movieTitle: movieTitle,

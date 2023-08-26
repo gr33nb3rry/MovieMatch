@@ -54,7 +54,7 @@ function displayFriends() {
 function addFriend(){
     const friendIDInput = document.getElementById('add_friend_user_id');
     const friendID = friendIDInput.value;
-    const addFriendUrl = 'http://localhost:8080/friendship/request';
+    const addFriendUrl = client.configuration.path.server.url+'/friendship/request';
     const requestUrl = {
         user1ID: {userID: userId},
         user2ID: {userID: friendID}
@@ -110,7 +110,7 @@ function sendInvite() {
       isMovieAdult: isMovieAdult
 
     };
-    const url = 'http://localhost:8080/invite';
+    const url = client.configuration.path.server.url+'/invite';
     console.log(JSON.stringify(inviteData));
 
     fetch(url, {
@@ -130,7 +130,7 @@ function sendInvite() {
 function checkForSessionCreating() {
     //method to fetch sessions by lastInviteID if that session exists -> join
     if (lastInviteSentID > 0) {
-        const url = 'http://localhost:8080/session/byInvite?invitationID='+lastInviteSentID;
+        const url = client.configuration.path.server.url+'/session/byInvite?invitationID='+lastInviteSentID;
 
         fetch(url, {
             method: 'GET',
@@ -148,7 +148,7 @@ function checkForSessionCreating() {
     }
 }
 function checkForInvite() {
-    const url = 'http://localhost:8080/invite/byID?id=' + userId;
+    const url = client.configuration.path.server.url+'/invite/byID?id=' + userId;
 
     fetch(url, {
         method: 'GET',
@@ -176,7 +176,7 @@ function checkForInvite() {
     .catch(err => console.error(err));
 }
 function deleteInvitation() {
-    const url = 'http://localhost:8080/invite?id=' + lastInviteGotID;
+    const url = client.configuration.path.server.url+'/invite?id=' + lastInviteGotID;
 
     fetch(url, {
         method: 'DELETE',
@@ -192,7 +192,7 @@ function deleteInvitation() {
     .catch(err => console.error(err));
 }
 function updateInvitePopup(data) {
-    fetch('http://localhost:8080/user/name?id=' + data.userIDInitiator, {
+    fetch(client.configuration.path.server.url+'/user/name?id=' + data.userIDInitiator, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
@@ -244,7 +244,7 @@ function createSession() {
         user1ID: userInviteInitiatorID,
         user2ID: userId
     };
-    const url = 'http://localhost:8080/session/create';
+    const url = client.configuration.path.server.url+'/session/create';
 
     fetch(url, {
         method: 'POST',
@@ -262,7 +262,7 @@ function createSession() {
     .catch(err => console.error(err));
 }
 function joinSession() {
-    const url = 'http://localhost:8080/session/join?sessionID='+sessionID+'&userID='+userId;
+    const url = client.configuration.path.server.url+'/session/join?sessionID='+sessionID+'&userID='+userId;
 
     fetch(url, {
         method: 'POST',
@@ -301,7 +301,7 @@ function closePasswordChangeForm() {
 
 function changePassword(){
     const newPassword = document.getElementById('new_password').value;
-    fetch('http://localhost:8080/user/password?id='+userId+'&value='+newPassword, {
+    fetch(client.configuration.path.server.url+'/user/password?id='+userId+'&value='+newPassword, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
