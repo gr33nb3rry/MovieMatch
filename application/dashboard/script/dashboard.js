@@ -229,7 +229,7 @@ function updateInvitePopup(data) {
             <a onclick="createSession()"><div class="popup_invite_join">Join</div></a>
             <a href="#" onclick="deleteInvitation()">
                 <div class="popup_close">
-                    <img src="asset/close-cross.png" width="40px" height="40px">
+                    <img src="../asset/close.png" width="40px" height="40px">
                 </div>
             </a>
         </div>
@@ -283,8 +283,7 @@ function joinSession() {
     })
     .catch(err => console.error(err));
 }
-const changePasswordButton = document.getElementById('change_password_button');
-//changePasswordButton.addEventListener('click', openChangePasswordForm);
+let changePasswordButton;
 
 function openChangePasswordForm() {
 
@@ -317,6 +316,9 @@ function changePassword(){
 document.addEventListener('DOMContentLoaded', () => {
     displayRandomQuote();
     displayFriends();
+    changePasswordButton = document.getElementById('change_password_button');
+    changePasswordButton.addEventListener('click', openChangePasswordForm);
+    
 })
 function loop() {   
     setTimeout(function() {
