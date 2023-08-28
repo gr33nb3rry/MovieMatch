@@ -273,8 +273,7 @@ function joinSession() {
     })
     .catch(err => console.error(err));
 }
-const changePasswordButton = document.getElementById('change_password_button');
-//changePasswordButton.addEventListener('click', openChangePasswordForm);
+let changePasswordButton;
 
 function openChangePasswordForm() {
 
@@ -307,6 +306,8 @@ function changePassword(){
 document.addEventListener('DOMContentLoaded', () => {
     displayRandomQuote();
     displayFriends();
+    changePasswordButton = document.getElementById('change_password_button');
+    changePasswordButton.addEventListener('click', openChangePasswordForm);
 })
 function loop() {   
     setTimeout(function() {
