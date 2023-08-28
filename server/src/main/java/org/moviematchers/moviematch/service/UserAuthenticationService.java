@@ -24,7 +24,7 @@ public class UserAuthenticationService implements UserDetailsService {
     }
     @Override
     public UserDetails loadUserByUsername(@ValidUsername String username) throws UsernameNotFoundException {
-        UserEntity movieUser = userRepository.findByUsername(username);
+        UserEntity movieUser = userRepository.findByUsernameIgnoreCase(username);
         if (movieUser == null) {
             throw new UsernameNotFoundException("user not found");
         }

@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public Long getUserId(@Valid @ValidUsername String username) {
-        UserEntity entity = repository.findByUsername(username);
+        UserEntity entity = repository.findByUsernameIgnoreCase(username);
         if (entity == null) {
             return null;
         }
