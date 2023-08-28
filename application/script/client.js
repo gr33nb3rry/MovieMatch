@@ -186,6 +186,42 @@ client.user.create = function(credentials) {
     })
 }
 
+client.user.changePassword = function(password) {
+    const token = this.getAuthorizationToken();
+    if (token == null) {
+        return null;
+    }
+
+    const credentials = {
+        password: password
+    }
+    return new Promise((resolve, reject) => {
+        fetch(`${client.configuration.path.server.url}/user/password`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${token.value}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    id: this.getId(),
+                    credentials: credentials
+                }
+            )
+        }).then((response) => {
+            if (response.ok) {
+                resolve(credentials);
+            } else if (response.status == 400) {
+                response.json()
+                    .then((jsonResponse) => reject(jsonResponse))
+                    .catch(() => console.error(client.configuration.locale.fetch.failed))
+            } else {
+                console.error(client.configuration.locale.fetch.failed)
+            }
+        }).catch(() => console.error(client.configuration.locale.fetch.connection.failed));
+    })
+}
+
 
 client.user.authenticate = function(credentials) {
     const fetchPromise = fetch(`${client.configuration.path.server.url}/authorization/token`, {

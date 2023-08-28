@@ -13,7 +13,6 @@ import org.moviematchers.moviematch.validation.ValidUserId;
 import org.moviematchers.moviematch.validation.ValidUserPassword;
 import org.moviematchers.moviematch.validation.ValidUsername;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
