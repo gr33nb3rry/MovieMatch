@@ -2,13 +2,8 @@ function getProfile() {
     const usernameElement = document.getElementById('popup-username');
     const idElement = document.getElementById("popup_profile_id");
     usernameElement.innerHTML = `<p>${client.user.getUsername()}</p>`;
-    const idPromise = client.user.getId();
-    if (idPromise == null) {
-    console.log("Failed to get ID");
-    }
-    idPromise.then(id => {
-        idElement.innerHTML = `ID: ${id}`;
-    })
+    const id = client.user.getId();
+    idElement.innerHTML = `ID: ${id}`;
 }
 function getCollection() {
     refreshCollection();

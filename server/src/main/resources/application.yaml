@@ -6,7 +6,7 @@ spring:
     jpa:
       hibernate:
         ddl-auto: update
-
+      open-in-view: false
 # Remove these debug properties in production!
 debug: true
 logging:

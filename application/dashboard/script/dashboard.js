@@ -1,12 +1,5 @@
-client.user.identity.authorize();
-const idPromise = client.user.getId();
-let userId;
-if (idPromise == null) {
-  console.log("Failed to get ID");
-}
-idPromise.then(id => {
-    userId = id;
-})
+client.user.authorize();
+let userId = client.user.getId();
 let friendlist = [];
 let inviteFriendID;
 let lastInviteSentID = 0;
@@ -63,7 +56,7 @@ function addFriend(){
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
         body: JSON.stringify(requestUrl)  
     })
@@ -115,7 +108,7 @@ function sendInvite() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
         body: JSON.stringify(inviteData)
     })
@@ -134,7 +127,7 @@ function checkForSessionCreating() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+                'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
             }
         })
         .then(response => response.text())
@@ -152,7 +145,7 @@ function checkForInvite() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -179,7 +172,7 @@ function deleteInvitation() {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.text())
@@ -192,7 +185,7 @@ function updateInvitePopup(data) {
     fetch('http://localhost:8080/user/name?id=' + data.userIDInitiator, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
     })   
     .then(response => response.text())
@@ -226,7 +219,7 @@ function updateInvitePopup(data) {
             <a onclick="createSession()"><div class="popup_invite_join">Join</div></a>
             <a href="#" onclick="deleteInvitation()">
                 <div class="popup_close">
-                    <img src="asset/close-cross.png" width="40px" height="40px">
+                    <img src="../asset/close.png" width="40px" height="40px">
                 </div>
             </a>
         </div>
@@ -247,7 +240,7 @@ function createSession() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
         body: JSON.stringify(sessionData)
     })
@@ -265,7 +258,7 @@ function joinSession() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.text())
@@ -302,7 +295,7 @@ function changePassword(){
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
     })
     .then(response => response.text())

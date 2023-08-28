@@ -1,7 +1,9 @@
 package org.moviematchers.moviematch.service;
 
-import org.moviematchers.moviematch.entity.MovieUser;
+import org.moviematchers.moviematch.entity.UserEntity;
 import org.moviematchers.moviematch.repository.UserRepository;
+import org.moviematchers.moviematch.validation.ValidUsername;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,14 +23,11 @@ public class UserAuthenticationService implements UserDetailsService {
         this.userRepository = userRepository;
     }
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        MovieUser movieUser = userRepository.findByUserName(username);
-        if (movieUser != null){
-			return new User(movieUser.getUserName(), movieUser.getUserPassword(), Collections.emptyList());
+    public UserDetails loadUserByUsername(@ValidUsername String username) throws UsernameNotFoundException {
+        UserEntity movieUser = userRepository.findByUsername(username);
+        if (movieUser == null) {
+            throw new UsernameNotFoundException("user not found");
         }
-        else {
-            throw new UsernameNotFoundException("user is not found");
-        }
+		return new User(movieUser.getUsername(), movieUser.getPassword(), Collections.emptyList());
     }
 }

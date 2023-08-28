@@ -37,7 +37,7 @@ public class JWTAuthorizationSecurityConfiguration {
 	public SecurityFilterChain jwtAuthorizationSecurityFilterChain(HttpSecurity security) throws Exception {
 		security
 			.authorizeHttpRequests(requestsConfigurer -> requestsConfigurer
-				.requestMatchers("/quote", "/status").permitAll()
+				.requestMatchers("/quote", "/status", "/user/register").permitAll()
 				.anyRequest().authenticated()
 			)
 			.sessionManagement(sessionConfigurer -> sessionConfigurer

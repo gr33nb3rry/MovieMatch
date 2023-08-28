@@ -1,70 +1,63 @@
 package org.moviematchers.moviematch.service;
 
 import jakarta.transaction.Transactional;
-import org.moviematchers.moviematch.entity.MovieUser;
-import org.moviematchers.moviematch.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import jakarta.validation.Valid;
 
-import java.util.List;
-import java.util.Objects;
+import org.moviematchers.moviematch.dto.User;
+import org.moviematchers.moviematch.dto.UserCredentials;
+import org.moviematchers.moviematch.entity.UserEntity;
+import org.moviematchers.moviematch.mapper.Mapper;
+import org.moviematchers.moviematch.repository.UserRepository;
+import org.moviematchers.moviematch.type.Presence;
+import org.moviematchers.moviematch.validation.ValidUserId;
+import org.moviematchers.moviematch.validation.ValidUserPassword;
+import org.moviematchers.moviematch.validation.ValidUsername;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 public class UserService {
+    private final UserRepository repository;
+    private final PasswordEncoder encoder;
+    private final Mapper<UserEntity, User> mapper;
+    private final Mapper<UserCredentials, UserEntity> entityMapper;
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-
-        this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
-    public List<MovieUser> getUsers() {
-        return userRepository.findAll();
+    public UserService(UserRepository repository, PasswordEncoder encoder, Mapper<UserEntity, User> userMapper, Mapper<UserCredentials, UserEntity> entityMapper) {
+        this.repository = repository;
+        this.encoder = encoder;
+        this.mapper = userMapper;
+        this.entityMapper = entityMapper;
     }
 
-    public boolean addUser(MovieUser movieUser) {
-        try {
-            String password = movieUser.getUserPassword();
-            String encodedPassword = bCryptPasswordEncoder.encode(password);
-            movieUser.setUserPassword(encodedPassword);
-
-            userRepository.save(movieUser);
-            return true;
-        } catch (Exception e) {
-            return false;
+    public Long getUserId(@Valid @ValidUsername String username) {
+        UserEntity entity = repository.findByUsername(username);
+        if (entity == null) {
+            return null;
         }
+        return entity.getId();
     }
+
+    public void registerUser(@Valid @ValidUsername(presence = Presence.ABSENT) @ValidUserPassword UserCredentials credentials) {
+        String password = credentials.getPassword();
+        String encodedPassword = encoder.encode(password);
+
+        UserEntity entity = this.entityMapper.map(credentials);
+        entity.setPassword(encodedPassword);
+
+        repository.save(entity);
+    }
+
     @Transactional
-    public boolean changePassword(Long id, String value) {
+    public void changeUserPassword(@Valid @ValidUserId(presence = Presence.PRESENT) @ValidUserPassword User user) {
+        UserEntity entity = repository.getReferenceById(user.getId());
+        UserCredentials credentials = user.getCredentials();
+        String password = credentials.getPassword();
+        String encodedPassword = encoder.encode(password);
 
-        try {
-            MovieUser movieUser = userRepository.findById(id).
-                    orElseThrow(() -> new IllegalStateException(
-                            "User with ID " + id + " is not found"
-                    ));
-            if (value != null && value.length() > 0 && !Objects.equals(movieUser.getUserPassword(), value)) {
-                movieUser.setUserPassword(bCryptPasswordEncoder.encode(value));
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        catch(Exception e) {
-            return false;
-        }
-    }
-
-    public Long getLoginUserID(String username) {
-        MovieUser user = userRepository.findByUserName(username);
-        return user.getUserID();
-    }
-    public String getUserNameByID(Long id) {
-        MovieUser user =  userRepository.findById(id).orElseGet(MovieUser::new);
-        return user.getUserName();
+        entity.setPassword(encodedPassword);
     }
 }
