@@ -1,7 +1,9 @@
 const client = {}
 
 client.configuration = {
-    identityKey: 'mwid',
+    authorization: {
+        keyName: 'mwid'
+    },
 
     path: {
         server: {
@@ -14,14 +16,59 @@ client.configuration = {
     },
 
     locale: {
-        connectionFailed: 'Failed to connect to the server. Please wait a couple of minutes and try again!',
-        invalidInboundData: 'An error has occurred while retrieving data from the server. Please contact administrator of the application to resolve this issue!',
-        connectionSuccess: 'Successfully connected to the server!',
-        invalidCredentials: 'Incorrect username or password. Please check credentials and try again!'
+        fetch: {
+            connection: {
+                success: 'Successfully connected to the server',
+                failed: 'Failed to connect to the server'
+            },
+            failed: 'An error has occurred while retrieving data from the server'
+        },
+        user: {
+            credentials: {
+                invalid: 'Incorrect username or password',
+                username: {
+                    invalid: 'Username should consist of from 3 to 15 symbols. Allowed symbols: a-z A-Z 0-9 -_',
+                    present: 'User with provided username already exists'
+                },
+                password: {
+                    invalid: 'Password should consist of from 6 to 15 symbols. Allowed symbols: a-z A-Z 0-9 #?!@$ %^&*-_',
+
+                }
+            },
+            present: 'User with the provided data already exists'
+        }
     }
 }
 
-client.user = {};
+client.getLocale = function(key) {
+    const sections = key.split('.');
+    let node = client.configuration.locale;
+    for (const section of sections) {
+        if (!section) {
+            return null;
+        }
+        if (!node.hasOwnProperty(section)) {
+            return null;
+        }
+        node = node[section];
+    }
+    if (typeof node === 'string' || node instanceof String) {
+        return node;
+    }
+    return null;
+}
+
+client.checkServerConnection = function(headers) {
+    const statusPromise = fetch(`${client.configuration.path.server.url}/status`, {
+        method: 'GET',
+        headers: headers
+    })
+    
+    statusPromise.then(() => console.log(client.configuration.locale.fetch.connection.success))
+    .catch(() => console.error(client.configuration.locale.fetch.connection.failed));
+
+    return statusPromise;
+}
 
 client.getMovieQuote = function() {
     return fetch(`${client.configuration.path.server.url}/quote`, {
@@ -39,14 +86,17 @@ function parseJwtPayload (token) {
 
     return JSON.parse(jsonPayload);
 }
+
+client.user = {};
+
 /*
-CAUTION: Don't use this without calling client.user.identity.authorize() somewhere first.
+CAUTION: Don't use this without calling client.user.authorize() somewhere first.
 This is a client-side fetching from JWT token, and server is needed to validate
 the jwt token, before it could be used. This way we can retrieve some user
 variables locally and server needs to validate it only once.
  */
 client.user.getUsername = function() {
-    const token = this.identity.getAuthorizationToken();
+    const token = this.getAuthorizationToken();
     if (token == null) {
         return null;
     }
@@ -56,97 +106,92 @@ client.user.getUsername = function() {
 }
 
 /*
-CAUTION: Don't use this without calling client.user.identity.authorize() somewhere first.
-This method uses client side fetching of username, which could be spoofed if the fetching was
-not validated by the server at all.
-
-This could be completely client-sided in the future, since we can store user id's in JWT tokens
-but in order for this to be implemented, we need to implement User DTO classes, which I don't have
-time to implement for now.
-
-Even if we decide to make this server sided, backend API is really not great since it doesn't follow json format
-consistency since it returns raw numbers instead of json formatted documents.
+CAUTION: Don't use this without calling client.user.authorize() somewhere first.
+This is a client-side fetching from JWT token, and server is needed to validate
+the jwt token, before it could be used. This way we can retrieve some user
+variables locally and server needs to validate it only once.
  */
 client.user.getId = function() {
-    const username = this.getUsername();
-    if (username == null) {
-        return null;
-    }
-
-    const token = this.identity.getAuthorizationToken();
+    const token = this.getAuthorizationToken();
     if (token == null) {
         return null;
     }
+
+    const payload = parseJwtPayload(token.value);
+    return payload.sub_id;
+}
+
+client.user.getFriends = function() {
+    const token = this.getAuthorizationToken();
+    if (token == null) {
+        return null;
+    }
+
     return new Promise((resolve, reject) => {
-        fetch(`${client.configuration.path.server.url}/user/getLoginID?username=${username}`, {
+        let userId = client.user.getId();
+        fetch(`${client.configuration.path.server.url}/friendship/byID?id=${userId}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token.value}`
             },
-        }).then(response => response.text())
+        }).then(response => response.json())
         .then(data => {
-            const id = Number(data);
-            resolve(id);
-        }).catch((response) => {
-            console.log(client.configuration.locale.invalidInboundData);
-            reject(response)
-        });
-    })
-}
+            let friendsList = [];
 
-client.user.getFriends = function() {
-    const token = this.identity.getAuthorizationToken();
-    if (token == null) {
-        return null;
-    }
+            // Why would we ever want to deserialize on the client, leave that job for server
+            // with dto objects! We need some redesign to backend API!
+            for (let i = 0; i < data.length; i++) {
+                let friendId;
+                let friendUsername;
 
-    return new Promise((resolve, reject) => {
-        let userIdPromise = client.user.getId();
-
-        userIdPromise.then((userId) => {
-            fetch(`${client.configuration.path.server.url}/friendship/byID?id=${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token.value}`
-                },
-            }).then(response => response.json())
-            .then(data => {
-                let friendsList = [];
-
-                // Why would we ever want to deserialize on the client, leave that job for server
-                // with dto objects! We need some redesign to backend API!
-                for (let i = 0; i < data.length; i++) {
-                    let friendId;
-                    let friendUsername;
-
-                    if (data[i].user1ID.userID === userId) {
-                        friendId = data[i].user2ID.userID;
-                        friendUsername = data[i].user2ID.userName;
-                    } else {
-                        friendId = data[i].user1ID.userID;
-                        friendUsername = data[i].user1ID.userName;
-                    }
-                    friendsList.push([friendId, friendUsername]);
+                if (data[i].firstUserEntity.id === userId) {
+                    friendId = data[i].secondUserEntity.id;
+                    friendUsername = data[i].secondUserEntity.username;
+                } else {
+                    friendId = data[i].firstUserEntity.id;
+                    friendUsername = data[i].firstUserEntity.username;
                 }
-                resolve(friendsList);
-            }).catch((response) => {
-                console.log(client.configuration.locale.invalidInboundData);
-                reject(response)
-            });
+                friendsList.push([friendId, friendUsername]);
+            }
+            resolve(friendsList);
+        // TODO: CHECK IF WE shouldnt return this in case this fails. I dont like returning raw responses to the view specific javascript files.
         }).catch((response) => {
-            console.log(client.configuration.locale.invalidInboundData);
+            console.error(client.configuration.locale.fetch.failed);
             reject(response)
         });
     });
 }
 
-client.user.identity = {};
 
-client.user.identity.authenticate = function(username, password) {
+
+client.user.create = function(credentials) {
+    return new Promise((resolve, reject) => {
+        fetch(`${client.configuration.path.server.url}/user/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        }).then(response => {
+            if (response.ok) {
+                resolve(credentials);
+            } else if (response.status == 400) {
+                response.json()
+                    .then((jsonResponse) => reject(jsonResponse))
+                    .catch(() => console.error(client.configuration.locale.fetch.failed))
+            } else {
+                console.error(client.configuration.locale.fetch.failed)
+            }
+        }).catch(() => console.error(client.configuration.locale.fetch.connection.failed));
+    })
+}
+
+
+client.user.authenticate = function(credentials) {
     const fetchPromise = fetch(`${client.configuration.path.server.url}/authorization/token`, {
         method: 'GET',
         headers: {
-            'Authorization': `Basic ${btoa(username + ':' + password)}`
+            'Authorization': `Basic ${btoa(credentials.username + ':' + credentials.password)}`
         }
     })
 
@@ -154,59 +199,54 @@ client.user.identity.authenticate = function(username, password) {
         fetchPromise.then((response) => {
             if (!response.ok) {
                 if (response.status === 401) {
-                    console.error(client.configuration.locale.invalidCredentials);
+                    console.error(client.configuration.locale.user.credentials.invalid);
                 }
-                resolve(response);
+                reject(response);
                 return;
             }
-            console.log(client.configuration.locale.connectionSuccess);
-
             const textPromise = response.text();
             textPromise.then(text => {
                 const token = btoa(text);
-                localStorage.setItem(client.configuration.identityKey, token);
-                resolve(response);
+                const jsonPromise = JSON.parse(text);
+                localStorage.setItem(client.configuration.authorization.keyName, token);
+                resolve(jsonPromise);
             }).catch(() => {
-                console.error(client.configuration.locale.invalidInboundData);
-                resolve(response);
+                console.error(client.configuration.locale.fetch.failed);
             })
-        }).catch((response) => {
-            console.error(client.configuration.locale.connectionFailed);
-            reject(response);
+        }).catch(() => {
+            console.error(client.configuration.locale.fetch.connection.failed);
         });
     });
 };
 
-client.user.identity.isAuthorized = function() {
-    const token = this.getAuthorizationToken();
-    if (token == null) {
-        return Promise.reject();
-    }
-
+client.user.isAuthorized = function() {
     return new Promise((resolve, reject) => {
-        fetch(`${client.configuration.path.server.url}/status`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token.value}`
-            }
+        const token = this.getAuthorizationToken();
+        if (token == null) {
+            reject();
+            return;
+        }
+
+        client.checkServerConnection({
+            'Authorization': `Bearer ${token.value}`
         }).then((response) => {
             if (response.ok) {
                 resolve();
                 return;
             }
             if (response.status === 401) {
-                localStorage.removeItem(client.configuration.identityKey);
+                localStorage.removeItem(client.configuration.authorization.keyName);
             }
-            console.error(client.configuration.locale.invalidInboundData);
+            console.error(client.configuration.locale.fetch.failed);
             reject();
         }).catch(() => {
-            console.error(client.configuration.locale.connectionFailed);
+            console.error(client.configuration.locale.fetch.connection.failed);
             reject();
         })
     })
 }
 
-client.user.identity.authorize = function() {
+client.user.authorize = function() {
     this.isAuthorized().then(() => {
         if (window.location.pathname === client.configuration.path.authentication) {
             window.location.replace(client.configuration.path.home);
@@ -218,8 +258,8 @@ client.user.identity.authorize = function() {
     })
 }
 
-client.user.identity.getAuthorizationToken = function() {
-    const encodedToken = localStorage.getItem(client.configuration.identityKey);
+client.user.getAuthorizationToken = function() {
+    const encodedToken = localStorage.getItem(client.configuration.authorization.keyName);
     if (encodedToken == null) {
         return null;
     }
@@ -232,6 +272,11 @@ client.user.identity.getAuthorizationToken = function() {
     if (currentDate < tokenExpirationDate) {
         return token;
     }
-    localStorage.removeItem(client.configuration.identityKey);
+    localStorage.removeItem(client.configuration.authorization.keyName);
     return null;
+}
+
+// Not really an ideal solution, but we can't do this properly right now.
+client.user.invalidateAuthorizationToken = function() {
+    localStorage.removeItem(client.configuration.authorization.keyName);
 }

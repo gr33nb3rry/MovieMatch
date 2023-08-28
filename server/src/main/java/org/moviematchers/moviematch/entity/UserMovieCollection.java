@@ -16,52 +16,40 @@ public class UserMovieCollection {
             generator = "collection_sequence"
     )
     @Column(name = "collection_id")
-    private Long collectionID;
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private MovieUser userID;
+    private UserEntity userEntity;
+
     @Column(name = "movie_title")
     private String movieTitle;
+
     @Column(name = "user_rating")
     private double userRating;
 
     public UserMovieCollection() {
     }
-/*
-    public UserMovieCollection(Long userID, String movieTitle, double userRating) {
-        this.userID = userID;
+
+    public UserMovieCollection(UserEntity userEntity, String movieTitle, double userRating) {
+        this.userEntity = userEntity;
         this.movieTitle = movieTitle;
         this.userRating = userRating;
     }
-*/
-    public UserMovieCollection(MovieUser userID, String movieTitle, double userRating) {
-        this.userID = userID;
-        this.movieTitle = movieTitle;
-        this.userRating = userRating;
-    }
-    public Long getCollectionID() {
-        return collectionID;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setCollectionID(Long collectionID) {
-        this.collectionID = collectionID;
-    }
-/*
-    public Long getUserID() {
-        return userID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
-    }
-*/
-
-    public MovieUser getUserID() {
-        return userID;
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
-    public void setUserID(MovieUser userID) {
-        this.userID = userID;
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     public String getMovieTitle() {

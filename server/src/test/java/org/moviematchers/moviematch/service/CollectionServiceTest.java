@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.moviematchers.moviematch.dto.Movie;
 import org.moviematchers.moviematch.dto.MovieImpl;
-import org.moviematchers.moviematch.entity.MovieUser;
+import org.moviematchers.moviematch.entity.UserEntity;
 import org.moviematchers.moviematch.entity.UserMovieCollection;
 import org.moviematchers.moviematch.repository.CollectionRepository;
 
@@ -36,7 +36,7 @@ class CollectionServiceTest {
     @Test
     void canAddMovieToCollection() {
         // given
-        MovieUser user = new MovieUser(1L, "name");
+        UserEntity user = new UserEntity(1L, "name");
         UserMovieCollection collection = new UserMovieCollection(user, "Movie title", 10);
         // when
         underTest.addCollection(collection);
@@ -52,7 +52,7 @@ class CollectionServiceTest {
         // when
         underTest.getAllCollectionsOfUser(1L);
         // then
-        verify(collectionRepository).findByUserIDUserID(1L);
+        verify(collectionRepository).findByUserEntityId(1L);
     }
 
     @Test

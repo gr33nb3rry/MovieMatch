@@ -1,12 +1,5 @@
-client.user.identity.authorize();
-const idPromise = client.user.getId();
-let userId;
-if (idPromise == null) {
-  console.log("Failed to get ID");
-}
-idPromise.then(id => {
-    userId = id;
-})
+client.user.authorize();
+let userId = client.user.getId();
 let friendlist = [];
 let inviteFriendID;
 let lastInviteSentID = 0;
@@ -54,16 +47,16 @@ function displayFriends() {
 function addFriend(){
     const friendIDInput = document.getElementById('add_friend_user_id');
     const friendID = friendIDInput.value;
-    const addFriendUrl = client.configuration.path.server.url+'/friendship/request';
+    const addFriendUrl = 'http://localhost:8080/friendship/request';
     const requestUrl = {
-        user1ID: {userID: userId},
-        user2ID: {userID: friendID}
+        firstUserEntity: {id: userId},
+        secondUserEntity: {id: friendID}
     };
     fetch(addFriendUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
         body: JSON.stringify(requestUrl)  
     })
@@ -80,8 +73,7 @@ function addFriend(){
 
 function setInviteFriendID(friendId) {
     inviteFriendID = friendId;
-    localStorage.setItem('sessionFriendID', friendId);
-
+    console.log(inviteFriendID);
 }
 function sendInvite() {
     const form = document.getElementById("movie_filters_form");
@@ -110,14 +102,14 @@ function sendInvite() {
       isMovieAdult: isMovieAdult
 
     };
-    const url = client.configuration.path.server.url+'/invite';
+    const url = 'http://localhost:8080/invite';
     console.log(JSON.stringify(inviteData));
 
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
         body: JSON.stringify(inviteData)
     })
@@ -130,13 +122,13 @@ function sendInvite() {
 function checkForSessionCreating() {
     //method to fetch sessions by lastInviteID if that session exists -> join
     if (lastInviteSentID > 0) {
-        const url = client.configuration.path.server.url+'/session/byInvite?invitationID='+lastInviteSentID;
+        const url = 'http://localhost:8080/session/byInvite?invitationID='+lastInviteSentID;
 
         fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+                'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
             }
         })
         .then(response => response.text())
@@ -148,13 +140,13 @@ function checkForSessionCreating() {
     }
 }
 function checkForInvite() {
-    const url = client.configuration.path.server.url+'/invite/byID?id=' + userId;
+    const url = 'http://localhost:8080/invite/byID?id=' + userId;
 
     fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -162,7 +154,6 @@ function checkForInvite() {
         if (data.invitationID > lastInviteGotID) {
             userInviteInitiatorID = data.userIDInitiator;
             lastInviteGotID = data.invitationID;
-            localStorage.setItem('sessionFriendID', userInviteInitiatorID);
             const currentUrl = window.location.href;
             if (currentUrl.endsWith('#')) {
                 window.location.replace(currentUrl + 'popup-invite');
@@ -176,13 +167,13 @@ function checkForInvite() {
     .catch(err => console.error(err));
 }
 function deleteInvitation() {
-    const url = client.configuration.path.server.url+'/invite?id=' + lastInviteGotID;
+    const url = 'http://localhost:8080/invite?id=' + lastInviteGotID;
 
     fetch(url, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.text())
@@ -192,10 +183,10 @@ function deleteInvitation() {
     .catch(err => console.error(err));
 }
 function updateInvitePopup(data) {
-    fetch(client.configuration.path.server.url+'/user/name?id=' + data.userIDInitiator, {
+    fetch('http://localhost:8080/user/name?id=' + data.userIDInitiator, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
     })   
     .then(response => response.text())
@@ -244,13 +235,13 @@ function createSession() {
         user1ID: userInviteInitiatorID,
         user2ID: userId
     };
-    const url = client.configuration.path.server.url+'/session/create';
+    const url = 'http://localhost:8080/session/create';
 
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
         body: JSON.stringify(sessionData)
     })
@@ -262,13 +253,13 @@ function createSession() {
     .catch(err => console.error(err));
 }
 function joinSession() {
-    const url = client.configuration.path.server.url+'/session/join?sessionID='+sessionID+'&userID='+userId;
+    const url = 'http://localhost:8080/session/join?sessionID='+sessionID+'&userID='+userId;
 
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.text())
@@ -300,11 +291,11 @@ function closePasswordChangeForm() {
 
 function changePassword(){
     const newPassword = document.getElementById('new_password').value;
-    fetch(client.configuration.path.server.url+'/user/password?id='+userId+'&value='+newPassword, {
+    fetch('http://localhost:8080/user/password?id='+userId+'&value='+newPassword, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
     })
     .then(response => response.text())
@@ -318,7 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
     displayFriends();
     changePasswordButton = document.getElementById('change_password_button');
     changePasswordButton.addEventListener('click', openChangePasswordForm);
-    
 })
 function loop() {   
     setTimeout(function() {

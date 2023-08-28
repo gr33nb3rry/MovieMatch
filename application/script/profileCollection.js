@@ -2,22 +2,17 @@ function getProfile() {
     const usernameElement = document.getElementById('popup-username');
     const idElement = document.getElementById("popup_profile_id");
     usernameElement.innerHTML = `<p>${client.user.getUsername()}</p>`;
-    const idPromise = client.user.getId();
-    if (idPromise == null) {
-    console.log("Failed to get ID");
-    }
-    idPromise.then(id => {
-        idElement.innerHTML = `ID: ${id}`;
-    })
+    const id = client.user.getId();
+    idElement.innerHTML = `ID: ${id}`;
 }
 function getCollection() {
     refreshCollection();
     console.log(client.user.getId());
-    const url = client.configuration.path.server.url+'/collection/byID?id=' + userId;
+    const url = 'http://localhost:8080/collection/byID?id=' + client.user.getId();
     fetch(url, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
     })
     .then(response => response.json())
@@ -27,10 +22,10 @@ function getCollection() {
             let userRating;
             
             userRating = data[i].userRating;
-            fetch(client.configuration.path.server.url+"/collection/fromDBbyName?movieTitle="+ data[i].movieTitle,{
+            fetch("http://localhost:8080/collection/fromDBbyName?movieTitle="+ data[i].movieTitle,{
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+                    'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
                 },
             })
             .then(response => response.json())
@@ -49,9 +44,9 @@ function addCollection() {
     const movieTitle = movieTitleInput.value;
     const movieRating = movieRatingInput.value;
 
-    const url = client.configuration.path.server.url+'/collection';
+    const url = 'http://localhost:8080/collection';
     const requestBody = {
-        userID: {userID: userId},
+        userEntity: {id: userId},
         movieTitle: movieTitle,
         userRating: movieRating
     };
@@ -60,7 +55,7 @@ function addCollection() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
         body: JSON.stringify(requestBody)
     })

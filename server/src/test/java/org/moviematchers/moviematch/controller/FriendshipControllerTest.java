@@ -6,11 +6,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.moviematchers.moviematch.entity.MovieFriendship;
-import org.moviematchers.moviematch.entity.MovieUser;
-import org.moviematchers.moviematch.entity.UserMovieCollection;
+import org.moviematchers.moviematch.entity.UserEntity;
 import org.moviematchers.moviematch.service.FriendshipService;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,8 +35,8 @@ class FriendshipControllerTest {
     @Test
     void addFriendship() {
         // given
-        MovieUser user1 = new MovieUser(1L, "name1");
-        MovieUser user2 = new MovieUser(2L, "name2");
+        UserEntity user1 = new UserEntity(1L, "name1");
+        UserEntity user2 = new UserEntity(2L, "name2");
         MovieFriendship friendship = new MovieFriendship(user1, user2);
         // when
         underTest.addFriendship(friendship);

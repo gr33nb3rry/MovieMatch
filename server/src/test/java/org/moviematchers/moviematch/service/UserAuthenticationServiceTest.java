@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.moviematchers.moviematch.entity.MovieUser;
+import org.moviematchers.moviematch.entity.UserEntity;
 import org.moviematchers.moviematch.repository.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collections;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -31,13 +30,13 @@ class UserAuthenticationServiceTest {
     void loadUserByUsername() {
         // given
         String username = "admin";
-        MovieUser movieUser = new MovieUser(username, "password");
-        User user = new User(movieUser.getUserName(), movieUser.getUserPassword(), Collections.emptyList());
-        when(userRepository.findByUserName(username)).thenReturn(movieUser);
+        UserEntity movieUser = new UserEntity(username, "password");
+        User user = new User(movieUser.getUsername(), movieUser.getPassword(), Collections.emptyList());
+        when(userRepository.findByUsernameIgnoreCase(username)).thenReturn(movieUser);
         // when
         UserDetails result = underTest.loadUserByUsername(username);
         // then
-        verify(userRepository).findByUserName(username);
+        verify(userRepository).findByUsernameIgnoreCase(username);
         assertThat(result).isEqualTo(user);
     }
 }

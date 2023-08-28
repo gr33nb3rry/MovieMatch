@@ -4,7 +4,6 @@ import org.moviematchers.moviematch.dto.Movie;
 import org.moviematchers.moviematch.dto.MovieFilter;
 import org.moviematchers.moviematch.entity.Invitation;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

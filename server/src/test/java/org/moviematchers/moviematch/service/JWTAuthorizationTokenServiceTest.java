@@ -6,14 +6,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.moviematchers.moviematch.dto.AuthorizationToken;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,10 +23,12 @@ import static org.mockito.Mockito.when;
 class JWTAuthorizationTokenServiceTest {
     @Mock
     private JwtEncoder JwtEncoder;
+    @Mock
+    private UserService service;
     private JWTAuthorizationTokenService underTest;
     @BeforeEach
     void setUp() {
-        underTest = new JWTAuthorizationTokenService(JwtEncoder);
+        underTest = new JWTAuthorizationTokenService(JwtEncoder, service);
     }
 
     @Test

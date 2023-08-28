@@ -1,48 +1,23 @@
-client.user.identity.authorize();
+client.user.authorize();
 const idPromise = client.user.getId();
-let userId;
-if (idPromise == null) {
-  console.log("Failed to get ID");
-}
-idPromise.then(id => {
-    userId = id;
-})
+let userId = client.user.getId();
 let currentMovieDescription;
 let currentMovieTitle;
 let lastMatchMovieTitle = "";
-let sessionFriendID = parseInt(localStorage.getItem("sessionFriendID"));
 let sessionID = parseInt(localStorage.getItem("sessionID"));
 let sessionUserID = parseInt(localStorage.getItem("sessionUserID"));
 console.log(sessionID);
 console.log(sessionUserID);
 
-function getFriendName() {
-    fetch(`${client.configuration.path.server.url}/user/name?id=${sessionFriendID}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
-        }
-    })
-    .then(response => response.text())
-    .then(text => {
-        displaySessionUsernames(text);
-    })
-    .catch(err => console.error(err));
-}
-function displaySessionUsernames(friendName) {
-    const usernamesContainer = document.getElementById("session_usernames");
-    usernamesContainer.innerHTML = `${client.user.getUsername()} and ${friendName}`;
-}
 
 function addMovie() {
-    const url = client.configuration.path.server.url+'/session/addMovies?sessionID='+sessionID;
+    const url = 'http://localhost:8080/session/addMovies?sessionID='+sessionID;
 
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.text())
@@ -53,17 +28,18 @@ function addMovie() {
     .catch(err => console.error(err));
 }
 function getCurrentMovie() {
-    const url = client.configuration.path.server.url+'/session/getCurrent?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = 'http://localhost:8080/session/getCurrent?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
     .then(data => {
+        console.log(data);
         updateCurrentMovie(data);
     })
     .catch(err => console.error(err));
@@ -118,13 +94,13 @@ function showMoreMovieinfo() {
     text.innerHTML = code;
 }
 function likeMovie() {
-    const url = client.configuration.path.server.url+'/session/like?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = 'http://localhost:8080/session/like?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -134,13 +110,13 @@ function likeMovie() {
     .catch(err => console.error(err));
 }
 function skipMovie() {
-    const url = client.configuration.path.server.url+'/session/skip?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = 'http://localhost:8080/session/skip?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -150,13 +126,13 @@ function skipMovie() {
     .catch(err => console.error(err));
 }
 function returnMovie() {
-    const url = client.configuration.path.server.url+'/session/return?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = 'http://localhost:8080/session/return?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -167,13 +143,13 @@ function returnMovie() {
 }
 
 function checkForNewMatch() {
-    const url = client.configuration.path.server.url+'/session/lastMatch?sessionID='+sessionID;
+    const url = 'http://localhost:8080/session/lastMatch?sessionID='+sessionID;
 
     fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -188,13 +164,13 @@ function checkForNewMatch() {
     .catch(err => console.error(err));
 }
 function getMatchCount() {
-    const url = client.configuration.path.server.url+'/session/matchCount?sessionID='+sessionID;
+    const url = 'http://localhost:8080/session/matchCount?sessionID='+sessionID;
 
     fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.text())
@@ -209,13 +185,13 @@ function updateMatchCount(text) {
     matchCountContainer.innerHTML = text;
 }
 function getNewMatch() {
-    const url = client.configuration.path.server.url+'/session/lastMatch?sessionID='+sessionID;
+    const url = 'http://localhost:8080/session/lastMatch?sessionID='+sessionID;
 
     fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -245,13 +221,13 @@ function hideNewMatch() {
     newMatchContainer.remove();
 }
 function getAllMatches() {
-    const url = client.configuration.path.server.url+'/session/allMatches?sessionID='+sessionID;
+    const url = 'http://localhost:8080/session/allMatches?sessionID='+sessionID;
 
     fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -275,13 +251,13 @@ function displayAllMatches(data) {
     }
 }
 function getHistory() {
-    const url = client.configuration.path.server.url+'/session/likedMovies?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = 'http://localhost:8080/session/likedMovies?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -306,7 +282,6 @@ function displayHistory(data) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    getFriendName();
     addMovie();
 })
 function loop() {   

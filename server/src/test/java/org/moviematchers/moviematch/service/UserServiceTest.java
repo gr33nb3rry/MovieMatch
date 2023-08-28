@@ -1,22 +1,24 @@
 package org.moviematchers.moviematch.service;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.moviematchers.moviematch.entity.MovieUser;
+import org.moviematchers.moviematch.dto.User;
+import org.moviematchers.moviematch.dto.UserCredentials;
+import org.moviematchers.moviematch.dto.UserCredentialsImpl;
+import org.moviematchers.moviematch.dto.UserImpl;
+import org.moviematchers.moviematch.entity.UserEntity;
+import org.moviematchers.moviematch.mapper.Mapper;
 import org.moviematchers.moviematch.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -26,53 +28,55 @@ class UserServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder encoder;
+    @Mock
+    private Mapper<UserEntity, User> mapperUser;
+    @Mock
+    private Mapper<UserCredentials, UserEntity> mapperCred;
     private UserService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new UserService(userRepository, bCryptPasswordEncoder);
+        underTest = new UserService(userRepository, encoder, mapperUser, mapperCred);
     }
 
     @Test
-    void canGetAllUsers() {
+    void canGetUserId() {
         // when
-        underTest.getUsers();
+        underTest.getUserId("username");
         // then
-        verify(userRepository).findAll();
+        verify(userRepository).findByUsernameIgnoreCase("username");
     }
 
     @Test
     void canAddUser() {
         // given
-        MovieUser user = new MovieUser(
+        UserCredentialsImpl user = new UserCredentialsImpl(
                 "testName",
                 "password");
+        UserEntity userEntity = new UserEntity("testName", "password");
+        when(mapperCred.map(user)).thenReturn(userEntity);
         // when
-        underTest.addUser(user);
+        underTest.registerUser(user);
+
         // then
-        ArgumentCaptor<MovieUser> argumentCaptor = ArgumentCaptor.forClass(MovieUser.class);
-        verify(userRepository).save(argumentCaptor.capture());
-
-        String password = user.getUserPassword();
-        String encodedPassword = bCryptPasswordEncoder.encode(password);
-        user.setUserPassword(encodedPassword);
-
-        MovieUser capturedUser = argumentCaptor.getValue();
-        assertThat(capturedUser).isEqualTo(user);
+        verify(userRepository).save(userEntity);
     }
     @Test
     void cannotAddUser() {
         // given
-        MovieUser user = new MovieUser(
+        UserCredentialsImpl user = new UserCredentialsImpl(
                 "testName",
                 "password");
-        doThrow(new RuntimeException("Some error")).when(userRepository).save(user);
+        UserEntity userEntity = new UserEntity("testName", "password");
+        when(mapperCred.map(user)).thenReturn(userEntity);
+        doThrow(new RuntimeException("Some error")).when(userRepository).save(any());
         // when
-        boolean result = underTest.addUser(user);
-        // then
-
-        assertThat(result).isEqualTo(false);
+        try {
+            underTest.registerUser(user);
+        } catch (RuntimeException e) {
+            assertEquals("Some error", e.getMessage());
+        }
     }
 
     @Test
@@ -81,66 +85,46 @@ class UserServiceTest {
         String newPassword = "newPassword";
         String encodedNewPassword = "encodedNewPassword";
 
-        MovieUser user = new MovieUser("testName", "password");
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(bCryptPasswordEncoder.encode(newPassword)).thenReturn(encodedNewPassword);
+        UserCredentialsImpl cred = new UserCredentialsImpl("testName", newPassword);
+        UserImpl user = new UserImpl(1L, cred);
+        UserEntity userEntity = new UserEntity("testName", "password");
+        when(userRepository.getReferenceById(1L)).thenReturn(userEntity);
+        when(encoder.encode(newPassword)).thenReturn(encodedNewPassword);
 
         // when
-        underTest.changePassword(1L, newPassword);
+        underTest.changeUserPassword(user);
         // then
-        verify(userRepository).findById(1L);
-        verify(bCryptPasswordEncoder).encode(newPassword);
+        verify(userRepository).getReferenceById(1L);
+        verify(encoder).encode(newPassword);
     }
     @Test
     void cannotChangePassword() {
         // given
         String newPassword = "newPassword";
-        doThrow(new RuntimeException("Some error")).when(userRepository).findById(1L);
+        UserCredentialsImpl cred = new UserCredentialsImpl("testName", "password");
+        UserImpl user = new UserImpl(1L, cred);
+        doThrow(new RuntimeException("Some error")).when(userRepository).getReferenceById(user.getId());
         // when
-        boolean result = underTest.changePassword(1L, newPassword);
-        // then
-        assertThat(result).isEqualTo(false);
-    }
-    @Test
-    void cannotChangePasswordBecauseOfBadPassword() {
-        // given
-        MovieUser user = new MovieUser("testName", "password");
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
-        // when
-        boolean result = underTest.changePassword(1L, null);
-        // then
-        assertThat(result).isEqualTo(false);
+        try {
+            underTest.changeUserPassword(user);
+        } catch (RuntimeException e) {
+            assertEquals("Some error", e.getMessage());
+        }
     }
 
     @Test
     void canGetLoginUserIDByUsername() {
         // given
         String username = "testname";
-        MovieUser user = new MovieUser(1L,username);
-        when(userRepository.findByUserName(username)).thenReturn(user);
+        UserEntity user = new UserEntity(1L,username);
+        when(userRepository.findByUsernameIgnoreCase(username)).thenReturn(user);
 
         // when
-        Long result = underTest.getLoginUserID(username);
+        Long result = underTest.getUserId(username);
 
         // then
-        verify(userRepository).findByUserName(username);
-        assertThat(result).isEqualTo(user.getUserID());
+        verify(userRepository).findByUsernameIgnoreCase(username);
+        assertThat(result).isEqualTo(user.getId());
     }
 
-    @Test
-    void canGetUserNameByID() {
-        // given
-        Long userId = 1L;
-        String username = "testname";
-        MovieUser user = new MovieUser(userId,username);
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-
-        // when
-        String result = underTest.getUserNameByID(userId);
-
-        // then
-        verify(userRepository).findById(userId);
-        assertThat(result).isEqualTo(user.getUserName());
-    }
 }

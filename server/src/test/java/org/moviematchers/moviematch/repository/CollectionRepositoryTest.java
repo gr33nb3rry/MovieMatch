@@ -1,8 +1,7 @@
 package org.moviematchers.moviematch.repository;
 
 import org.junit.jupiter.api.Test;
-import org.moviematchers.moviematch.entity.Invitation;
-import org.moviematchers.moviematch.entity.MovieUser;
+import org.moviematchers.moviematch.entity.UserEntity;
 import org.moviematchers.moviematch.entity.UserMovieCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -10,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+
 @DataJpaTest
 class CollectionRepositoryTest {
     @Autowired
@@ -21,13 +20,13 @@ class CollectionRepositoryTest {
     @Test
     void shouldReturnCollectionByUserID() {
         Long userID = 1L;
-        MovieUser user = new MovieUser();
+        UserEntity user = new UserEntity();
         userUnderTest.save(user);
         UserMovieCollection movie = new UserMovieCollection(user, "Batman", 7.5);
         underTest.save(movie);
 
-        List<UserMovieCollection> result = underTest.findByUserIDUserID(userID);
+        List<UserMovieCollection> result = underTest.findByUserEntityId(userID);
 
-        assertThat(result.get(0).getUserID().getUserID()).isEqualTo(userID);
+        assertThat(result.get(0).getUserEntity().getId()).isEqualTo(userID);
     }
 }

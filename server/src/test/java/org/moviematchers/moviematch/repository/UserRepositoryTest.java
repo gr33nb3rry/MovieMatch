@@ -1,7 +1,7 @@
 package org.moviematchers.moviematch.repository;
 
 import org.junit.jupiter.api.Test;
-import org.moviematchers.moviematch.entity.MovieUser;
+import org.moviematchers.moviematch.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -18,16 +18,14 @@ class UserRepositoryTest {
     void itShouldReturnMovieUserByUsername() {
         // given
         String username = "testName";
-        MovieUser user = new MovieUser(1L,
+        UserEntity user = new UserEntity(1L,
                 username,
-                "password",
-                new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>());
+                "password");
         underTest.save(user);
         // when
-        MovieUser result = underTest.findByUserName(username);
+        UserEntity result = underTest.findByUsernameIgnoreCase(username);
         // then
-        assertThat(result.getUserName()).isEqualTo(username);
+        assertThat(result.getUsername()).isEqualTo(username);
     }
 
 }

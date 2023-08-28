@@ -6,6 +6,7 @@
         <title>MovieMatch!</title>
         <link rel="stylesheet" type="text/css" href="style/authentication.css">
         <script src="../script/client.js"></script>
+        <script src="../script/ui.js"></script>
         <script src="script/authentication.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -14,21 +15,36 @@
     <body>
         <header class="navigation-bar">
             <h1 class="header text-1">MovieMatch</h1>
-            <p class="paragraph text-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>Movie title (YYYY)</p>
+            <p class="paragraph text-2 invisible transition" id="movie-quote"></p>
         </header>
         <div class="container">
-            <div class="prompt" id="login-prompt">
-                <h2 class="header text-1">Please log in to begin</h2>
-                <form class="form" id="login-form" method="post">
-                    <label class="input-label full-width text-2" for="username">Username:</label>
-                    <input class="input text-field full-width" type="text" name="username" id="username" required />
-                    <label class="input-label full-width text-2" for="password">Password:</label>
-                    <input class="input text-field full-width" type="password" name="password" id="password" required />
-                    <input class="input button primary-color full-width" type="submit" value="Login" id="login" />
+            <div class="prompt">
+                <form class="form" method="post" id="form-selected">
+                    <div class="notification error-color transition invisible authentication-notification">
+                        <p class="text-3 authentication-notification-text"></p>
+                    </div>
+                    <p class="header text-1">Please log in to begin</p>
+                    <label class="input-label full-width text-2" for="login-username">Username:</label>
+                    <input class="input text-field full-width" type="text" name="username" id="login-username" required />
+                    <label class="input-label full-width text-2" for="login-password">Password:</label>
+                    <input class="input text-field full-width" type="password" name="password" id="login-password" required />
+                    <input class="input button primary-color full-width" type="submit" value="Login"/>
+                    <p class="input-label text-2">Or</p>
+                    <button class="input button secondary-color full-width" type="button" id="register-form-button">Register</button>
                 </form>
-                <p class="input-label text-2">Or</p>
-                <button class="input button secondary-color full-width" type="button">Register</button>
+                <form class="form hidden" method="post">
+                    <div class="notification error-color transition invisible authentication-notification">
+                        <p class="text-3 authentication-notification-text"></p>
+                    </div>
+                    <p class="header text-1">Please register to begin</p>
+                    <label class="input-label full-width text-2" for="register-username">Username:</label>
+                    <input class="input text-field full-width" type="text" name="username" id="register-username" required />
+                    <label class="input-label full-width text-2" for="register-password">Password:</label>
+                    <input class="input text-field full-width" type="password" name="password" id="register-password" required />
+                    <input class="input button primary-color full-width" type="submit" value="Register"/>
+                    <p class="input-label text-2">Or</p>
+                    <button class="input button secondary-color full-width parent-sibling-switch" type="button" id="login-form-button">Login</button>
+                </form>
             </div>
-        </div>
     </body>
 </html>

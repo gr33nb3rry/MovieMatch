@@ -5,11 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.moviematchers.moviematch.entity.MovieUser;
+import org.moviematchers.moviematch.entity.UserEntity;
 import org.moviematchers.moviematch.entity.UserMovieCollection;
 import org.moviematchers.moviematch.service.CollectionService;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,7 +45,7 @@ class CollectionControllerTest {
     @Test
     void addCollection() {
         // given
-        MovieUser user = new MovieUser(1L, "name");
+        UserEntity user = new UserEntity(1L, "name");
         UserMovieCollection collection = new UserMovieCollection(user, "Movie title", 10);
         // when
         underTest.addCollection(collection);

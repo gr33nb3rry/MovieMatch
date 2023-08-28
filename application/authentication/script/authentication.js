@@ -1,53 +1,110 @@
-client.user.identity.authorize();
+client.user.authorize();
 
 const handleAuthentication = function(promise) {
-    promise.then(response => {
-        if (!response.ok) {
-            displayAuthenticationFailureNotification(client.configuration.locale.invalidCredentials);
-            return;
-        }
+    resetAuthenticationNotification();
+    promise.then(() => {
         const notificationElement = document.getElementById('login-notification')
         if (notificationElement != null) {
             notificationElement.remove();
         }
-        client.user.identity.authorize();
-    }).catch(response => {
-        displayAuthenticationFailureNotification(client.configuration.locale.connectionFailed);
+        client.user.authorize();
+    }).catch(() => {
+        displayAuthenticationFailureNotification(client.configuration.locale.user.credentials.invalid);
     });
 }
 
+const handleRegistration = function(promise) {
+    resetAuthenticationNotification();
+    promise.then((credentials) => {
+        const notificationElement = document.getElementById('register-notification')
+        if (notificationElement != null) {
+            notificationElement.remove();
+        }
+
+        client.user.authenticate(credentials)
+        .then(() => client.user.authorize())
+        .catch(() => console.error(client.configuration.locale.user.credentials.invalid));
+    }).catch((response) => {
+        let messages = [];
+        for (error of response.errors) {
+            const locale = client.getLocale(error.key)
+            if (locale == null) {
+                continue;
+            }
+            messages.push(locale);
+        }
+        // not really ideal
+        const message = messages.join('<br><br>');
+        displayAuthenticationFailureNotification(message);
+    });
+}
+
+
+const resetAuthenticationNotification = function() {
+    const promptElement = document.getElementById('form-selected');
+    const notification = promptElement.querySelector('.authentication-notification');
+    notification.classList.add('invisible');
+}
+
 const displayAuthenticationFailureNotification = function(text) {
-    const promptElement = document.getElementById('login-prompt');
+    const promptElement = document.getElementById('form-selected');
+    const notification = promptElement.querySelector('.authentication-notification');
+    const notificationText = notification.querySelector('.authentication-notification-text');
+    notificationText.innerHTML = text;
+    notification.classList.remove('invisible');
 
-    const firstPromptElement = promptElement.children[0];
-    if (firstPromptElement.id === 'login-notification') {
-        firstPromptElement.children[0].textContent = text;
-        return;
-    }
-    const containerElement = document.createElement('div');
-    const paragraphElement = document.createElement('p');
-    const textNode = document.createTextNode(text);
 
-    paragraphElement.classList.add("text-3");
-    containerElement.classList.add("notification", "error-color");
-    containerElement.id = 'login-notification';
-    paragraphElement.appendChild(textNode);
-    containerElement.appendChild(paragraphElement);
-    promptElement.prepend(containerElement);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    let formElement = document.getElementById('login-form');
+    ui.quote.display();
 
-    formElement.addEventListener('submit', (event) => {
+    const loginFormButton = document.getElementById('login-form-button');
+    const registerForm = loginFormButton.parentElement;
+
+
+    const registerFormButton = document.getElementById('register-form-button');
+    const loginForm = registerFormButton.parentElement;
+
+
+    registerFormButton.addEventListener('click', () => {
+        loginForm.classList.add('hidden');
+        loginForm.id = '';
+        registerForm.id = 'form-selected';
+		registerForm.classList.remove('hidden');
+        
+    })
+
+    loginFormButton.addEventListener('click', () => {
+        registerForm.classList.add('hidden');
+        registerForm.id = '';
+        loginForm.id = 'form-selected';
+        loginForm.classList.remove('hidden');
+    })
+
+    loginForm.addEventListener('submit', (event) => {
         event.preventDefault();
         //window.history.back();
+        
+        const data = new FormData(loginForm);
 
-        const data = new FormData(formElement);
-        const username = data.get("username");
-        const password = data.get("password");
-
-        const promise = client.user.identity.authenticate(username, password);
+        const promise = client.user.authenticate({
+            username: data.get("username"),
+            password: data.get("password")
+        });
         handleAuthentication(promise);
-    }, true);
+    });
+
+    registerForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        //window.history.back();
+        
+        const data = new FormData(registerForm);
+
+        const promise = client.user.create({
+            username: data.get("username"),
+            password: data.get("password")
+        });
+        handleRegistration(promise);
+    });
 });

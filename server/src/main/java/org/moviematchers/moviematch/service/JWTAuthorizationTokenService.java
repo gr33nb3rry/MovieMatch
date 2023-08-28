@@ -20,9 +20,11 @@ import java.util.stream.Collectors;
 @Conditional(JWTAuthorizationCondition.class)
 public class JWTAuthorizationTokenService implements AuthorizationTokenService {
 	private final JwtEncoder encoder;
+	private final UserService service;
 
-	public JWTAuthorizationTokenService(JwtEncoder encoder) {
+	public JWTAuthorizationTokenService(JwtEncoder encoder, UserService service) {
 		this.encoder = encoder;
+		this.service = service;
 	}
 
 	@Override
@@ -33,11 +35,14 @@ public class JWTAuthorizationTokenService implements AuthorizationTokenService {
 			.map(GrantedAuthority::getAuthority)
 			.collect(Collectors.joining(" "));
 
+		String username = authentication.getName();
+		Long id = this.service.getUserId(username);
 		JwtClaimsSet claims = JwtClaimsSet.builder()
 			.issuer("self")
 			.issuedAt(issuedTime)
 			.expiresAt(expirationTime)
-			.subject(authentication.getName())
+			.subject(username)
+			.claim("sub_id", id)
 			.claim("scope", scope)
 			.build();
 

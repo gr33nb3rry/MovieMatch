@@ -22,7 +22,7 @@ public class CollectionService {
 
     public boolean addCollection(UserMovieCollection userMovieCollection) {
         try {
-            logger.info("Add collection movie for user_id: {}", userMovieCollection.getUserID());
+            logger.info("Add collection movie for user_id: {}", userMovieCollection.getUserEntity());
             logger.info("Add collection movie with movie_title: {}", userMovieCollection.getMovieTitle());
 
             collectionRepository.save(userMovieCollection);
@@ -36,7 +36,7 @@ public class CollectionService {
 
 
     public List<UserMovieCollection> getAllCollectionsOfUser(Long id) {
-        return collectionRepository.findByUserIDUserID(id);
+        return collectionRepository.findByUserEntityId(id);
     }
     public Movie getMovieFromAPIByName(String movieTitle) {
         List<Movie> movies = this.movieService.fetch(options -> {}, movieTitle);

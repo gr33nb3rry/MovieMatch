@@ -8,7 +8,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.moviematchers.moviematch.entity.MovieFriendship;
-import org.moviematchers.moviematch.entity.MovieUser;
+import org.moviematchers.moviematch.entity.UserEntity;
 import org.moviematchers.moviematch.repository.FriendshipRepository;
 
 import java.util.ArrayList;
@@ -35,14 +35,14 @@ class FriendshipServiceTest {
         List<MovieFriendship> list1 = new ArrayList<>();
         List<MovieFriendship> list2 = new ArrayList<>();
 
-        list1.add(new MovieFriendship(new MovieUser(userId, "User1"), new MovieUser(2L, "User2")));
-        list2.add(new MovieFriendship(new MovieUser(3L, "User3"), new MovieUser(userId, "User1")));
-        when(friendshipRepository.findByUser1IDUserID(userId)).thenReturn(list1);
+        list1.add(new MovieFriendship(new UserEntity(userId, "User1"), new UserEntity(2L, "User2")));
+        list2.add(new MovieFriendship(new UserEntity(3L, "User3"), new UserEntity(userId, "User1")));
+        when(friendshipRepository.findByFirstUserEntityId(userId)).thenReturn(list1);
         // when
         List<MovieFriendship> result = underTest.getFriendshipsForUser(userId);
         // then
-        verify(friendshipRepository).findByUser1IDUserID(userId);
-        verify(friendshipRepository).findByUser2IDUserID(userId);
+        verify(friendshipRepository).findByFirstUserEntityId(userId);
+        verify(friendshipRepository).findBySecondUserEntityId(userId);
 
         assertThat(result).containsExactlyInAnyOrderElementsOf(list1);
         assertThat(result).doesNotContainAnyElementsOf(list2);
@@ -51,8 +51,8 @@ class FriendshipServiceTest {
     @Test
     void canAddFriendship() {
         // given
-        MovieUser user1 = new MovieUser(1L, "name1");
-        MovieUser user2 = new MovieUser(2L, "name2");
+        UserEntity user1 = new UserEntity(1L, "name1");
+        UserEntity user2 = new UserEntity(2L, "name2");
         MovieFriendship friendship = new MovieFriendship(user1, user2);
         // when
         underTest.addFriendship(friendship);
@@ -66,7 +66,7 @@ class FriendshipServiceTest {
     @Test
     void cannotAddFriendshipBecauseTheSameUsers() {
         // given
-        MovieUser user1 = new MovieUser(1L, "name1");
+        UserEntity user1 = new UserEntity(1L, "name1");
         MovieFriendship friendship = new MovieFriendship(user1, user1);
 
         // when
@@ -77,8 +77,8 @@ class FriendshipServiceTest {
     @Test
     void cannotAddFriendship() {
         // given
-        MovieUser user1 = new MovieUser(1L, "name1");
-        MovieUser user2 = new MovieUser(2L, "name2");
+        UserEntity user1 = new UserEntity(1L, "name1");
+        UserEntity user2 = new UserEntity(2L, "name2");
         MovieFriendship friendship = new MovieFriendship(user1, user2);
         doThrow(new RuntimeException("Some error")).when(friendshipRepository).save(friendship);
         // when
