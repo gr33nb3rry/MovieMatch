@@ -73,6 +73,7 @@ function addFriend(){
 
 function setInviteFriendID(friendId) {
     inviteFriendID = friendId;
+    console.log(inviteFriendID);
 }
 function sendInvite() {
     const form = document.getElementById("movie_filters_form");

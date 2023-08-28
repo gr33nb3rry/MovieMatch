@@ -144,11 +144,11 @@ client.user.getFriends = function() {
                 let friendId;
                 let friendUsername;
 
-                if (data[i].firstUserEntity.userID === userId) {
-                    friendId = data[i].secondUserEntity.userID;
+                if (data[i].firstUserEntity.id === userId) {
+                    friendId = data[i].secondUserEntity.id;
                     friendUsername = data[i].secondUserEntity.username;
                 } else {
-                    friendId = data[i].firstUserEntity.userID;
+                    friendId = data[i].firstUserEntity.id;
                     friendUsername = data[i].firstUserEntity.username;
                 }
                 friendsList.push([friendId, friendUsername]);
