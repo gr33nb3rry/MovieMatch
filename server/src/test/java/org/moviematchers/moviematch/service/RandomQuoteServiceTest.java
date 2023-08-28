@@ -39,6 +39,6 @@ class RandomQuoteServiceTest {
         verify(randomQuoteRepository).count();
         verify(randomQuoteRepository).findById(anyLong());
 
-        assertThat(result.getQuoteID()).isEqualTo(randomId);
+        assertThat(result.getId()).isEqualTo(randomId);
     }
 }

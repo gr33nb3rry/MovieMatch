@@ -32,11 +32,11 @@ class UserAuthenticationServiceTest {
         String username = "admin";
         UserEntity movieUser = new UserEntity(username, "password");
         User user = new User(movieUser.getUsername(), movieUser.getPassword(), Collections.emptyList());
-        when(userRepository.findByUserName(username)).thenReturn(movieUser);
+        when(userRepository.findByUsernameIgnoreCase(username)).thenReturn(movieUser);
         // when
         UserDetails result = underTest.loadUserByUsername(username);
         // then
-        verify(userRepository).findByUserName(username);
+        verify(userRepository).findByUsernameIgnoreCase(username);
         assertThat(result).isEqualTo(user);
     }
 }

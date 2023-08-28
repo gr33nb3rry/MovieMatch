@@ -20,12 +20,10 @@ class UserRepositoryTest {
         String username = "testName";
         UserEntity user = new UserEntity(1L,
                 username,
-                "password",
-                new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>());
+                "password");
         underTest.save(user);
         // when
-        UserEntity result = underTest.findByUserName(username);
+        UserEntity result = underTest.findByUsernameIgnoreCase(username);
         // then
         assertThat(result.getUsername()).isEqualTo(username);
     }

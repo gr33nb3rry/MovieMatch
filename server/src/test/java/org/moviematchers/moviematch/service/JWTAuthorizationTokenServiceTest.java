@@ -23,6 +23,8 @@ import static org.mockito.Mockito.when;
 class JWTAuthorizationTokenServiceTest {
     @Mock
     private JwtEncoder JwtEncoder;
+    @Mock
+    private UserService service;
     private JWTAuthorizationTokenService underTest;
     @BeforeEach
     void setUp() {
@@ -48,6 +50,6 @@ class JWTAuthorizationTokenServiceTest {
         Instant now = Instant.now();
         Instant expectedExpiration = now.plus(1, ChronoUnit.HALF_DAYS);
         assertTrue(result.getIssuedTime().isBefore(result.getExpirationTime()));
-        assertEquals("mocked_token_value", result.getToken());
+        assertEquals("mocked_token_value", result.getValue());
     }
 }
