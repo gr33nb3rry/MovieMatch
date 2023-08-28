@@ -1,12 +1,6 @@
 client.user.authorize();
 const idPromise = client.user.getId();
-let userId;
-if (idPromise == null) {
-  console.log("Failed to get ID");
-}
-idPromise.then(id => {
-    userId = id;
-})
+let userId = client.user.getId();
 let currentMovieDescription;
 let currentMovieTitle;
 let lastMatchMovieTitle = "";
@@ -64,6 +58,10 @@ function getLongDescription(description) {
         return description.substring(0, 297) + '...';
     }
 }
+function assignImageByGenre(data) {
+    let randomGenre = Math.round(Math.random() * (data.length - 1) + 0);
+    return `asset/genres/${data[randomGenre].toLowerCase()}.png`;
+}
 function updateCurrentMovie(data) {
     currentMovieDescription = data.description;
     currentMovieTitle = data.title;
@@ -79,7 +77,7 @@ function updateCurrentMovie(data) {
     <div id="main_movie_upper">
         <div class="main_movie_rating">${data.rating}</div>
         <div class="main_movie_genre">
-            <img src="asset/heart.png">
+            <img src="${assignImageByGenre(data.genres)}">
         </div>
     </div>
     `
@@ -250,6 +248,36 @@ function displayAllMatches(data) {
         </div>
         `
         matchesContainer.innerHTML += code;
+    }
+}
+function getHistory() {
+    const url = 'http://localhost:8080/session/likedMovies?sessionID='+sessionID+'&userNumber='+sessionUserID;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        displayHistory(data);
+    })
+    .catch(err => console.error(err));
+}
+function displayHistory(data) {
+    const historyContainer = document.getElementById("history_movies");
+    historyContainer.innerHTML = "";
+    for (let i = 0; i < data.length; i++) {
+        const code =
+        `
+        <div class="history_movie">
+            <img src="${data[i].posterURL}" width="150px">
+            <div class="history_movie_rating">${data[i].rating}</div>
+        </div>
+        `
+        historyContainer.innerHTML += code;
     }
 }
 
