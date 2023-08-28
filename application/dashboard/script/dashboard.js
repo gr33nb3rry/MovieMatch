@@ -49,8 +49,8 @@ function addFriend(){
     const friendID = friendIDInput.value;
     const addFriendUrl = 'http://localhost:8080/friendship/request';
     const requestUrl = {
-        user1ID: {userID: userId},
-        user2ID: {userID: friendID}
+        firstUserEntity: {id: userId},
+        secondUserEntity: {id: friendID}
     };
     fetch(addFriendUrl, {
         method: 'POST',

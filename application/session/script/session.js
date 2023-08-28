@@ -1,4 +1,4 @@
-client.user.identity.authorize();
+client.user.authorize();
 const idPromise = client.user.getId();
 let userId;
 if (idPromise == null) {
@@ -23,7 +23,7 @@ function addMovie() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.text())
@@ -40,7 +40,7 @@ function getCurrentMovie() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -102,7 +102,7 @@ function likeMovie() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -118,7 +118,7 @@ function skipMovie() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -134,7 +134,7 @@ function returnMovie() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -151,7 +151,7 @@ function checkForNewMatch() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -172,7 +172,7 @@ function getMatchCount() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.text())
@@ -193,7 +193,7 @@ function getNewMatch() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())
@@ -229,7 +229,7 @@ function getAllMatches() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         }
     })
     .then(response => response.json())

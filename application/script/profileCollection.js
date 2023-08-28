@@ -8,11 +8,11 @@ function getProfile() {
 function getCollection() {
     refreshCollection();
     console.log(client.user.getId());
-    const url = 'http://localhost:8080/collection/byID?id=' + userId;
+    const url = 'http://localhost:8080/collection/byID?id=' + client.user.getId();
     fetch(url, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
     })
     .then(response => response.json())
@@ -25,7 +25,7 @@ function getCollection() {
             fetch("http://localhost:8080/collection/fromDBbyName?movieTitle="+ data[i].movieTitle,{
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+                    'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
                 },
             })
             .then(response => response.json())
@@ -46,7 +46,7 @@ function addCollection() {
 
     const url = 'http://localhost:8080/collection';
     const requestBody = {
-        userID: {userID: userId},
+        userEntity: {id: userId},
         movieTitle: movieTitle,
         userRating: movieRating
     };
@@ -55,7 +55,7 @@ function addCollection() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${client.user.identity.getAuthorizationToken().value}`
+            'Authorization': `Bearer ${client.user.getAuthorizationToken().value}`
         },
         body: JSON.stringify(requestBody)
     })
