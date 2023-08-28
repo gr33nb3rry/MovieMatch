@@ -53,7 +53,7 @@ function addMovie() {
     .catch(err => console.error(err));
 }
 function getCurrentMovie() {
-    const url = client.configuration.path.server.url+'session/getCurrent?sessionID='+sessionID+'&userNumber='+sessionUserID;
+    const url = client.configuration.path.server.url+'/session/getCurrent?sessionID='+sessionID+'&userNumber='+sessionUserID;
 
     fetch(url, {
         method: 'GET',
